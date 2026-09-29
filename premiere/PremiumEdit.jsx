@@ -26,8 +26,29 @@
         // 새로 만들 시퀀스 이름 (이미 있으면 뒤에 번호가 붙습니다)
         NEW_SEQUENCE_NAME: "시퀀스 01 - Premium Edit",
 
+        // 편집 스타일
+        //   "REFERENCE" : MOVLABS ART STAND 레퍼런스 스타일 (기본)
+        //                 - 전환은 딱 끊는 컷, 긴 제품 샷은 거의 정지에 가까운 느린 푸시,
+        //                   짧은 디테일 샷은 1초 안에 크게 움직임(확대+회전, 위로 훑기, 옆으로 밀기, 회전 줌)
+        //                 - 첫 클립은 어둠에서 밝아지며 시작, 마지막 클립은 어둡게 끝
+        //   "SOFT"      : 디졸브 위주의 부드러운 스타일 (첫 버전)
+        STYLE: "REFERENCE",
+
         // 전체 모션 강도 (0.6 = 더 차분하게, 1.0 = 기본, 1.3 = 더 역동적으로)
         MOTION_INTENSITY: 1.0,
+
+        // [REFERENCE] 이 길이(초) 이상인 클립은 '제품 전체 샷'(느린 푸시), 짧은 클립은 '디테일 샷'(큰 움직임)
+        //             첫 클립과 마지막 클립은 길이와 상관없이 차분한 '제품 전체 샷' 움직임
+        HERO_MIN_SEC: 2.4,
+        // [REFERENCE] 디테일 샷 움직임 순서 (순서대로 반복, 방향은 번갈아 뒤집힘)
+        DETAIL_PATTERN: ["PUSH_ROLL", "TILT_REVEAL", "SLIDE", "SPIN_ZOOM", "DRIFT_PULL", "PUSH_ROLL", "SLIDE", "TILT_REVEAL"],
+        // [REFERENCE] 제품 전체 샷 움직임 순서
+        HERO_PATTERN: ["HERO_PUSH", "HERO_PULL"],
+        // [REFERENCE] 시작 페이드 인 / 끝 페이드 아웃 (초). 0이면 검은 화면 없이 바로 시작/끝
+        OPEN_FADE_SEC: 0.8,
+        END_FADE_SEC: 0.6,
+        // 확대할 때 원본 해상도 대비 최대 배율 (이보다 크게 키우면 화질이 흐려지므로 움직임을 줄임)
+        MAX_UPSCALE: 1.35,
 
         // 교차 디졸브 / 줌 디졸브 길이 (초)
         DISSOLVE_SEC: 0.6,
@@ -35,9 +56,9 @@
         // 첫 클립 오프닝 모션 길이 (초)
         OPENING_SEC: 1.8,
 
-        // 컷 사이 전환 패턴 (순서대로 반복).  DISSOLVE | ZOOM_DISSOLVE | CUT_SETTLE | CUT
+        // [SOFT] 컷 사이 전환 패턴 (순서대로 반복).  DISSOLVE | ZOOM_DISSOLVE | CUT_SETTLE | CUT
         TRANSITION_PATTERN: ["DISSOLVE", "CUT_SETTLE", "ZOOM_DISSOLVE", "CUT_SETTLE", "DISSOLVE", "CUT_SETTLE"],
-        // 클립별 기본 카메라 무브 패턴 (순서대로 반복)
+        // [SOFT] 클립별 기본 카메라 무브 패턴 (순서대로 반복)
         //   PUSH_IN(천천히 다가감) PULL_OUT(천천히 멀어짐) PAN_LEFT/PAN_RIGHT(좌우 흐름) RISE(위로 흐름) ROLL_PUSH(아주 작은 회전 + 푸시)
         MOTION_PATTERN: ["PUSH_IN", "PAN_LEFT", "PULL_OUT", "RISE", "PUSH_IN", "PAN_RIGHT", "ROLL_PUSH", "PULL_OUT"],
 
@@ -71,7 +92,18 @@
         PAN_LEFT:  { f0: 0.055, f1: 0.065, x0: 0.014,  x1: -0.014, y0: 0,     y1: 0,      r0: 0,    r1: 0 },
         PAN_RIGHT: { f0: 0.055, f1: 0.065, x0: -0.014, x1: 0.014,  y0: 0,     y1: 0,      r0: 0,    r1: 0 },
         RISE:      { f0: 0.050, f1: 0.070, x0: 0,      x1: 0,      y0: 0.012, y1: -0.010, r0: 0,    r1: 0 },
-        ROLL_PUSH: { f0: 0.045, f1: 0.085, x0: 0,      x1: 0,      y0: 0,     y1: 0,      r0: -0.7, r1: 0.5 }
+        ROLL_PUSH: { f0: 0.045, f1: 0.085, x0: 0,      x1: 0,      y0: 0,     y1: 0,      r0: -0.7, r1: 0.5 },
+
+        // ---- REFERENCE 스타일 (MOVLABS ART STAND 영상에서 측정한 움직임 기준) ----
+        // 제품 전체 샷: 3초에 2~3% 정도의 아주 느린 푸시/풀
+        HERO_PUSH:   { f0: 0.000, f1: 0.030, x0: 0,     x1: 0,      y0: 0,     y1: 0,      r0: 0,   r1: 0,   ease: "linear" },
+        HERO_PULL:   { f0: 0.035, f1: 0.005, x0: 0,     x1: 0,      y0: 0,     y1: 0,      r0: 0,   r1: 0,   ease: "linear" },
+        // 디테일 샷: 약 1초 동안 크게 움직임
+        PUSH_ROLL:   { f0: 0.040, f1: 0.200, x0: 0,     x1: 0,      y0: 0.015, y1: -0.015, r0: 0,   r1: 4.5, ease: "smooth" },
+        TILT_REVEAL: { f0: 0.220, f1: 0.240, x0: 0,     x1: 0,      y0: 0.090, y1: 0,      r0: 0,   r1: 0,   ease: "outCubic" },
+        SLIDE:       { f0: 0.180, f1: 0.200, x0: 0.080, x1: -0.005, y0: 0,     y1: 0,      r0: 0,   r1: 0,   ease: "outCubic" },
+        SPIN_ZOOM:   { f0: 0.120, f1: 0.450, x0: 0,     x1: 0,      y0: 0,     y1: 0,      r0: 0,   r1: 10,  ease: "smooth" },
+        DRIFT_PULL:  { f0: 0.160, f1: 0.080, x0: -0.020, x1: 0.020, y0: 0.020, y1: -0.020, r0: 0.6, r1: -0.6, ease: "linear" }
     };
 
     // =====================================================================
@@ -134,7 +166,8 @@
         outQuart: function (x) { var y = 1 - x; return 1 - y * y * y * y; },
         outQuint: function (x) { var y = 1 - x; return 1 - y * y * y * y * y; },
         inCubic: function (x) { return x * x * x; },
-        inOutSine: function (x) { return -(Math.cos(Math.PI * x) - 1) / 2; }
+        inOutSine: function (x) { return -(Math.cos(Math.PI * x) - 1) / 2; },
+        smooth: function (x) { return 0.5 * x - 0.25 * (Math.cos(Math.PI * x) - 1); }
     };
 
     // Time 객체 -> ticks(Number)
@@ -612,7 +645,7 @@
 
     // 기준 스케일에서 클립이 화면을 가로/세로로 몇 배 덮는지 (1 = 딱 맞게 덮음)
     function geometry(base, dims, info) {
-        var g = { W: info.W, H: info.H, covX: 1, covY: 1, known: false };
+        var g = { W: info.W, H: info.H, covX: 1, covY: 1, known: false, magBase: Math.max(base.bsx, base.bsy) / 100 };
         if (dims) {
             var cw = dims.w * dims.par / info.par, ch = dims.h;
             var nX = cw * base.bsx / 100 / info.W, nY = ch * base.bsy / 100 / info.H;
@@ -621,6 +654,7 @@
                 var fitK = Math.min(info.W / cw, info.H / ch);
                 nX = Math.min(nX, cw * fitK / info.W);
                 nY = Math.min(nY, ch * fitK / info.H);
+                g.magBase = (cw > info.W || ch > info.H) ? fitK : Math.max(1, fitK);
             }
             g.covX = nX;
             g.covY = nY;
@@ -876,7 +910,7 @@
                 if (ab) t = { type: "OVERLAP", D: Math.round(-gap / F), a: 0, b: 0, rotSign: 0 };
                 else { A.trimEnd = B.ncs; t = { type: "CUT", D: 0, a: 0, b: 0, rotSign: 0 }; }
             } else {
-                var pref = pat[pk % pat.length];
+                var pref = CONFIG.STYLE === "REFERENCE" ? "CUT" : pat[pk % pat.length];
                 pk++;
                 if (ab && (pref === "DISSOLVE" || pref === "ZOOM_DISSOLVE")) {
                     var D = pref === "ZOOM_DISSOLVE" ? zoomF : dissF;
@@ -930,7 +964,8 @@
         return t && (t.type === "DISSOLVE" || t.type === "ZOOM_DISSOLVE" || t.type === "OVERLAP");
     }
 
-    function buildDesign(k, story, trans, info, Lf) {
+    function buildDesign(k, story, trans, info, Lf, counters) {
+        if (CONFIG.STYLE === "REFERENCE") return buildRefDesign(k, story, trans, info, Lf, counters);
         var r = story[k], fps = info.fps;
         var I = CONFIG.MOTION_INTENSITY;
         var coreSec = (r.nce - r.ncs) / TPS;
@@ -975,23 +1010,25 @@
 
         return {
             Lf: Lf, preset: pname, entrance: E.kind, E: E, X: X, fadeIn: fadeIn, fadeOut: fadeOut,
-            at: function (fi, pr) {
+            at: function (fi, pr, am) {
+                if (am === undefined) am = 1;
                 var u = Lf > 1 ? fi / (Lf - 1) : 0;
+                var a = amp * am;
                 var s = {
-                    f: 1 + amp * lerp(P.f0, P.f1, u),
-                    dx: pr * amp * lerp(P.x0, P.x1, u),
-                    dy: pr * amp * lerp(P.y0, P.y1, u),
-                    rot: pr * amp * lerp(P.r0, P.r1, u),
+                    f: 1 + a * lerp(P.f0, P.f1, u),
+                    dx: pr * a * lerp(P.x0, P.x1, u),
+                    dy: pr * a * lerp(P.y0, P.y1, u),
+                    rot: pr * a * lerp(P.r0, P.r1, u),
                     op: 100
                 };
                 if (fi < E.frames) {
-                    var w = 1 - E.ease(fi / E.frames);
+                    var w = (1 - E.ease(fi / E.frames)) * am;
                     s.f += E.df * w; s.dx += pr * E.dx * w; s.dy += pr * E.dy * w; s.rot += pr * E.rot * w;
                 }
                 if (X) {
                     var x0 = Lf - 1 - X.frames;
                     if (fi > x0) {
-                        var w2 = X.ease(Math.min(1, (fi - x0) / X.frames));
+                        var w2 = X.ease(Math.min(1, (fi - x0) / X.frames)) * am;
                         s.f += X.df * w2; s.dx += pr * X.dx * w2; s.dy += pr * X.dy * w2; s.rot += pr * X.rot * w2;
                     }
                 }
@@ -1010,14 +1047,76 @@
         };
     }
 
-    function coverK(design, base, geo, pr, margin) {
+    // REFERENCE 스타일: 컷 전환 + 샷 길이에 따라 '제품 전체 샷'과 '디테일 샷'을 다르게 움직임
+    function buildRefDesign(k, story, trans, info, Lf, counters) {
+        var r = story[k], fps = info.fps;
+        var I = CONFIG.MOTION_INTENSITY;
+        var coreSec = (r.nce - r.ncs) / TPS;
+        var hero = coreSec >= CONFIG.HERO_MIN_SEC || k === 0 || k === story.length - 1;
+        var pname, amp, mir = 1;
+        if (hero) {
+            pname = CONFIG.HERO_PATTERN[counters.hero % CONFIG.HERO_PATTERN.length];
+            counters.hero++;
+            amp = clamp(coreSec / 3.4, 1.0, 1.8) * I;              // 긴 샷은 조금 더 멀리
+        } else {
+            pname = CONFIG.DETAIL_PATTERN[counters.detail % CONFIG.DETAIL_PATTERN.length];
+            var used = counters[pname] || 0;                        // 같은 움직임은 나올 때마다 방향을 뒤집음
+            mir = used % 2 === 0 ? 1 : -1;
+            counters[pname] = used + 1;
+            counters.detail++;
+            amp = (coreSec < 0.6 ? 0.6 : 1.0) * I;
+        }
+        var P = MOTIONS[pname] || MOTIONS.HERO_PUSH;
+        var ease = EASE[P.ease] || EASE.linear;
+        var tin = k > 0 ? trans[k - 1] : null;
+        var tout = k < story.length - 1 ? trans[k] : null;
+        var upper = r.trackIdx === 1;
+        var fadeIn = 0, fadeOut = 0, entrance = "CUT";
+        if (k === 0 && CONFIG.OPEN_FADE_SEC > 0) { fadeIn = Math.round(CONFIG.OPEN_FADE_SEC * fps); entrance = "FADE_IN"; }
+        if (!tout && CONFIG.END_FADE_SEC > 0) fadeOut = Math.round(CONFIG.END_FADE_SEC * fps);
+        if (tin && tin.type === "OVERLAP" && upper) fadeIn = tin.D;
+        if (tout && tout.type === "OVERLAP" && upper) fadeOut = tout.D;
+        var cap = Math.max(1, Math.floor((Lf - 1) / 3));
+        fadeIn = Math.min(fadeIn, cap);
+        fadeOut = Math.min(fadeOut, cap);
+        return {
+            Lf: Lf, preset: pname + (mir < 0 ? "(R)" : ""), entrance: entrance, E: null, X: null, fadeIn: fadeIn, fadeOut: fadeOut,
+            at: function (fi, pr, am) {
+                if (am === undefined) am = 1;
+                var u = ease(Lf > 1 ? fi / (Lf - 1) : 0);
+                var a = amp * am;
+                var s = {
+                    f: 1 + a * lerp(P.f0, P.f1, u),
+                    dx: pr * a * mir * lerp(P.x0, P.x1, u),
+                    dy: pr * a * lerp(P.y0, P.y1, u),
+                    rot: pr * a * mir * lerp(P.r0, P.r1, u),
+                    op: 100
+                };
+                if (fadeIn > 0 && fi < fadeIn) s.op = 100 * EASE.inOutSine(fi / fadeIn);
+                if (fadeOut > 0) {
+                    var fo0 = Lf - 1 - fadeOut;
+                    if (fi > fo0) s.op = Math.min(s.op, 100 * (1 - EASE.inOutSine((fi - fo0) / fadeOut)));
+                }
+                return s;
+            },
+            specialFrames: function () { return [0, Lf - 1, fadeIn, Lf - 1 - fadeOut]; }
+        };
+    }
+
+    function coverK(design, base, geo, pr, am, margin) {
         var need = 1;
         for (var fi = 0; fi < design.Lf; fi++) {
-            var s = design.at(fi, pr);
+            var s = design.at(fi, pr, am);
             var kk = requiredF(s, base, geo) * margin / s.f;
             if (kk > need) need = kk;
         }
         return need;
+    }
+
+    function maxScaleOf(design, pr, am) {
+        var m = 0;
+        for (var fi = 0; fi < design.Lf; fi++) { var f = design.at(fi, pr, am).f; if (f > m) m = f; }
+        return m;
     }
 
     function applyStoryMotion(ctx, r, design) {
@@ -1030,21 +1129,31 @@
         var req0 = requiredF({ f: 1, dx: 0, dy: 0, rot: 0 }, base, geo);
         var letterbox = req0 > CONFIG.FILL_FRAME_MAX_ZOOM;
         var pr = (letterbox || !base.anchorCentered) ? 0 : 1;
-        var k = 1;
+        var k = 1, am = 1;
         if (!letterbox) {
             var k0 = Math.max(1, req0 * margin);
-            k = coverK(design, base, geo, pr, margin);
+            var bold = CONFIG.STYLE === "REFERENCE";
+            k = coverK(design, base, geo, pr, am, margin);
             var tries = 0;
-            while (pr > 0 && k > k0 * 1.05 && tries < 3) {
+            while (!bold && pr > 0 && k > k0 * 1.05 && tries < 3) {
                 pr = tries < 2 ? pr * 0.6 : 0;
-                k = coverK(design, base, geo, pr, margin);
+                k = coverK(design, base, geo, pr, am, margin);
                 tries++;
             }
+            // 원본 해상도보다 너무 크게 키우면 흐려지므로 움직임 폭을 줄임
+            tries = 0;
+            while (tries < 6 && geo.magBase * maxScaleOf(design, pr, am) * k > CONFIG.MAX_UPSCALE && am > 0.3) {
+                am *= 0.8;
+                k = coverK(design, base, geo, pr, am, margin);
+                tries++;
+            }
+            if (am < 0.99) r.note = "화질 보호를 위해 움직임 " + Math.round(am * 100) + "%로 줄임";
         } else {
             r.note = "원본 프레이밍 유지(화면 비율 차이)";
         }
         r.k = k;
         r.pr = pr;
+        r.am = am;
 
         // 샘플 프레임
         var step = Math.max(1, CONFIG.KEY_STEP_FRAMES);
@@ -1059,7 +1168,7 @@
         var pxX = base.posPx ? info.W : 1, pxY = base.posPx ? info.H : 1;
         var maxRot = 0, maxF = 0;
         for (i = 0; i < frames.length; i++) {
-            var s = design.at(frames[i], pr);
+            var s = design.at(frames[i], pr, am);
             var fk = s.f * k;
             sc.push(base.bsy * fk);
             scw.push(base.bsx * fk);
@@ -1244,10 +1353,11 @@
         var ovTracks = [];
         for (i = 0; i < overlays.length; i++) if (!contains(ovTracks, overlays[i].track)) ovTracks.push(overlays[i].track);
         ovTracks.sort(function (a, b) { return a - b; });
-        var storyTracks = story.length > 1 ? 2 : 1;
+        var refStyle = CONFIG.STYLE === "REFERENCE";
+        var storyTracks = (story.length > 1 && !refStyle) ? 2 : 1;
         ensureTracks(ctx, storyTracks + ovTracks.length, 1);
-        var ab = story.length > 1 && ctx.seq.videoTracks.numTracks >= 2;
-        if (story.length > 1 && !ab) warn("비디오 트랙이 1개뿐이라 디졸브 없이 컷 전환만 사용합니다.");
+        var ab = !refStyle && story.length > 1 && ctx.seq.videoTracks.numTracks >= 2;
+        if (!refStyle && story.length > 1 && !ab) warn("비디오 트랙이 1개뿐이라 디졸브 없이 컷 전환만 사용합니다.");
 
         // ---------- 3. 전환 계획 ----------
         var trans = planTransitions(story, info, ab);
@@ -1341,13 +1451,14 @@
         // ---------- 7. 모션 키프레임 ----------
         var counts = { DISSOLVE: 0, ZOOM_DISSOLVE: 0, CUT_SETTLE: 0, CUT: 0, OVERLAP: 0 };
         for (i = 0; i < trans.length; i++) counts[trans[i].type] = (counts[trans[i].type] || 0) + 1;
-        var totalKeys = 0, rotUsed = 0, posUsed = 0, letterboxed = 0;
+        var totalKeys = 0, rotUsed = 0, posUsed = 0, letterboxed = 0, heroCount = 0, detailCount = 0;
+        var counters = { hero: 0, detail: 0 };
         for (i = 0; i < story.length; i++) {
             r = story[i];
             if (!r.newItem) continue;
             r.newItem = findItem(ctx.seq.videoTracks[r.trackIdx], r.placedStart, r.piId, info) || r.newItem;
             var Lf = Math.max(1, Math.round((tk(r.newItem.end) - tk(r.newItem.start)) / F));
-            var design = buildDesign(i, story, trans, info, Lf);
+            var design = buildDesign(i, story, trans, info, Lf, counters);
             try {
                 applyStoryMotion(ctx, r, design);
             } catch (em) {
@@ -1356,11 +1467,12 @@
             }
             totalKeys += r.keyCount || 0;
             if (r.maxRot > 0.05) rotUsed++;
-            if (r.pr > 0 && (design.preset.indexOf("PAN") === 0 || design.preset === "RISE")) posUsed++;
-            if (r.note) { letterboxed++; log("  - " + r.name + ": " + r.note); }
+            if (r.pr > 0 && /^(PAN|RISE|TILT|SLIDE|DRIFT|PUSH_ROLL)/.test(design.preset)) posUsed++;
+            if (/^HERO/.test(design.preset)) heroCount++; else detailCount++;
+            if (r.note && /^원본 프레이밍/.test(r.note)) letterboxed++;
             log("  #" + (i + 1) + " " + r.name + "  V" + (r.trackIdx + 1) + "  " + fmtTime(r.placedStart) + "~" + fmtTime(r.placedEnd) +
                 "  [" + design.preset + " / " + design.entrance + (design.X ? " + ZOOM-OUT" : "") + "]" +
-                "  scale x" + (r.maxF || 1).toFixed(3) + "  rot " + (r.maxRot || 0).toFixed(2) + "deg  keys " + (r.keyCount || 0));
+                "  scale x" + (r.maxF || 1).toFixed(3) + "  rot " + (r.maxRot || 0).toFixed(2) + "deg  keys " + (r.keyCount || 0) + (r.note ? "  (" + r.note + ")" : ""));
         }
 
         // ---------- 8. 오디오 크로스페이드 / 음악 페이드아웃 ----------
@@ -1420,13 +1532,20 @@
         var lines = [];
         lines.push("새 시퀀스 '" + str(ctx.seq.name) + "' 편집 완료");
         lines.push("");
-        lines.push("- 영상 클립 " + placed + "/" + story.length + "개를 원본 순서 그대로 배치 (V1/V2 A·B 롤)");
+        lines.push("- 스타일: " + (refStyle ? "레퍼런스(MOVLABS ART STAND) - 컷 전환 + 제품 샷 느린 푸시 + 디테일 샷 큰 움직임" : "소프트 - 디졸브 위주"));
+        lines.push("- 영상 클립 " + placed + "/" + story.length + "개를 원본 순서 그대로 배치" + (ab ? " (V1/V2 A·B 롤)" : " (V1)"));
         if (ovPlaced) lines.push("- 오버레이 " + ovPlaced + "개 원본 위치/모션 유지 (V3 이상)");
         lines.push("- 블랙 비디오 " + blackCount + "개 제거, 검은/빈 구간 " + (removedTicks / TPS).toFixed(2) + "초 삭제");
-        lines.push("- 전환: 디졸브 " + (counts.DISSOLVE + counts.OVERLAP) + " / 줌 디졸브 " + counts.ZOOM_DISSOLVE +
-                   " / 컷+세틀 " + counts.CUT_SETTLE + " / 컷 " + counts.CUT);
-        lines.push("- 모션: 스케일 전 클립, 포지션 " + posUsed + "클립, 로테이션 " + rotUsed + "클립, 오페시티 디졸브 " +
-                   (counts.DISSOLVE + counts.ZOOM_DISSOLVE + counts.OVERLAP) + "곳 (키프레임 " + totalKeys + "개)");
+        if (refStyle) {
+            lines.push("- 전환: 컷 " + (counts.CUT + counts.CUT_SETTLE) + "곳" + (CONFIG.OPEN_FADE_SEC > 0 ? ", 시작 페이드 인" : "") + (CONFIG.END_FADE_SEC > 0 ? ", 끝 페이드 아웃" : ""));
+            lines.push("- 제품 전체 샷 " + heroCount + "개 (느린 푸시) / 디테일 샷 " + detailCount + "개 (확대·회전·이동)");
+            lines.push("- 모션: 스케일 전 클립, 포지션 " + posUsed + "클립, 로테이션 " + rotUsed + "클립 (키프레임 " + totalKeys + "개)");
+        } else {
+            lines.push("- 전환: 디졸브 " + (counts.DISSOLVE + counts.OVERLAP) + " / 줌 디졸브 " + counts.ZOOM_DISSOLVE +
+                       " / 컷+세틀 " + counts.CUT_SETTLE + " / 컷 " + counts.CUT);
+            lines.push("- 모션: 스케일 전 클립, 포지션 " + posUsed + "클립, 로테이션 " + rotUsed + "클립, 오페시티 디졸브 " +
+                       (counts.DISSOLVE + counts.ZOOM_DISSOLVE + counts.OVERLAP) + "곳 (키프레임 " + totalKeys + "개)");
+        }
         if (musicPlaced.length) lines.push("- 독립 오디오 " + musicPlaced.length + "개 (A" + (audioBase + 1) + "~), 끝 페이드아웃 " + fadeOuts + "개");
         if (xfades) lines.push("- 클립 오디오 크로스페이드 " + xfades + "곳");
         if (letterboxed) lines.push("- 화면 비율이 다른 클립 " + letterboxed + "개는 원본 프레이밍 유지 + 스케일 모션만 적용");

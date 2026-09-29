@@ -65,6 +65,19 @@ function av(idx, pi, startS, inS, durS, opts) {
 }
 
 let t = 0;
+const REF = args.includes('--refScenario');
+const ONE = args.includes('--oneTrack');
+if (REF) {
+  // rhythm of the MOVLABS reference: hero shots ~3s, detail shots ~1.1s, black title gaps between groups
+  const shots = [['ref_hero_front', 3.4], ['ref_bracket', 1.1], ['ref_wallmount', 1.1], null, ['ref_detail', 1.1], ['ref_base', 1.15],
+    ['ref_logo', 1.2], null, ['ref_hero_back', 1.1], ['ref_logo_light', 0.95], ['ref_turntable', 5.0], ['ref_hero_end', 1.6]];
+  for (const sh of shots) {
+    if (!sh) { put('videoTracks', 0, media.black, t, 0, 1.1); t += 1.1; continue; }
+    const pi = P({ name: sh[0] + '.mp4', path: '/m/' + sh[0] + '.mp4', durSec: sh[1] + 6, hasAudio: false });
+    media[sh[0]] = pi;
+    av(0, pi, t, 3.0, sh[1]); t += sh[1];
+  }
+} else {
 put('videoTracks', 0, media.black, t, 0, 1.0); t += 1.0;                 // black at start
 av(0, media.city, t, 2.0, 4.2); t += 4.2;                                  // handles both sides
 av(0, media.coffee, t, 0.0, 2.6); t += 2.6;                                // no head handle
@@ -76,24 +89,26 @@ av(0, media.full, t, 0.0, 3.5); t += 3.5;                                  // wh
 av(0, media.vert, t, 1.0, 2.8); t += 2.8;                                  // vertical in 16:9
 av(0, media.hands, t, 1.5, 3.0, { noAudio: true }); t += 3.0;              // user removed clip audio
 av(0, media.shortc, t, 0.5, 0.6); t += 0.6;                                // very short
-const ONE = args.includes('--oneTrack');
 if (ONE) { av(0, media.hands, t, 5.0, 2.2); t += 2.2; }
 else { av(1, media.hands, t - 0.3, 5.0, 2.2); t += 1.9; }                // on V2, overlapping previous by 0.3s
 av(0, media.last, t, 3.0, 6.0); t += 6.0;
 put('videoTracks', 0, media.black, t, 0, 1.5); t += 1.5;                  // black at end
+}
 const srcEnd = t;
-if (!ONE) put('videoTracks', 2, media.logo, 2.0, 0, 3.0, { motion: { 0: [0.85, 0.12], 1: 40 } });      // logo overlay (V3)
-if (!ONE) put('videoTracks', 1, media.adj, 9.0, 0, 5.0);                              // adjustment layer on V2
+if (!ONE && !REF) put('videoTracks', 2, media.logo, 2.0, 0, 3.0, { motion: { 0: [0.85, 0.12], 1: 40 } });      // logo overlay (V3)
+if (!ONE && !REF) put('videoTracks', 1, media.adj, 9.0, 0, 5.0);                              // adjustment layer on V2
 put('audioTracks', 2, media.music, 0, 0, srcEnd);                          // music on A3 spanning all
-put('audioTracks', 2, media.vo, 0.5, 11.0, 2.0);                           // unlinked audio from a video file? same track overlaps music -> move to A2 instead
-src.audioTracks[2].items.pop();
-put('audioTracks', 1, media.vo, 0.5, 11.0, 0.5);
+if (!REF) put('audioTracks', 1, media.vo, 0.5, 11.0, 0.5);                 // unlinked audio from a video file
 
 const snapshot = (seq) => JSON.stringify(seq.allItems().map((i) => [i.track.kind, i.track.idx, i._start, i._in, i._out, i._name]));
 const before = snapshot(src);
 
 // ---------------- run script ----------------
-const code = fs.readFileSync(path.join(__dirname, '..', 'PremiumEdit.jsx'), 'utf8');
+const SOFT = args.includes('--soft');
+let code = fs.readFileSync(path.join(__dirname, '..', 'PremiumEdit.jsx'), 'utf8');
+if (SOFT) code = code.replace('STYLE: "REFERENCE"', 'STYLE: "SOFT"');
+const fadeSec = (key) => (SOFT ? 0 : Number(code.match(new RegExp(key + ':\\s*([\\d.]+)'))[1]));
+const openF = Math.round(fadeSec('OPEN_FADE_SEC') * fps), endF = Math.round(fadeSec('END_FADE_SEC') * fps);
 const t0 = Date.now();
 const result = vm.runInThisContext(code, { filename: 'PremiumEdit.jsx' });
 const elapsed = Date.now() - t0;
@@ -108,9 +123,12 @@ check(ns && /Premium Edit/.test(ns.name), 'new sequence name: ' + (ns && ns.name
 check(!/스크립트 오류/.test(String(result)), 'script error: ' + result);
 for (const p of Object.values(media)) check(p._in === null && p._out === null, 'marks not restored on ' + p.name);
 
-const V = [0, 1].filter((i) => ns.videoTracks[i]).flatMap((i) => ns.videoTracks[i].items).sort((a, b) => a._start - b._start);
+const storyTracks = SOFT ? [0, 1] : [0];
+const V = storyTracks.filter((i) => ns.videoTracks[i]).flatMap((i) => ns.videoTracks[i].items).sort((a, b) => a._start - b._start);
 const order = V.map((i) => i.pi.name);
-const expected = ['city_night.mp4', 'coffee.mov', 'drone_4k.mp4', 'portrait.jpg', 'waves_full.mp4', 'phone_vertical.mp4', 'hands.mp4', 'flash.mp4', 'hands.mp4', 'sunset.mp4'];
+const srcStory = [0, 1].flatMap((i) => src.videoTracks[i] ? src.videoTracks[i].items : [])
+  .filter((i) => !/black|블랙/i.test(i.pi.name) && !i.pi.adjust).sort((a, b) => a._start - b._start);
+const expected = srcStory.map((i) => i.pi.name);
 check(JSON.stringify(order) === JSON.stringify(expected), 'order mismatch: ' + order.join(', '));
 check(!ns.allItems().some((i) => /black|블랙/i.test(i.pi.name)), 'black video present');
 
@@ -137,6 +155,7 @@ const stats = { maxScale: 0, maxRot: 0, minOpUpper: 100 };
 for (let f = 0; f * F < end; f++) {
   const tt = f * F;
   const act = V.filter((i) => i._start <= tt && i.endT() > tt);
+  if (f < openF || f >= Math.round(end / F) - endF) continue;          // intended opening fade-in / ending fade-out
   if (!act.length) { black++; continue; }
   const opaque = act.filter((i) => valAt(i, 'AE.ADBE Opacity', 0, tt) >= 99.5);
   if (!opaque.length) { black++; continue; }
@@ -159,8 +178,8 @@ for (const it of V) {
 }
 // overlay copied with its motion on V3+
 const logo = ns.allItems().find((i) => i.pi === media.logo);
-if (!ONE) check(logo && logo.track.idx >= 2, 'logo overlay not on V3+');
-if (!ONE) check(logo && Math.abs(param(logo, 'AE.ADBE Motion', 1).getValue() - 40) < 1e-6, 'logo scale not copied');
+if (!ONE && !REF) check(logo && logo.track.idx >= (SOFT ? 2 : 1), 'logo overlay not above story track');
+if (!ONE && !REF) check(logo && Math.abs(param(logo, 'AE.ADBE Motion', 1).getValue() - 40) < 1e-6, 'logo scale not copied');
 // music trimmed to video end, faded out, on its own track
 const music = ns.allItems().filter((i) => i.pi === media.music);
 check(music.length === 1, 'music count ' + music.length);
@@ -168,19 +187,19 @@ if (music[0]) {
   check(Math.abs(music[0].endT() - end) <= F, 'music not trimmed to video end');
   const lv = music[0].components[0].properties[1];
   check(lv.isTimeVarying() && lv.getValueAtTime(M.T(music[0]._out - 1)) < 0.01, 'music not faded out');
-  check(!V.some((v) => v.track.idx === music[0].track.idx && false), '');
 }
 // hands.mp4 (first use) had no audio in the original -> none in the new sequence at that spot
-const handsV = V.filter((i) => i.pi === media.hands)[0];
+const handsV = V.filter((i) => i.pi === media.hands)[0] || { _start: -1e18 };
 check(!ns.audioTracks.some((tr) => tr.items.some((a) => a.pi === media.hands && Math.abs(a._start - handsV._start) < F && !a.disabled)), 'removed clip audio came back');
 
 // each story clip shows the same source frames as the original (head/tail may be extended for dissolves)
-const srcStory = [0, 1].flatMap((i) => src.videoTracks[i] ? src.videoTracks[i].items : [])
-  .filter((i) => !/black|블랙/i.test(i.pi.name) && !i.pi.adjust).sort((a, b) => a._start - b._start);
 srcStory.forEach((o, n) => {
   const nw = V[n];
   if (!nw || o.pi.still) return;
-  check(nw._in <= o._in + 1 && nw._out >= Math.min(o._out, o.pi.mediaEnd()) - F, `source range differs for ${o.pi.name}: new [${nw._in / TPS}, ${nw._out / TPS}] vs orig [${o._in / TPS}, ${o._out / TPS}]`);
+  // visible part in the original: a following clip on a higher track hides the tail
+  const nx = srcStory[n + 1];
+  const hidden = nx && nx._start < o.endT() && nx.track.idx > o.track.idx ? o.endT() - nx._start : 0;
+  check(nw._in <= o._in + 1 && nw._out >= Math.min(o._out - hidden, o.pi.mediaEnd()) - F, `source range differs for ${o.pi.name}: new [${nw._in / TPS}, ${nw._out / TPS}] vs orig [${o._in / TPS}, ${o._out / TPS}]`);
 });
 // music keeps its source in-point
 if (music[0]) check(music[0]._in === 0, 'music in-point moved: ' + music[0]._in / TPS);

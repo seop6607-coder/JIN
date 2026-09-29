@@ -10,6 +10,7 @@ Premiere usually shows them and what the script conservatively assumes.
 """
 import json
 import math
+import os
 import subprocess
 import sys
 
@@ -85,6 +86,7 @@ def interp(keys, static, f):
 def main():
     dump, out = sys.argv[1], sys.argv[2]
     sheet = sys.argv[sys.argv.index("--sheet") + 1] if "--sheet" in sys.argv else None
+    imgdir = sys.argv[sys.argv.index("--imgdir") + 1] if "--imgdir" in sys.argv else None
     data = json.load(open(dump))
     W, H, fps, frames = data["W"], data["H"], data["fps"], data["frames"]
     k = OUT_W / W
@@ -96,7 +98,12 @@ def main():
         fit = 1.0
         if c["still"] and (w > W or h > H):
             fit = min(W / w, H / h)
-        imgs.append((placeholder(i, c["name"], w * fit, h * fit, k), fit))
+        src = os.path.join(imgdir, os.path.splitext(c["name"])[0] + ".jpg") if imgdir else None
+        if src and os.path.exists(src):
+            im = Image.open(src).convert("RGBA").resize((max(8, int(w * fit * k)), max(8, int(h * fit * k))), Image.LANCZOS)
+            imgs.append((im, fit))
+        else:
+            imgs.append((placeholder(i, c["name"], w * fit, h * fit, k), fit))
 
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     proc = subprocess.Popen([ff, "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{OW}x{OH}", "-r", str(fps),
