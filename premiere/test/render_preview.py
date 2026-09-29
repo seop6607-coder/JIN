@@ -98,12 +98,20 @@ def main():
         fit = 1.0
         if c["still"] and (w > W or h > H):
             fit = min(W / w, H / h)
-        src = os.path.join(imgdir, os.path.splitext(c["name"])[0] + ".jpg") if imgdir else None
-        if src and os.path.exists(src):
+        src = None
+        for d in (imgdir or "").split(","):
+            for ext in (".jpg", ".png"):
+                cand = os.path.join(d, os.path.splitext(c["name"])[0] + ext) if d else None
+                if cand and os.path.exists(cand):
+                    src = cand
+        if src:
             im = Image.open(src).convert("RGBA").resize((max(8, int(w * fit * k)), max(8, int(h * fit * k))), Image.LANCZOS)
             imgs.append((im, fit))
         else:
-            imgs.append((placeholder(i, c["name"], w * fit, h * fit, k), fit))
+            ph = placeholder(i, c["name"], w * fit, h * fit, k)
+            if "--mono" in sys.argv:
+                ph = ph.convert("L").point(lambda v: max(0, min(255, int((v - 128) * 1.3 + 128)))).convert("RGBA")
+            imgs.append((ph, fit))
 
     ff = imageio_ffmpeg.get_ffmpeg_exe()
     proc = subprocess.Popen([ff, "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{OW}x{OH}", "-r", str(fps),

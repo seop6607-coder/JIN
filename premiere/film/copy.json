@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "id": "card1", "text": "두 번째 진화" },
+    { "id": "card2", "text": "공간에 녹아드는 실루엣" },
+    { "id": "card3", "text": "보이지 않는 곳의 완성" },
+    { "id": "card4", "text": "흔들림 없는 자유" }
+  ],
+  "product": { "id": "melt", "name": "MELT", "sub": "2nd Generation" },
+  "brand": { "id": "logo", "name": "MOVLABS" }
+}

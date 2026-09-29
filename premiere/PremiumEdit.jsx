@@ -106,6 +106,7 @@
         DRIFT_PULL:  { f0: 0.160, f1: 0.080, x0: -0.020, x1: 0.020, y0: 0.020, y1: -0.020, r0: 0.6, r1: -0.6, ease: "linear" }
     };
 
+    // @@SHARED-BEGIN (film/build.py가 이 구간을 MELT2_BrandFilm.jsx에 그대로 복사합니다)
     // =====================================================================
     //  상수
     // =====================================================================
@@ -1122,7 +1123,7 @@
     function applyStoryMotion(ctx, r, design) {
         var info = ctx.info;
         var item = r.newItem;
-        var base = readBase(r.item, info, r.probe.dims);
+        var base = r.base || readBase(r.item, info, r.probe.dims);
         base.bop = 100;                                           // 스토리 클립은 항상 불투명 (검은 배경 비침 방지)
         var geo = geometry(base, r.probe.dims, info);
         var margin = 1 + CONFIG.SAFETY_MARGIN_PCT / 100;
@@ -1239,6 +1240,7 @@
         return true;
     }
 
+    // @@SHARED-END
     // =====================================================================
     //  메인
     // =====================================================================

@@ -82,6 +82,7 @@ class ProjectItem {
   constructor(o) {
     Object.assign(this, { path: '', w: 1920, h: 1080, par: 1, durSec: 10, still: false, hasAudio: false, hasVideo: true, isSeq: false, adjust: false }, o);
     this.nodeId = String(NODE++);
+    this.type = 1;
     this._in = null; this._out = null;
   }
   getMediaPath() { return this.path; }
@@ -180,7 +181,12 @@ class Sequence {
     for (let i = 0; i < this.nV; i++) this.videoTracks.push(new Track(this, 'video', i));
     for (let i = 0; i < this.nA; i++) this.audioTracks.push(new Track(this, 'audio', i));
     this.projectItem = { name };
-    this.markers = { getFirstMarker: () => null, getNextMarker: () => null };
+    const marks = this._markers = [];
+    this.markers = {
+      getFirstMarker: () => marks[0] || null,
+      getNextMarker: (m) => marks[marks.indexOf(m) + 1] || null,
+      deleteMarker: (m) => { marks.splice(marks.indexOf(m), 1); },
+    };
   }
   get name() { return this._name; }
   set name(v) { this._name = v; this.projectItem.name = v; }
@@ -194,6 +200,7 @@ class Sequence {
       const n = new TrackItem(c[kind][i], it.pi, it._start, it._in, it._out, it._name); c[kind][i].items.push(n); map.set(it, n);
     }));
     for (const [o, n] of map) if (o.link && !n.link) { const link = { members: o.link.members.map((m) => map.get(m)) }; link.members.forEach((m) => { m.link = link; }); }
+    for (const m of this._markers) c._markers.push(Object.assign({}, m));
     this.project.sequences.push(c);
     return true;
   }
@@ -209,14 +216,48 @@ function install(opts = {}) {
   project.openSequence = (id) => { project.activeSequence = project.sequences.find((s) => s.sequenceID === id) || null; return !!project.activeSequence; };
   const logs = [];
   const files = {};
+  // project panel: root bin with children, bins, file import
+  const makeBin = (name) => ({ name, type: 2, nodeId: String(NODE++), children: coll([]), createBin(n) { const b = makeBin(n); this.children.push(b); return b; } });
+  project.rootItem = makeBin('root');
+  project.rootItem.type = 3;
+  project.importFiles = (paths, suppress, bin) => {
+    for (const p of paths) {
+      const name = p.replace(/^.*[\\/]/, '');
+      (bin || project.rootItem).children.push(new ProjectItem({ name, path: p, w: 1920, h: 1080, still: /\.(png|jpe?g|tiff?|psd)$/i.test(p) }));
+    }
+    return true;
+  };
+  global.ProjectItemType = { CLIP: 1, BIN: 2, ROOT: 3, FILE: 4 };
   global.app = { project, enableQE() {} };
-  global.qe = { project: { getActiveSequence: () => ({ addTracks(nv, vi, na) { if (FLAGS.noQE) throw new Error('QE unavailable'); for (let i = 0; i < nv; i++) project.activeSequence.addTrack('video'); for (let i = 0; i < na; i++) project.activeSequence.addTrack('audio'); } }) } };
+  const qeTrack = (idx) => {
+    const seq = project.activeSequence;
+    const items = () => seq.videoTracks[idx].items.slice().sort((a, b) => a._start - b._start);
+    return {
+      get numItems() { return items().length; },
+      getItemAt(i) {
+        const it = items()[i];
+        return it && { name: it._name, type: 'Clip', addVideoEffect(fx) {
+          if (!fx) throw new Error('no effect');
+          it.components.push(new Component('AE.ADBE Lumetri', 'Lumetri Color', [new Param('Temperature', 0), new Param('Contrast', 0), new Param('Saturation', 100), new Param('Saturation', 100)]));
+        } };
+      },
+    };
+  };
+  global.qe = { project: {
+    getVideoEffectByName: (n) => (FLAGS.noQE ? null : { name: n }),
+    getActiveSequence: () => ({
+      addTracks(nv, vi, na) { if (FLAGS.noQE) throw new Error('QE unavailable'); for (let i = 0; i < nv; i++) project.activeSequence.addTrack('video'); for (let i = 0; i < na; i++) project.activeSequence.addTrack('audio'); },
+      getVideoTrackAt: (i) => qeTrack(i),
+    }),
+  } };
   global.$ = { writeln: (s) => logs.push(s) };
   global.alert = (m) => { global.__lastAlert = m; };
   global.confirm = () => true;
   global.Time = Time;
-  global.File = class { constructor(p) { this.fsName = p; this.parent = { fsName: p.replace(/\/[^/]*$/, '') }; this.buf = ''; } open() { return true; } write(s) { this.buf += s; } close() { files[this.fsName] = this.buf; } };
-  global.Folder = { temp: { fsName: '/tmp' } };
+  class Folder { constructor(p) { this.fsName = p; } get exists() { return true; } create() { return true; } }
+  Folder.temp = new Folder('/tmp');
+  global.Folder = Folder;
+  global.File = class { constructor(p) { this.fsName = p; this.parent = new Folder(p.replace(/\/[^/]*$/, '')); this.buf = ''; this.encoding = 'UTF-8'; } get exists() { return this.fsName in files; } open() { this.buf = ''; return true; } write(s) { this.buf += s; } close() { files[this.fsName] = this.buf; } };
   return { project, logs, files, Sequence, ProjectItem, TrackItem, T, TPS };
 }
 
