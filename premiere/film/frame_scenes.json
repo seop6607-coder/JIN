@@ -1,0 +1,26 @@
+{
+  "_comment": "프레임(FRAME) 30초 제품 필름 콘티 (기획서 '30초 콘티' 표). kicks = 킥 개수(1킥 = 0.75초). keys = 클립/빈 이름에서 찾을 단어(띄어쓰기·밑줄 무시, 가장 긴 단어가 이김).",
+  "music": {
+    "in_sec": 127.53,
+    "drop_sec": 132.03,
+    "jump_from_sec": 150.03,
+    "jump_to_sec": 174.03
+  },
+  "scenes": [
+    { "id": "s01", "no": 1,  "name": "뒷면 하단",     "kicks": 2, "move": "SLIDE",       "fadeIn": 0.25, "keys": ["뒷면하단", "후면하단", "하판", "rearbottom", "backbottom", "base"] },
+    { "id": "s02", "no": 2,  "name": "기둥",          "kicks": 4, "move": "RISE",        "keys": ["기둥", "pole", "column"] },
+    { "id": "s03", "no": 3,  "name": "정면 화면",     "kicks": 4, "move": "HERO_PUSH",   "keys": ["정면화면", "정면", "front"] },
+    { "id": "s04", "no": 4,  "name": "뒷면 상단",     "kicks": 2, "move": "SLIDE",       "keys": ["뒷면상단", "후면상단", "마운트", "reartop", "backtop", "mount"] },
+    { "id": "s05", "no": 5,  "name": "벽면 밀착",     "kicks": 2, "move": "SOFT_PUSH",   "keys": ["벽면밀착", "벽밀착", "벽면", "wall"] },
+    { "id": "s06", "no": 6,  "name": "각도기 움직임", "kicks": 4, "move": "HOLD_PUSH",   "keys": ["각도기", "각도", "tilt", "angle"] },
+    { "id": "s07", "no": 7,  "name": "가림판 부착",   "kicks": 2, "move": "PUSH_ROLL",   "keys": ["가림판", "cover"] },
+    { "id": "s08", "no": 8,  "name": "안전 케이블",   "kicks": 2, "move": "TILT_REVEAL", "keys": ["안전케이블", "케이블", "safetycable", "cable"] },
+    { "id": "s09", "no": 9,  "name": "사운드바",      "kicks": 2, "move": "SLIDE", "mirror": true, "keys": ["사운드바", "soundbar"] },
+    { "id": "s10", "no": 10, "name": "사운드바 뒷면", "kicks": 2, "move": "SLIDE", "mirror": true, "keys": ["사운드바뒷면", "사운드바후면", "soundbarrear", "soundbarback"] },
+    { "id": "s11", "no": 11, "name": "플스 세로",     "kicks": 2, "move": "PUSH_ROLL", "mirror": true, "keys": ["플스세로", "ps5세로", "ps세로", "ps5vertical", "psvertical"] },
+    { "id": "s12", "no": 12, "name": "플스 기둥",     "kicks": 2, "move": "LOCKED",      "keys": ["플스기둥", "ps5기둥", "ps기둥", "플스선반", "ps5pole", "pspole", "ps5shelf"] },
+    { "id": "s13", "no": 13, "name": "닌텐도",        "kicks": 2, "move": "LOCKED",      "keys": ["닌텐도", "스위치", "nintendo", "switch"] },
+    { "id": "s14", "no": 14, "name": "엑스박스",      "kicks": 2, "move": "LOCKED",      "keys": ["엑스박스", "xbox"] },
+    { "id": "s15", "no": 15, "name": "엔딩 히어로",   "kicks": 6, "move": "HERO_PULL", "fadeOut": 1.5, "fallback": "s03", "keys": ["엔딩", "ending", "endhero"] }
+  ]
+}

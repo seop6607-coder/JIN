@@ -186,6 +186,12 @@ class Sequence {
       getFirstMarker: () => marks[0] || null,
       getNextMarker: (m) => marks[marks.indexOf(m) + 1] || null,
       deleteMarker: (m) => { marks.splice(marks.indexOf(m), 1); },
+      createMarker: (t) => {
+        const m = { start: T(toTicks(t)), end: T(toTicks(t)), name: '', comments: '' };
+        marks.push(m);
+        marks.sort((a, b) => a.start._t - b.start._t);
+        return m;
+      },
     };
   }
   get name() { return this._name; }
