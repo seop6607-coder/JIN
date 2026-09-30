@@ -1,0 +1,58 @@
+{
+  "monitor": 1,
+  "capture_backend": "auto",
+  "capture_fps": 4.0,
+  "killfeed": {
+    "x": 0.68,
+    "y": 0.06,
+    "w": 0.31,
+    "h": 0.26
+  },
+  "killer_side": "left",
+  "my_name": "",
+  "ocr_threads": 2,
+  "ocr_min_confidence": 0.6,
+  "ocr_det_side": 320,
+  "change_threshold": 2.0,
+  "force_ocr_interval": 1.0,
+  "confirm_hits": 2,
+  "pending_ttl": 4.0,
+  "repeat_gap": 10.0,
+  "name_similarity": 0.84,
+  "icon_templates": {},
+  "icon_threshold": 0.8,
+  "exclude_tags": [
+    "vehicle",
+    "explosive"
+  ],
+  "idle_reset_seconds": 180.0,
+  "dashboard_host": "127.0.0.1",
+  "dashboard_port": 8765,
+  "log_dir": "logs",
+  "detector": {
+    "burst_window": 2.0,
+    "burst_kills": 3,
+    "rate_window": 600.0,
+    "rate_min_kills": 8,
+    "rate_min_players": 6,
+    "rate_z": 3.5,
+    "rate_floor_kpm": 1.5,
+    "hs_min_kills": 12,
+    "hs_prior_strength": 10.0,
+    "hs_default_rate": 0.3,
+    "hs_margin": 0.3,
+    "hs_floor": 0.6,
+    "streak_kills": 15,
+    "high_score": 50,
+    "medium_score": 25
+  },
+  "obs": {
+    "enabled": false,
+    "host": "127.0.0.1",
+    "port": 4455,
+    "password": "",
+    "clip_on_my_death": true,
+    "clip_on_high_alert": true,
+    "delay_seconds": 8.0
+  }
+}

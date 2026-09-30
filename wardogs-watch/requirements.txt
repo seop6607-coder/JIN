@@ -1,0 +1,8 @@
+numpy
+opencv-python
+mss
+rapidocr-onnxruntime
+# 선택: 윈도우에서 더 빠른 화면 캡처
+dxcam; sys_platform == "win32"
+# 선택: OBS 증거 영상 저장 (config.json의 obs.enabled를 켤 때)
+obsws-python
