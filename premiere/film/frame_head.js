@@ -73,7 +73,8 @@
         HOLD_PUSH:   { f0: 0.010, f1: 0.040, x0: 0,     x1: 0,      y0: 0,     y1: 0,      r0: 0, r1: 0,   ease: "linear" },
         LOCKED:      { f0: 0.020, f1: 0.035, x0: 0,     x1: 0,      y0: 0,     y1: 0,      r0: 0, r1: 0,   ease: "linear" },
         SOFT_PUSH:   { f0: 0.030, f1: 0.100, x0: 0,     x1: 0,      y0: 0,     y1: 0,      r0: 0, r1: 0,   ease: "outCubic" },
-        RISE:        { f0: 0.080, f1: 0.100, x0: 0,     x1: 0,      y0: 0.050, y1: -0.010, r0: 0, r1: 0,   ease: "smooth" },
+        // 화면이 아래로 흘러 카메라가 위로 올라가는 느낌 (2번 기둥 틸트업을 거듦)
+        RISE:        { f0: 0.080, f1: 0.100, x0: 0,     x1: 0,      y0: -0.050, y1: 0.010, r0: 0, r1: 0,   ease: "smooth" },
         SLIDE:       { f0: 0.180, f1: 0.200, x0: 0.080, x1: -0.005, y0: 0,     y1: 0,      r0: 0, r1: 0,   ease: "outCubic" },
         PUSH_ROLL:   { f0: 0.040, f1: 0.200, x0: 0,     x1: 0,      y0: 0.015, y1: -0.015, r0: 0, r1: 4.5, ease: "smooth" },
         TILT_REVEAL: { f0: 0.220, f1: 0.240, x0: 0,     x1: 0,      y0: 0.090, y1: 0,      r0: 0, r1: 0,   ease: "outCubic" }
