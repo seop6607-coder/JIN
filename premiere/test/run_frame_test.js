@@ -169,8 +169,7 @@ if (!vertical) {
   check(track(at(11)) === track(at(12)) && track(at(12)) === track(at(13)), 'match-cut slots 12-14 move differently');
   check(!param(at(11), 'AE.ADBE Motion', 1).isTimeVarying() || valAt(at(11), 'AE.ADBE Motion', 1, at(11).endT() - F) / 50 < 1.1, 'match-cut zoom too strong');
   const x0 = (it) => valAt(it, 'AE.ADBE Motion', 0, it._start)[0], x1 = (it) => valAt(it, 'AE.ADBE Motion', 0, it.endT() - F)[0];
-  const y0 = (it) => valAt(it, 'AE.ADBE Motion', 0, it._start)[1], y1 = (it) => valAt(it, 'AE.ADBE Motion', 0, it.endT() - F)[1];
-  check(y0(at(1)) < y1(at(1)), 'pole shot (slot 2) does not move like a tilt-up');
+  check(!param(at(1), 'AE.ADBE Motion', 0).isTimeVarying() && !param(at(1), 'AE.ADBE Motion', 4).isTimeVarying(), 'pole orbit shot (slot 2) drifts or rolls on top of the camera move');
   check(x0(at(3)) > x1(at(3)), 'slide on slot 4 goes the wrong way');
   check(x0(at(8)) < x1(at(8)) && x0(at(9)) < x1(at(9)), 'mirrored slides on slots 9-10 go the wrong way');
   check(Math.abs(valAt(at(2), 'AE.ADBE Motion', 0, at(2)._start)[0] - 0.52) < 1e-6, 'Sequence 01 framing not kept on the front hero');
