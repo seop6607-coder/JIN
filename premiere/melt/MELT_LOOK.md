@@ -84,11 +84,13 @@ python3 premiere/melt/prproj_dump.py 프로젝트.prproj "Sequence 01" -o seq01.
 
 ```
 [LIGHTING] Soft, diffused studio daylight from a single directional source, casting a long, crisp-edged shadow across the pale grey wall and floor — the shadow itself can become the primary visual subject. Cool-neutral grey tones throughout, no warm cast anywhere — any edge light stays cool white, never amber.
-[COLOR PALETTE] Desaturated cool greys, soft off-white, charcoal shadow — matte, non-reflective surfaces only. Pale grey wall and floor, white product, low saturation, cool-neutral white balance.
+[COLOR PALETTE] Desaturated cool greys, soft off-white, charcoal shadow — matte, non-reflective surfaces only. Pale cool-neutral grey wall and floor, low saturation, cool-neutral white balance.
 [MOOD] Quiet anticipation, restrained tension, architectural minimalism. Pace is unhurried — closer to a fashion editorial than a product ad.
 [COMPOSITION] Editorial magazine-style asymmetric framing with generous negative space; the frame breathes with empty wall and floor space, evoking a magazine spread's white space.
 [CAMERA] Shot in 1920x1080, 16:9 landscape frame. Slow, deliberate movement, extreme shallow depth of field, occasional rack focus.
 ```
+
+제품 색은 장면에 맞춰 한 줄 덧붙입니다. 예: 흰 기둥 티저는 `soft off-white product`, 블랙 수납함은 `deep matte black steel`.
 
 네거티브 (끝에 붙임):
 
