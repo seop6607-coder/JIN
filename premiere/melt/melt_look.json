@@ -1,0 +1,110 @@
+{
+  "_about": "MELT 영상의 색·편집 기준값. 사용자 프리미어 프로젝트의 'Sequence 01'(2026-10-01 업로드본)에서 뽑은 값과, 그 시퀀스에 쓰인 Higgsfield Seedance 2.5 생성 4건의 원래 프롬프트·설정. 새 MELT 프롬프트를 쓸 때 이 값을 그대로 씁니다. 사람이 읽는 설명은 MELT_LOOK.md.",
+  "source": {
+    "project_sequence": "Sequence 01",
+    "parser": "premiere/melt/prproj_dump.py",
+    "measured_pixels": false,
+    "note": "프로젝트 파일에는 화면 픽셀이 없어 실제 hex·밝기·색온도는 아직 재지 않았습니다. 내보낸 영상이나 스틸을 받으면 'measured' 항목을 채웁니다."
+  },
+
+  "sequence": {
+    "size": [1920, 1080],
+    "fps": 23.976,
+    "length_sec": 29.988,
+    "color_management": "BT.709 출력, 자동 톤 매핑",
+    "transitions": "없음 (모두 하드컷)",
+    "cut_grid": "12프레임(0.5초) 단위. 1.335초·19.144초 두 컷만 그리드 밖",
+    "music": { "file": "BG.mp3", "file_length_sec": 30.013, "sample_rate": 48000, "placed": [0.0, 29.988], "volume_or_fade_keys": false }
+  },
+
+  "timeline": [
+    { "no": 1,  "t": [0.000, 1.335],  "frames": 32,  "track": "V3", "part": "intro",  "src": "C6371.MP4 (소니 실사 1080p 29.97)", "src_in_out": [7.382, 8.407], "speed": 0.767,
+      "grade": "clip_lumetri_low_key", "motion": { "scale": 169, "rotation": -1.1, "position_x": 0.636, "position_y_keys": [[7.382, 0.701], [9.009, 0.764]], "note": "화면이 아래로 약 68px 내려가는 이동(틸트업 느낌). 이동이 63% 진행된 지점에서 컷" },
+      "above": ["V4 Wonder Glow", "V5 Sharpen 100"] },
+    { "no": 2,  "t": [1.335, 3.003],  "frames": 40,  "track": "V1", "part": "intro",  "src": "C6344.MP4 (소니 실사)", "src_in_out": [11.376, 16.389], "speed": 3.005,
+      "grade": "clip_lumetri_bw + intro_bright_stack", "above": ["V2 조정 레이어", "V3 조정 레이어", "V4 Wonder Glow", "V5 Sharpen 100"] },
+    { "no": 3,  "t": [3.003, 4.505],  "frames": 36,  "track": "V1", "part": "intro",  "src": "C6342.MP4 (소니 실사)", "src_in_out": [44.607, 48.173], "speed": 2.375,
+      "grade": "intro_bright_stack", "above": ["V2 조정 레이어", "V3 조정 레이어", "V4 Wonder Glow", "V5 Sharpen 100"] },
+    { "no": 4,  "t": [4.505, 6.506],  "frames": 48,  "track": "V1", "part": "title",  "text": "두번째 진화", "position": [0.381, 0.533] },
+    { "no": 5,  "t": [6.506, 8.008],  "frames": 36,  "track": "V1", "part": "editorial", "src": "hf_20260923_050143 (Seedance, 기둥 가운데 세로 드리프트)", "src_in_out": [1.855, 3.212], "speed": 0.904 },
+    { "no": 6,  "t": [8.008, 9.509],  "frames": 36,  "track": "V1", "part": "editorial", "src": "hf_20260923_050143 (같은 클립 뒷부분)", "src_in_out": [5.428, 6.817], "speed": 0.925,
+      "motion": { "scale": 115, "position_y": 0.569, "note": "고정 리프레임. 원본 위쪽을 보이게 아래 75px 밀어 둠" } },
+    { "no": 7,  "t": [9.509, 11.011], "frames": 36,  "track": "V1", "part": "editorial", "src": "hf_20260923_051948 (Seedance, 낮은 사선 달리)", "src_in_out": [3.295, 4.755], "speed": 0.972 },
+    { "no": 8,  "t": [11.011, 14.014],"frames": 72,  "track": "V1", "part": "editorial", "src": "hf_20260923_021529 (Seedance, 바닥 원판)", "src_in_out": [1.71, 6.215], "speed": 1.5,
+      "motion": { "scale_keys": [[1.71, 128], [5.589, 112]], "position_y_keys": [[1.71, 0.634], [5.589, 0.555]], "note": "원본 위쪽 기준으로 128→112% 천천히 줌아웃. 컷 시작부터 2.6초 동안, 끝 0.4초는 멈춤" } },
+    { "no": 9,  "t": [14.014, 16.016],"frames": 48,  "track": "V1", "part": "title",  "text": "압도적인 견고함", "position": [0.336, 0.533] },
+    { "no": 10, "t": [16.016, 19.144],"frames": 75,  "track": "V1", "part": "editorial", "src": "Comp 1.mp4 (24fps 30초 렌더본)", "src_in_out": [0.751, 6.42], "speed": 1.8125 },
+    { "no": 11, "t": [19.144, 21.021],"frames": 45,  "track": "V1", "part": "editorial", "src": "hf_20260923_054526 (Seedance, 멀리 선 기둥 + 빈 벽·바닥)", "src_in_out": [0.0, 1.877], "speed": 1.0 },
+    { "no": 12, "t": [21.021, 26.026],"frames": 120, "track": null, "part": "empty", "note": "비어 있음(검정). 작업 중인 구간으로 보임 (마지막 재생헤드 20.6초)" },
+    { "no": 13, "t": [26.026, 29.988],"frames": 95,  "track": "V2", "part": "logo", "src": "모블랩스 로고-화이트.png (6667x1028)", "motion": { "scale": 7, "position": [0.5, 0.5], "note": "화면 폭의 약 24%(467px), 정가운데, 검정 바탕" } }
+  ],
+
+  "grade": {
+    "global_V5_0_to_30s": { "lumetri": { "Creative/Sharpen": 100 }, "note": "나머지는 모두 기본값: 화이트밸런스·커브·휠·HSL·LUT·Look·비네트 없음. 본편 색은 원본(Seedance) 색 그대로" },
+    "clip_lumetri_low_key": { "applies_to": "컷 1 (C6371)", "lumetri": { "Basic/Exposure": -1.05, "Basic/Contrast": 12, "Basic/Highlights": 50, "Basic/Shadows": -35.3, "Basic/Whites": -28.8 },
+      "read": "어둡고 밀도 높은 그림자, 하이라이트 디테일은 끌어올리되 화이트는 눌러 은빛으로 부드럽게 압축" },
+    "clip_lumetri_bw": { "applies_to": "컷 2 (C6344)", "lumetri": { "Creative/Saturation": 0 }, "read": "흑백 한 컷" },
+    "intro_bright_stack": {
+      "applies_to": "컷 2~3 (1.335~4.505초). 컷 1은 V3에 있어 V2·V3 조정 레이어 영향을 받지 않음",
+      "V2_adjustment_0_to_4.5s": [
+        { "effect": "Alpha Glow", "Glow": 25, "Brightness": 255, "Start Color": "#C0C0C0", "End Color": "#C0C0C0", "Use End Color": false, "Fade Out": true },
+        { "effect": "VR Glow (Mettle SkyBox Glow)", "Luma Threshold": 0.9, "Glow Radius": 100, "Glow Brightness": 1.0, "Glow Saturation": 1.0, "Use Tint Color": false },
+        { "effect": "Lumetri Color", "Basic/Exposure": 1.0, "Basic/Contrast": 12, "Basic/Highlights": 10, "Basic/Whites": 10 }
+      ],
+      "V3_adjustment_1.335_to_4.5s": [
+        { "effect": "Lumetri Color", "Basic/Exposure": 0.2, "Basic/Contrast": 10, "Basic/Highlights": 10.2, "Basic/Shadows": -11.6, "Basic/Whites": 9.3 }
+      ],
+      "sum": "노출 +1.2스톱, 대비 +12 위에 +10, 하이라이트·화이트 각각 약 +20, 그림자 -11.6 → 밝은 하이키",
+      "read": "밝게 터지는 하이키 실사, 휘도 90% 이상 하이라이트에 번짐"
+    },
+    "intro_glow_V4_0_to_4.5s": {
+      "effect": "Wonder Glow (Boris/Impact)", "applies_to": "컷 1~3 전부",
+      "Intensity": 60, "Highlights Only": 40, "Size": 50, "Uniform Size": true, "Volumetric Glow": 0, "Vibrance": 10,
+      "Color": "#FFDFB3", "Colorize": 0, "Ambient Color": "#FF4746", "Ambient Amount": 20, "Desaturate": 0, "Chromatic Aberration": 10, "Blend Mode": 1, "Source Opacity": 100,
+      "read": "하이라이트에 따뜻한 크림색 블룸, 약한 붉은 기운, 가장자리 색수차"
+    }
+  },
+
+  "typography": {
+    "font": "Pretendard Regular", "fill": "흰색 (그래픽 기본값, 바꾸지 않음)", "size": "약 100 (기본값으로 보임)",
+    "background": "검정 (아래 트랙 없음)", "align": "가로 가운데(손으로 맞춤), 세로 53%",
+    "duration_sec": 2.0, "in_out": "하드컷, 애니메이션 없음",
+    "copy": ["두번째 진화", "압도적인 견고함"]
+  },
+  "logo": { "file": "모블랩스 로고-화이트.png", "color": "흰색", "background": "검정", "width_of_frame": 0.24, "duration_sec": 3.96 },
+
+  "seedance": {
+    "settings_used": { "model": "seedance_2_5", "aspect_ratio": "16:9", "resolution": "1080p", "size": [1920, 1080], "duration": 8, "bitrate_mode": "high", "speedramp": "auto", "draft": false, "generate_audio": true, "prompt_language": "en", "media_role": "image (참조 이미지 2장 또는 6장)" },
+    "prompt_structure": ["[SCENE TYPE]", "[SUBJECT]", "[CAMERA]", "[LIGHTING]", "[COMPOSITION]", "[MOOD]", "[MOTION DETAIL]", "[COLOR PALETTE]", "[DURATION]", "[STRICT EXCLUSIONS]", "네거티브 단어 나열"],
+    "shared_blocks": {
+      "scene_type": "Editorial magazine-style product teaser, minimalist still-life cinematography, rollout teaser for product launch",
+      "lighting": "Soft, diffused studio daylight from a single directional source, casting a long, crisp-edged shadow of the column across the wall — the shadow itself becomes the primary visual subject at certain points, more legible than the object casting it. Cool-neutral grey tones throughout, no warm cast anywhere — any edge light stays cool white, never amber.",
+      "composition": "Extreme negative space — the object occupies no more than 15-20% of frame at any time, off-center, editorial-style asymmetric framing. Wide static holds interrupted by slow creeping push-ins that stop short of clarity. Frame breathes with empty wall space, evoking a magazine spread's white space.",
+      "mood": "Quiet anticipation, restrained tension, architectural minimalism, the sense of something about to be unveiled but withheld. Pace is unhurried — closer to a fashion editorial than a product ad.",
+      "motion_detail": "The column's shadow slowly lengthens as if light itself is moving in real time (implying time-lapse without stating it). A faint, almost imperceptible vibration or shimmer along the object's edge suggests material quality without showing texture detail.",
+      "color_palette": "Desaturated cool greys, soft off-white, charcoal shadow — matte, non-reflective surfaces only.",
+      "negative": "people, human hands, human figures, faces, text, typography, logo, watermark, subtitles, captions, sharp focus on product details, screws, cables, ports, brand marking, full frontal clear product shot, bright even lighting, cluttered background, furniture, interior decor, warm tone, amber cast, orange highlight"
+    },
+    "camera_variants": {
+      "hf_050143": "Slow, deliberate vertical drift, gliding up along the column's line without ever reaching its top or base. Camera holds at a low, oblique angle.",
+      "hf_051948": "Slow, deliberate macro-to-wide dolly movement. Camera glides at a low, oblique angle along the vertical line of the object.",
+      "hf_021529": "Slow, deliberate macro-to-wide dolly movement, gliding low across the floor plane. Camera never rises to reveal the column.",
+      "hf_054526": "Slow, deliberate wide static hold with a barely-perceptible creeping push-in. Foreground wall sharp, background column soft."
+    }
+  },
+
+  "palette_words": {
+    "wall_floor": "pale grey, matte",
+    "product": "white / soft off-white, matte, non-reflective",
+    "shadow": "charcoal, long, crisp-edged",
+    "white_balance": "cool-neutral, no warm or amber cast",
+    "saturation": "desaturated",
+    "intro_only": "warm cream glow #FFDFB3 + red ambient #FF4746 (20%) in highlights, one black-and-white cut"
+  },
+
+  "measured": {
+    "wall_lit_hex": null, "wall_shade_hex": null, "floor_hex": null, "product_white_hex": null, "shadow_hex": null,
+    "avg_luma": null, "approx_kelvin": null,
+    "todo": "내보낸 영상 또는 컷별 스틸을 받아 채우기"
+  }
+}

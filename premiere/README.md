@@ -8,6 +8,9 @@
 
 실행 방법은 세 파일 모두 같습니다 (아래 '실행 방법').
 
+MELT 영상의 색·편집 기준값(사용자 Sequence 01 분석, Seedance 프롬프트 블록)은 [`melt/MELT_LOOK.md`](melt/MELT_LOOK.md)와 `melt/melt_look.json`에 있습니다.
+프로젝트가 바뀌면 `python3 premiere/melt/prproj_dump.py 프로젝트.prproj "Sequence 01" -o seq01.json`으로 다시 뽑습니다.
+
 ## 프레임 30초 필름 (`FRAME_Film.jsx`)
 
 기획서 '프레임(FRAME) 30초 제품 필름 기획서'의 30초 콘티를 그대로 타임라인에 옮깁니다. 결과는 새 시퀀스 `프레임 FRAME - 30초 필름`입니다.
