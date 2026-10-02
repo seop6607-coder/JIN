@@ -295,17 +295,17 @@ img, svg { max-width: 100%; }
 /* 히어로 2 */
 .hero2-visual {
   margin: 36px auto 0; max-width: 820px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: end; gap: 24px;
+  align-items: end; gap: 24px; padding-bottom: 56px;
 }
 .hero2-figure { justify-self: center; width: min(280px, 100%); }
-.hero2-facts { margin: 0 0 56px; display: grid; gap: 22px; text-align: left; }
+.hero2-facts { margin: 0; display: grid; gap: 22px; text-align: left; }
 .hero2-facts div { border-top: 1px solid var(--line); padding-top: 12px; }
 .hero2-facts dt { font-size: 14px; color: var(--fg-2); }
 .hero2-facts dd { margin: 2px 0 0; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 @media (max-width: 640px) {
-  .hero2-visual { grid-template-columns: 1fr; }
+  .hero2-visual { grid-template-columns: 1fr; padding-bottom: 40px; }
   .hero2-figure { width: min(180px, 100%); }
-  .hero2-facts { grid-template-columns: 1fr 1fr; margin-bottom: 40px; }
+  .hero2-facts { grid-template-columns: 1fr 1fr; }
   .hero2-facts dd { font-size: 24px; }
 }
 
@@ -322,13 +322,13 @@ img, svg { max-width: 100%; }
 .tile--ink .tile__sub { color: var(--ink-fg-2); }
 .tile__title { margin: 0; font-size: clamp(30px, 3.6vw, 40px); line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
 .tile__sub { margin: 6px 0 0; font-size: clamp(17px, 1.8vw, 21px); line-height: 1.24; text-wrap: balance; }
-.tile__visual { margin-top: auto; width: 100%; display: flex; justify-content: center; align-items: flex-end; padding-top: 28px; }
+.tile__visual { margin-top: auto; width: 100%; display: flex; justify-content: center; align-items: flex-end; padding: 28px 0 48px; }
 @media (max-width: 734px) {
   .tiles { grid-template-columns: 1fr; }
   .tile { min-height: 420px; }
 }
 
-.tile-bars { gap: 6px; height: 240px; max-width: 420px; }
+.tile-bars { gap: 6px; height: 288px; max-width: 420px; padding-bottom: 0; margin-bottom: 48px; border-bottom: 1px solid var(--line); }
 .tile-bars span {
   flex: 1; border-radius: 6px 6px 0 0; background: var(--fg); opacity: .9; position: relative; min-width: 0;
 }
@@ -337,18 +337,20 @@ img, svg { max-width: 100%; }
   position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); margin-bottom: 6px;
   font-style: normal; font-size: 11px; color: var(--fg-2); white-space: nowrap; font-variant-numeric: tabular-nums;
 }
-.tile-ammo { gap: 10px; padding-bottom: 48px; flex-wrap: wrap; }
+.tile-ammo { gap: 10px; flex-wrap: wrap; }
 .ammo-chip {
   display: grid; gap: 4px; padding: 18px 16px; min-width: 112px; border-radius: 18px;
   background: var(--card); text-align: left; font-size: 14px; color: var(--fg-2); box-shadow: var(--shadow);
 }
 .ammo-chip b { font-size: 28px; color: var(--fg); letter-spacing: -0.02em; }
-.tile-rings { color: var(--ink-fg); padding-bottom: 0; }
-.tile-rings svg { width: min(360px, 100%); height: auto; }
-.tile-big {
-  font-size: clamp(120px, 18vw, 200px); line-height: .8; font-weight: 700; letter-spacing: -0.05em;
-  color: var(--fg); font-variant-numeric: tabular-nums; padding-bottom: 0; margin-bottom: -12px;
+.tile-rings { color: var(--ink-fg); }
+.tile-rings svg { width: min(260px, 100%); height: auto; display: block; }
+.tile-big { flex-direction: column; align-items: center; gap: 10px; }
+.tile-big b {
+  font-size: clamp(110px, 16vw, 180px); line-height: 1; font-weight: 700; letter-spacing: -0.05em;
+  color: var(--fg); font-variant-numeric: tabular-nums;
 }
+.tile-big span { font-size: 14px; color: var(--fg-2); }
 
 /* ───────── 섹션 공통 ───────── */
 .section { padding-block: 100px; background: var(--bg); }
