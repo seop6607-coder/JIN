@@ -626,24 +626,54 @@ input[type="range"] { width: 100%; accent-color: var(--ink-accent); }
 
 .blast__meta { margin: 0; font-size: 13px; color: var(--ink-fg); font-variant-numeric: tabular-nums; }
 
-.build { margin-top: 56px; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 40px; align-items: start; }
-@media (max-width: 860px) { .build { grid-template-columns: 1fr; } }
-.build__col { min-width: 0; display: grid; gap: 12px; }
+.build { margin: 56px auto 0; max-width: 760px; display: grid; gap: 12px; }
 .demo__title { margin: 0 0 4px; font-size: 21px; font-weight: 600; }
 .hpbar { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.hpbar li { display: grid; grid-template-columns: 8.5em minmax(0, 1fr) 4.2em; gap: 10px; align-items: center; font-size: 13px; }
+.hpbar li { display: grid; grid-template-columns: 9em minmax(0, 1fr) 4.2em; gap: 10px; align-items: center; font-size: 13px; }
 .hpbar__name { color: var(--ink-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hpbar__track { height: 10px; border-radius: 5px; background: var(--ink-card-2); overflow: hidden; }
 .hpbar__track i { display: block; height: 100%; border-radius: 5px; background: var(--ink-accent); }
 .hpbar__val { text-align: right; color: var(--ink-fg-2); font-variant-numeric: tabular-nums; }
-.table-wrap--ink { margin-top: 0; background: var(--ink-card); border-radius: 20px; padding: 6px 4px; }
-.dtable { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 15px; }
-.dtable th, .dtable td { padding: 12px 10px; text-align: center; border-bottom: 1px solid var(--ink-line); white-space: nowrap; }
-.dtable tr:last-child th, .dtable tr:last-child td { border-bottom: 0; }
-.dtable thead th { font-size: 12px; font-weight: 400; color: var(--ink-fg-2); }
-.dtable tbody th { text-align: left; font-weight: 600; }
-.dtable td { color: var(--ink-fg-2); }
-.dtable td.is-best { color: var(--ink-fg); font-weight: 700; }
+.build__link { justify-self: start; margin-top: 8px; font-size: 15px; color: var(--ink-accent); }
+
+/* ───────── 폭발물 vs 장비 ───────── */
+.vs__h { margin: 0 0 16px; font-size: 28px; font-weight: 600; letter-spacing: -0.01em; }
+.vs__h--next { margin-top: 64px; }
+.vsd { background: var(--card); border-radius: 24px; padding: 24px; display: grid; gap: 18px; margin-bottom: 16px; min-width: 0; }
+.vsd__head { display: flex; align-items: baseline; gap: 6px 14px; flex-wrap: wrap; }
+.vsd__name { margin: 0; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; }
+.vsd__hull { font-size: 15px; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.vbars { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.vbar { display: grid; grid-template-columns: 9em minmax(0, 1fr) 12em; gap: 14px; align-items: center; }
+.vbar__name { display: grid; min-width: 0; }
+.vbar__name b { font-size: 15px; font-weight: 600; }
+.vbar__name small { font-size: 12px; color: var(--fg-2); }
+.vbar__track { height: 16px; border-radius: 8px; background: var(--line-2); display: flex; overflow: hidden; }
+.vbar__track i { display: block; height: 100%; flex: none; border-right: 2px solid var(--card); }
+.vbar__track i:last-child { border-right: 0; }
+.vbar__res { display: grid; text-align: right; font-variant-numeric: tabular-nums; }
+.vbar__res b { font-size: 21px; font-weight: 600; line-height: 1.15; }
+.vbar__res small { font-size: 12px; color: var(--fg-2); }
+.vbar.is-best .vbar__res b { color: var(--link); }
+.vbar.is-na .vbar__name { opacity: .55; }
+.vbar__na { font-size: 13px; color: var(--fg-3); }
+@media (max-width: 640px) {
+  .vsd { padding: 20px 16px; }
+  .vbar { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; }
+  .vbar__track { grid-column: 1 / -1; grid-row: 2; }
+}
+.vtable { min-width: 680px; }
+.vtable thead th { font-size: 13px; font-weight: 600; color: var(--fg); vertical-align: bottom; }
+.vtable .th-sub { display: block; font-size: 11px; font-weight: 400; color: var(--fg-3); }
+.vtable td b { display: block; font-size: 15px; }
+.vtable td small { display: block; font-size: 11px; font-weight: 400; color: var(--fg-2); }
+.vtable td.na { background: transparent; color: var(--fg-3); font-weight: 400; }
+.vtable td.hp { background: transparent; color: var(--fg-2); font-weight: 500; }
+.vtable td.approx { opacity: .7; }
+.mtable td.is-best { box-shadow: inset 0 0 0 2px var(--accent); }
+.vtable tr.is-sel th b { color: var(--link); }
+#vs-gear .legend-row { justify-content: flex-start; }
+#vs-gear .legend-row span + span::before { content: "· "; }
 
 /* ───────── 폭발물 / 차량 ───────── */
 .ecards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
@@ -662,7 +692,7 @@ input[type="range"] { width: 100%; accent-color: var(--ink-accent); }
 .ecard__list li span:last-child { text-align: right; }
 
 .vcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
-.vcard { background: var(--card); border-radius: 22px; padding: 24px; display: grid; gap: 4px; align-content: start; }
+.vcard { background: var(--bg-alt); border-radius: 22px; padding: 24px; display: grid; gap: 4px; align-content: start; }
 .vcard__kind { font-size: 12px; color: var(--eyebrow); font-weight: 600; }
 .vcard__name { margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.01em; }
 .vcard__stats { margin: 12px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }

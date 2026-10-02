@@ -305,14 +305,60 @@
       { hp: 250, name: T('철조망', 'Barbed wire', '有刺鉄線', '铁丝网', '鐵絲網') }
     ],
 
-    /* 건축물을 부수는 데 필요한 양 */
-    demolition: {
-      tools: ['C4', 'IED', 'RPG-7', 'MAAWS'],
+    /*
+     * 폭발물이 차량 선체에 주는 1회 피해 (Metaforge 차량 데이터베이스, 선체 직격 기준).
+     * 파괴 횟수는 화면에서 ceil(선체 내구도 ÷ 1회 피해)로 계산합니다. 값이 없는 칸은 자료 미공개.
+     */
+    vsVehicles: {
+      tools: [
+        { id: 'rpg7', name: 'RPG-7', ammo: '93mm' },
+        { id: 'maaws', name: 'MAAWS', ammo: '84mm' },
+        { id: 'c4', name: 'C4' },
+        { id: 'ied', name: 'IED' },
+        { id: 'atmine', name: T('대전차 지뢰', 'AT mine', '対戦車地雷', '反坦克地雷', '反坦克地雷') },
+        { id: 'stingray', name: 'Stingray' },
+        { id: 'verba', name: '9K333 Verba', ammo: '72mm' }
+      ],
       rows: [
-        { counts: [1, 1, 1, 1], target: T('문', 'Door', 'ドア', '门', '門') },
-        { counts: [1, 1, 2, 4], target: T('게이트', 'Gate', 'ゲート', '大门', '大門') },
-        { counts: [4, 2, 7, 8], target: T('대형 HESCO', 'Large HESCO', '大型HESCO', '大型 HESCO', '大型 HESCO') },
-        { counts: [5, 1, 6, 6], target: 'FOB' }
+        { id: 'l2a6', name: 'L2A6', hp: 800, dmg: { rpg7: 152, maaws: 282, c4: 188, ied: 390, atmine: 735, stingray: 660 } },
+        { id: 'gepard', name: 'Flakpanzer Gepard', hp: 800, dmg: { rpg7: 152, maaws: 282, c4: 188, ied: 390, atmine: 735 } },
+        { id: 'sph2', name: 'SPH-2', hp: 650, dmg: { rpg7: 152, maaws: 282, c4: 188, atmine: 735 } },
+        { id: 'm113', name: 'M113 APC SV', hp: 1000, dmg: { rpg7: 90, maaws: 380, c4: 288, ied: 750, atmine: 600, stingray: 720 } },
+        { id: 'ural', name: 'Ural Defender', hp: 700, dmg: { rpg7: 335, maaws: 566, c4: 112, ied: 450, atmine: 1050 } },
+        { id: 'humvee', name: 'Humvee', hp: 500, dmg: { rpg7: 144, maaws: 566, c4: 200, ied: 750, atmine: 900 } },
+        { id: 'humvee249', name: 'Humvee [M249]', hp: 500, dmg: { rpg7: 120, maaws: 522, c4: 163, ied: 750, atmine: 900 } },
+        { id: 'humveemg', name: 'Humvee [Minigun]', hp: 500, dmg: { rpg7: 108, maaws: 500, c4: 119, ied: 750, atmine: 900 } },
+        { id: 'havoc', name: 'Havoc', hp: 800, dmg: { rpg7: 385, verba: 400 } },
+        { id: 'mh6', name: 'MH-6', hp: 400, dmg: { rpg7: 509, verba: 1000 } }
+      ]
+    },
+
+    /*
+     * 건축물·설치 무기를 부수는 데 필요한 개수 (커뮤니티 폭발물 치트시트·FOB 공략 실험).
+     * pct = 1회에 깎이는 내구도 비율(%), approx = 대략치 열
+     */
+    vsStructures: {
+      tools: [
+        { id: 'c4', name: 'C4' },
+        { id: 'ied', name: 'IED' },
+        { id: 'rpg7', name: 'RPG-7' },
+        { id: 'maaws', name: 'MAAWS' },
+        { id: 'stingray', name: 'Stingray' },
+        { id: 'mgl40', name: 'MGL-40', approx: true },
+        { id: 'm67', name: 'M67', approx: true }
+      ],
+      rows: [
+        { n: { c4: 1, ied: 1, rpg7: 1, maaws: 1, mgl40: 3, m67: 3 }, name: T('문', 'Door', 'ドア', '门', '門') },
+        { n: { c4: 1, ied: 1, rpg7: 1, maaws: 1, mgl40: 7, m67: 7 }, name: T('모래주머니 벽', 'Sandbag wall', '土嚢壁', '沙袋墙', '沙袋牆') },
+        { n: { c4: 2, ied: 1, rpg7: 4, maaws: 4, mgl40: 12, m67: '6–7' }, name: T('소형 HESCO', 'Small HESCO', '小型HESCO', '小型 HESCO', '小型 HESCO') },
+        { n: { c4: 4, ied: 2, rpg7: 7, maaws: 8, mgl40: 15, m67: 10 }, pct: { c4: 28, ied: 53 }, name: T('대형 HESCO', 'Large HESCO', '大型HESCO', '大型 HESCO', '大型 HESCO') },
+        { n: { c4: 1, ied: 1, rpg7: 2, maaws: 4, mgl40: 25, m67: 25 }, name: T('게이트', 'Gate', 'ゲート', '大门', '大門') },
+        { n: { c4: 7, ied: 5, rpg7: 12 }, pct: { c4: 15, ied: 21 }, name: T('Bremer 방벽', 'Bremer wall', 'ブレマーウォール', '布雷默墙', '布雷默牆') },
+        { n: { c4: 2, ied: 1 }, name: T('드릴 리그', 'Drill rig', 'ドリルリグ', '钻机', '鑽機') },
+        { n: { c4: 3, ied: 2, rpg7: 4, maaws: 4 }, name: L81 },
+        { n: { c4: 1, ied: 4, rpg7: 4, maaws: 4, stingray: 25 }, pct: { ied: 25 }, name: 'Talon 9K-SAM' },
+        { n: { c4: 3, ied: 1, rpg7: 7, maaws: 7, stingray: 42 }, pct: { c4: 40 }, name: 'Vanguard CIWS' },
+        { n: { c4: 5, ied: 1, rpg7: 6, maaws: 6, mgl40: 50, m67: 50 }, name: 'FOB' }
       ]
     },
 
@@ -397,7 +443,11 @@
       { site: 'WarDogs.fit', url: 'https://www.wardogs.fit/guide/explosives-cheat-sheet', topic: T('폭발물 치트시트', 'Explosives cheat sheet', '爆発物チートシート', '爆炸物速查表', '爆炸物速查表') },
       { site: 'XGamingServer', url: 'https://xgamingserver.com/blog/wardogs-armor-guide/', topic: T('방어구 내구도', 'Armor durability', '防具の耐久値', '护甲耐久度', '護甲耐久度') },
       { site: 'wardogtools.gg', url: 'https://wardogtools.gg/methodology/weapons/', topic: T('거리 감쇠', 'Damage falloff', '距離減衰', '距离衰减', '距離衰減') },
-      { site: 'ExitLag', url: 'https://www.exitlag.com/blog/wardogs-mortar/', topic: L81 }
+      { site: 'ExitLag', url: 'https://www.exitlag.com/blog/wardogs-mortar/', topic: L81 },
+      { site: 'Metaforge', url: 'https://metaforge.app/wardogs/database/vehicles/page/1', topic: T('차량 선체 피해', 'Vehicle hull damage', '車体ダメージ', '载具车体伤害', '載具車體傷害') },
+      { site: 'guided.news', url: 'https://guided.news/en/guides/wardogs-fob-raiding-guide-c4-ied/', topic: T('FOB 공략 (C4·IED 피해율)', 'FOB raiding (C4 & IED damage)', 'FOB攻略（C4・IEDのダメージ率）', 'FOB 突袭（C4·IED 伤害比例）', 'FOB 突襲（C4·IED 傷害比例）') },
+      { site: 'Guidexon', url: 'https://guidexon.com/wardogs-explosives-cheat-sheet/', topic: T('폭발물 치트시트', 'Explosives cheat sheet', '爆発物チートシート', '爆炸物速查表', '爆炸物速查表') },
+      { site: 'All Things How', url: 'https://allthings.how/wardogs-tank-killing-guide-armor-zones-and-time-to-kill/', topic: T('전차 장갑 구역', 'Tank armor zones', '戦車の装甲区画', '坦克装甲分区', '坦克裝甲分區') }
     ]
   };
 })();

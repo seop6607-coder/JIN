@@ -258,7 +258,7 @@
     $('#lang-list').innerHTML = I.langs.map(function (l) {
       var on = l.id === lang;
       return '<button type="button" class="langbtn' + (on ? ' is-on' : '') + '" role="radio" aria-checked="' + on + '" data-lang="' + l.id + '" lang="' + l.id + '" title="' + esc(l.name) + '">' +
-        '<span class="flag">' + l.flag + '</span>' +
+        (l.flag ? '<span class="flag">' + l.flag + '</span>' : '') +
         '<span class="langbtn__full">' + esc(l.name) + '</span><span class="langbtn__short">' + esc(l.short) + '</span></button>';
     }).join('');
   }
@@ -635,17 +635,6 @@
         '<span class="hpbar__track"><i style="width:' + (b.hp / maxHp * 100).toFixed(1) + '%"></i></span>' +
         '<span class="hpbar__val">' + num(b.hp) + '</span></li>';
     }).join('');
-
-    var demo = D.demolition;
-    $('#demolition').innerHTML =
-      '<caption class="sr-only">' + esc(t('build.caption')) + '</caption>' +
-      '<thead><tr><th scope="col">' + esc(t('demo.target')) + '</th>' + demo.tools.map(function (tool) { return '<th scope="col">' + esc(tool) + '</th>'; }).join('') + '</tr></thead>' +
-      '<tbody>' + demo.rows.map(function (r) {
-        var min = Math.min.apply(null, r.counts);
-        return '<tr><th scope="row">' + esc(tx(r.target)) + '</th>' + r.counts.map(function (c) {
-          return '<td class="' + (c === min ? 'is-best' : '') + '">' + esc(t('pcs', { n: c })) + '</td>';
-        }).join('') + '</tr>';
-      }).join('') + '</tbody>';
   }
 
   var BLAST_SRC = D.explosives.filter(function (x) { return x.dmg != null && x.radius != null; })
@@ -701,6 +690,90 @@
       '<circle cx="' + px + '" cy="200" r="7" fill="#2997ff" stroke="#000" stroke-width="2"/>' +
       '<text x="' + Math.min(Math.max(px, 20), 370) + '" y="150" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">' + Math.round(dmg) + '</text>' +
       '</svg>';
+  }
+
+  /* ───────── 폭발물 vs 장비 ───────── */
+
+  var vsState = { veh: 'l2a6' };
+
+  // 선체를 다 깎는 데 필요한 횟수
+  function hitsFor(hp, dmg) { return dmg ? Math.ceil(hp / dmg - 1e-9) : null; }
+
+  function renderVsGear() {
+    var V = D.vsVehicles, S = D.vsStructures;
+    var veh = V.rows.filter(function (r) { return r.id === vsState.veh; })[0] || V.rows[0];
+    var perHit = function (dmg, hp) { return t('vs.perHit', { dmg: dmg, pct: Math.round(dmg / hp * 100) }); };
+
+    segment($('#vs-veh'), V.rows.map(function (r) { return { id: r.id, label: r.name }; }), veh.id, function (id) {
+      vsState.veh = id; renderVsGear();
+    });
+
+    $('#vs-veh-head').innerHTML = '<h4 class="vsd__name">' + esc(veh.name) + '</h4><span class="vsd__hull">' + esc(t('vs.hull', { hp: num(veh.hp) })) + '</span>';
+
+    // 선택한 차량: 폭발물마다 선체 막대를 1회 피해 단위로 나눠 보여준다
+    var best = Math.min.apply(null, V.tools.map(function (tool) { return hitsFor(veh.hp, veh.dmg[tool.id]) || Infinity; }));
+    $('#vs-bars').innerHTML = V.tools.map(function (tool) {
+      var dmg = veh.dmg[tool.id];
+      var name = tx(tool.name);
+      var label = '<span class="vbar__name"><b>' + esc(name) + '</b>' + (tool.ammo ? '<small>' + esc(tool.ammo) + '</small>' : '') + '</span>';
+      if (!dmg) {
+        return '<li class="vbar is-na">' + label + '<span class="vbar__track"></span><span class="vbar__res"><span class="vbar__na">' + esc(t('vs.na')) + '</span></span></li>';
+      }
+      var n = hitsFor(veh.hp, dmg);
+      var segs = '';
+      for (var i = 0; i < n; i++) {
+        segs += '<i class="' + kClass(n) + '" style="width:' + (Math.min(dmg, veh.hp - i * dmg) / veh.hp * 100).toFixed(2) + '%"></i>';
+      }
+      return '<li class="vbar' + (n === best ? ' is-best' : '') + '">' + label +
+        '<span class="vbar__track" role="img" aria-label="' + esc(name + ': ' + t('vs.hits', { n: n }) + ', ' + perHit(dmg, veh.hp)) + '">' + segs + '</span>' +
+        '<span class="vbar__res"><b>' + esc(t('vs.hits', { n: n })) + '</b><small>' + esc(perHit(dmg, veh.hp)) + '</small></span></li>';
+    }).join('');
+
+    // 차량 전체 표
+    $('#vs-veh-table').innerHTML =
+      '<caption class="sr-only">' + esc(t('vs.vehCaption')) + '</caption>' +
+      '<thead><tr><th scope="col" style="text-align:left">' + esc(t('vs.colVehicle')) + '</th><th scope="col">' + esc(t('vs.colHull')) + '</th>' +
+      V.tools.map(function (tool) {
+        return '<th scope="col">' + esc(tx(tool.name)) + (tool.ammo ? '<span class="th-sub">' + esc(tool.ammo) + '</span>' : '') + '</th>';
+      }).join('') + '</tr></thead>' +
+      '<tbody>' + V.rows.map(function (r) {
+        var counts = V.tools.map(function (tool) { return hitsFor(r.hp, r.dmg[tool.id]); });
+        var min = Math.min.apply(null, counts.filter(function (c) { return c != null; }));
+        return '<tr class="row' + (r.id === veh.id ? ' is-sel' : '') + '" data-id="' + r.id + '" tabindex="0" aria-label="' + esc(r.name) + '">' +
+          '<th scope="row"><b>' + esc(r.name) + '</b></th><td class="hp">' + num(r.hp) + '</td>' +
+          V.tools.map(function (tool, i) {
+            var c = counts[i];
+            if (c == null) return '<td class="na">—</td>';
+            return '<td class="t' + kClass(c).slice(1) + (c === min ? ' is-best' : '') + '" title="' + esc(tx(tool.name) + ' · ' + perHit(r.dmg[tool.id], r.hp)) + '">' +
+              '<b>' + c + '</b><small>' + r.dmg[tool.id] + '</small></td>';
+          }).join('') + '</tr>';
+      }).join('') + '</tbody>';
+
+    var vbody = $('#vs-veh-table tbody');
+    var pick = function (tr) { if (tr) { vsState.veh = tr.getAttribute('data-id'); renderVsGear(); } };
+    vbody.onclick = function (e) { pick(e.target.closest('tr.row')); };
+    vbody.onkeydown = function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(e.target.closest('tr.row')); }
+    };
+
+    // 건축물·설치 무기 표
+    $('#vs-str-table').innerHTML =
+      '<caption class="sr-only">' + esc(t('vs.strCaption')) + '</caption>' +
+      '<thead><tr><th scope="col" style="text-align:left">' + esc(t('demo.target')) + '</th>' +
+      S.tools.map(function (tool) { return '<th scope="col">' + esc(tx(tool.name)) + '</th>'; }).join('') + '</tr></thead>' +
+      '<tbody>' + S.rows.map(function (r) {
+        var exact = S.tools.filter(function (tool) { return !tool.approx && typeof r.n[tool.id] === 'number'; })
+          .map(function (tool) { return r.n[tool.id]; });
+        var min = Math.min.apply(null, exact);
+        return '<tr><th scope="row"><b>' + esc(tx(r.name)) + '</b></th>' + S.tools.map(function (tool) {
+          var v = r.n[tool.id];
+          if (v == null) return '<td class="na">—</td>';
+          var count = typeof v === 'number' ? v : parseInt(v, 10);
+          var pct = r.pct && r.pct[tool.id] ? '<small>(' + r.pct[tool.id] + '%)</small>' : '';
+          return '<td class="t' + kClass(count).slice(1) + (!tool.approx && v === min ? ' is-best' : '') + (tool.approx ? ' approx' : '') + '">' +
+            '<b>' + (tool.approx ? '≈' : '') + esc(v) + '</b>' + pct + '</td>';
+        }).join('') + '</tr>';
+      }).join('') + '</tbody>';
   }
 
   /* ───────── 폭발물 / 차량 ───────── */
@@ -952,6 +1025,7 @@
     renderStructures();
     renderBlast();
     renderExplosives();
+    renderVsGear();
     renderVehicles();
     renderClassTable();
     renderVerify();

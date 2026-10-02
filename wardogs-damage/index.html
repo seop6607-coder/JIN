@@ -36,6 +36,7 @@
       <li><a href="#weapons" data-i18n="nav.weapons">무기</a></li>
       <li><a href="#structures" data-i18n="nav.structures">건축물 장비</a></li>
       <li><a href="#explosives" data-i18n="nav.explosives">폭발물</a></li>
+      <li><a href="#vs-gear" data-i18n="nav.vsgear">장비 피해</a></li>
       <li><a href="#vehicles" data-i18n="nav.vehicles">차량</a></li>
       <li><a href="#formula" data-i18n="nav.formula">계산 방식</a></li>
     </ul>
@@ -312,17 +313,9 @@
       </div>
 
       <div class="build">
-        <div class="build__col">
-          <h3 class="demo__title" data-i18n="build.hp">건축물 내구도</h3>
-          <ol class="hpbar" id="buildables"></ol>
-        </div>
-        <div class="build__col">
-          <h3 class="demo__title" data-i18n="build.demo">부수는 데 필요한 폭발물</h3>
-          <div class="table-wrap table-wrap--ink">
-            <table class="dtable" id="demolition"></table>
-          </div>
-          <p class="blast__note" data-i18n="build.note">가장 적게 드는 수단을 밝게 표시했습니다. IED 1개면 FOB 전체가 무너집니다.</p>
-        </div>
+        <h3 class="demo__title" data-i18n="build.hp">건축물 내구도</h3>
+        <ol class="hpbar" id="buildables"></ol>
+        <a class="build__link" href="#vs-gear" data-i18n="build.link">부수는 데 필요한 폭발물 보기 ›</a>
       </div>
     </div>
   </section>
@@ -338,8 +331,37 @@
     </div>
   </section>
 
+  <!-- 폭발물 vs 장비 -->
+  <section class="section section--alt" id="vs-gear" aria-labelledby="vs-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <h2 class="section__title" id="vs-title" data-i18n="vs.title">폭발물 vs 장비.<br>몇 번이면 부서질까.</h2>
+        <p class="section__lede" data-i18n="vs.lede">폭발물이 차량 선체와 건축물에 주는 피해, 그리고 부수는 데 필요한 횟수입니다. 보병이 받는 피해와는 배율이 다릅니다.</p>
+      </header>
+
+      <h3 class="vs__h" data-i18n="vs.vehTitle">차량 선체</h3>
+      <div class="vsd">
+        <div class="seg seg--scroll" id="vs-veh" role="radiogroup" aria-label="차량 선택" data-i18n-attr="aria-label:vs.vehAria"></div>
+        <div class="vsd__head" id="vs-veh-head"></div>
+        <ol class="vbars" id="vs-bars"></ol>
+      </div>
+      <div class="table-wrap table-wrap--card">
+        <table class="mtable vtable" id="vs-veh-table"></table>
+      </div>
+      <p class="legend-row"><span data-i18n="vs.cellLegend">큰 숫자는 파괴까지 필요한 횟수, 작은 숫자는 1회 피해입니다.</span><span data-i18n="vs.best">테두리를 두른 칸이 가장 적게 드는 수단입니다.</span></p>
+      <p class="table-note" data-i18n="vs.vehNote">선체 직격 기준입니다.</p>
+
+      <h3 class="vs__h vs__h--next" data-i18n="vs.strTitle">건축물·설치 무기</h3>
+      <div class="table-wrap table-wrap--card">
+        <table class="mtable vtable" id="vs-str-table"></table>
+      </div>
+      <p class="legend-row"><span data-i18n="vs.best">테두리를 두른 칸이 가장 적게 드는 수단입니다.</span></p>
+      <p class="table-note" data-i18n="vs.strNote">MGL-40과 M67 수류탄 개수는 대략치입니다.</p>
+    </div>
+  </section>
+
   <!-- 차량 -->
-  <section class="section section--alt" id="vehicles" aria-labelledby="vehicles-title">
+  <section class="section" id="vehicles" aria-labelledby="vehicles-title">
     <div class="wrap wrap--wide">
       <header class="section__head">
         <h2 class="section__title" id="vehicles-title" data-i18n="vehicles.title">차량 탑재 무기.</h2>
@@ -428,6 +450,7 @@
         <ul>
           <li><a href="#structures" data-i18n="nav.structures">건축물 장비</a></li>
           <li><a href="#explosives" data-i18n="nav.explosives">폭발물</a></li>
+          <li><a href="#vs-gear" data-i18n="nav.vsgear">장비 피해</a></li>
           <li><a href="#vehicles" data-i18n="nav.vehicles">차량</a></li>
         </ul>
       </div>

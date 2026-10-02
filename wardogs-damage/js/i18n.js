@@ -18,16 +18,6 @@
     return '<polygon points="' + pts.join(' ') + '"/>';
   }
 
-  function burst(cx, cy, outer, inner, n) {
-    var pts = [];
-    for (var i = 0; i < n * 2; i++) {
-      var a = (-90 + i * 180 / n) * Math.PI / 180;
-      var rr = i % 2 ? inner : outer;
-      pts.push((cx + rr * Math.cos(a)).toFixed(1) + ',' + (cy + rr * Math.sin(a)).toFixed(1));
-    }
-    return pts.join(' ');
-  }
-
   // 태극기 괘: solid = [바깥쪽부터 3효가 끊기지 않았는지]
   function trigram(x, y, rot, solid) {
     var g = '<g transform="translate(' + x + ' ' + y + ') rotate(' + rot + ')">';
@@ -66,19 +56,6 @@
   })();
 
   var jp = open + '<rect width="900" height="600" fill="#fff"/><circle cx="450" cy="300" r="180" fill="#BC002D"/></svg>';
-
-  var cn = (function () {
-    var s = open + '<rect width="900" height="600" fill="#EE1C25"/><g fill="#FFFF00">' + star(150, 150, 90, -90);
-    [[300, 60], [360, 120], [360, 210], [300, 270]].forEach(function (p) {
-      var rot = Math.atan2(150 - p[1], 150 - p[0]) * 180 / Math.PI;
-      s += star(p[0], p[1], 30, rot);
-    });
-    return s + '</g></svg>';
-  })();
-
-  var tw = open + '<rect width="900" height="600" fill="#FE0000"/><rect width="450" height="300" fill="#000095"/>' +
-    '<polygon fill="#fff" points="' + burst(225, 150, 112.5, 64, 12) + '"/>' +
-    '<circle cx="225" cy="150" r="60" fill="#000095"/><circle cx="225" cy="150" r="51" fill="#fff"/></svg>';
 
   /* ───────── 문구 ───────── */
 
@@ -252,9 +229,6 @@
     'blast.svgRadius': '폭발 반경 {r} m',
     'blast.aria': '{name} 폭발 반경 {r} m, 거리 {d} m에서 피해 {dmg}',
     'build.hp': '건축물 내구도',
-    'build.demo': '부수는 데 필요한 폭발물',
-    'build.caption': '건축물별 필요한 폭발물 개수',
-    'build.note': '가장 적게 드는 수단을 밝게 표시했습니다. IED 1개면 FOB 전체가 무너집니다.',
     'demo.target': '대상',
     'pcs': '{n}개',
     'explosives.title': '폭발물.',
@@ -347,7 +321,26 @@
     'fire.revolver': '리볼버',
     'fire.single': '단발',
     'fire.lockon': '락온',
-    'fire.manual': '수동'
+    'fire.manual': '수동',
+    'nav.vsgear': '장비 피해',
+    'vs.title': '폭발물 vs 장비.<br>몇 번이면 부서질까.',
+    'vs.lede': '폭발물이 차량 선체와 건축물에 주는 피해, 그리고 부수는 데 필요한 횟수입니다. 보병이 받는 피해와는 배율이 다릅니다.',
+    'vs.vehTitle': '차량 선체',
+    'vs.vehAria': '차량 선택',
+    'vs.hull': '선체 내구도 {hp}',
+    'vs.perHit': '1회 {dmg} · 선체의 {pct}%',
+    'vs.hits': '{n}회',
+    'vs.na': '자료 없음',
+    'vs.vehCaption': '차량별 폭발물 1회 피해와 파괴 횟수',
+    'vs.colVehicle': '차량',
+    'vs.colHull': '선체',
+    'vs.vehNote': '선체 직격 기준입니다. 파괴 횟수는 선체 내구도를 1회 피해로 나눠 올림한 값입니다. 엔진·연료통 같은 약점을 맞히면 더 적게 듭니다. 전차와 자주포는 엔진이 뒤에 있어 후면에 RPG 3발이나 IED 1개면 끝납니다.',
+    'vs.strTitle': '건축물·설치 무기',
+    'vs.strCaption': '건축물과 설치 무기를 부수는 데 필요한 폭발물 개수',
+    'vs.strNote': 'MGL-40과 M67 수류탄 개수는 대략치입니다. 괄호 안은 1회에 깎이는 내구도 비율입니다. 건축물은 종류마다 폭발물 배율이 달라서 내구도만으로 개수를 계산할 수 없습니다.',
+    'vs.best': '테두리를 두른 칸이 가장 적게 드는 수단입니다.',
+    'build.link': '부수는 데 필요한 폭발물 보기 ›',
+    'vs.cellLegend': '큰 숫자는 파괴까지 필요한 횟수, 작은 숫자는 1회 피해입니다.'
   };
 
   var en = {
@@ -520,9 +513,6 @@
     'blast.svgRadius': 'Blast radius {r} m',
     'blast.aria': '{name}: blast radius {r} m, {dmg} damage at {d} m',
     'build.hp': 'Structure durability',
-    'build.demo': 'Explosives needed to destroy',
-    'build.caption': 'Explosives needed per structure',
-    'build.note': 'The cheapest option is highlighted. One IED brings down an entire FOB.',
     'demo.target': 'Target',
     'pcs': '{n}',
     'explosives.title': 'Explosives.',
@@ -617,7 +607,27 @@
     'fire.revolver': 'Revolver',
     'fire.single': 'Single shot',
     'fire.lockon': 'Lock-on',
-    'fire.manual': 'Manual'
+    'fire.manual': 'Manual',
+    'nav.vsgear': 'Equipment damage',
+    'vs.title': 'Explosives vs. equipment.<br>How many to break it.',
+    'vs.lede': 'Damage explosives deal to vehicle hulls and structures, and how many hits it takes to destroy them. These multipliers differ from damage to infantry.',
+    'vs.vehTitle': 'Vehicle hulls',
+    'vs.vehAria': 'Choose a vehicle',
+    'vs.hull': 'Hull durability {hp}',
+    'vs.perHit': '{dmg} per hit · {pct}% of hull',
+    'vs.hits': '{n} hits',
+    'vs.hits_one': '{n} hit',
+    'vs.na': 'No data',
+    'vs.vehCaption': 'Explosive damage per hit and hits to destroy, by vehicle',
+    'vs.colVehicle': 'Vehicle',
+    'vs.colHull': 'Hull',
+    'vs.vehNote': 'Based on hits to the main hull. Hits to destroy = hull durability ÷ damage per hit, rounded up. Weak spots like the engine or fuel tank take fewer. Tanks and the SPH-2 carry the engine at the rear, where 3 RPGs or 1 IED finishes them.',
+    'vs.strTitle': 'Structures & emplacements',
+    'vs.strCaption': 'Explosives needed to destroy structures and emplacements',
+    'vs.strNote': 'MGL-40 and M67 counts are rough. Numbers in parentheses are the share of durability removed per hit. Each structure type has its own explosive multipliers, so counts can’t be worked out from durability alone.',
+    'vs.best': 'Outlined cells mark the cheapest option.',
+    'build.link': 'See explosives needed to destroy ›',
+    'vs.cellLegend': 'Big number: hits to destroy. Small number: damage per hit.'
   };
 
   var ja = {
@@ -790,9 +800,6 @@
     'blast.svgRadius': '爆発半径 {r} m',
     'blast.aria': '{name}：爆発半径 {r} m、距離 {d} mでダメージ {dmg}',
     'build.hp': '建築物の耐久値',
-    'build.demo': '破壊に必要な爆発物',
-    'build.caption': '建築物ごとに必要な爆発物の数',
-    'build.note': '最も少なく済む手段を明るく表示しています。IEDなら1個でFOB全体が崩れます。',
     'demo.target': '対象',
     'pcs': '{n}個',
     'explosives.title': '爆発物。',
@@ -885,7 +892,26 @@
     'fire.revolver': 'リボルバー',
     'fire.single': '単発',
     'fire.lockon': 'ロックオン',
-    'fire.manual': '手動'
+    'fire.manual': '手動',
+    'nav.vsgear': '装備へのダメージ',
+    'vs.title': '爆発物 vs 装備。<br>何回で壊れるか。',
+    'vs.lede': '爆発物が車体と建築物に与えるダメージと、破壊に必要な回数です。歩兵へのダメージとは倍率が異なります。',
+    'vs.vehTitle': '車体',
+    'vs.vehAria': '車両を選択',
+    'vs.hull': '車体耐久値 {hp}',
+    'vs.perHit': '1回 {dmg} · 車体の{pct}%',
+    'vs.hits': '{n}回',
+    'vs.na': 'データなし',
+    'vs.vehCaption': '車両別・爆発物1回のダメージと破壊回数',
+    'vs.colVehicle': '車両',
+    'vs.colHull': '車体',
+    'vs.vehNote': 'メイン車体への命中が基準です。破壊回数は車体耐久値を1回のダメージで割って切り上げた値です。エンジンや燃料タンクなどの弱点に当てれば少なく済みます。戦車と自走砲はエンジンが後部にあり、後部ならRPG 3発かIED 1個で倒せます。',
+    'vs.strTitle': '建築物・設置兵器',
+    'vs.strCaption': '建築物と設置兵器の破壊に必要な爆発物の数',
+    'vs.strNote': 'MGL-40とM67手榴弾の数はおおよその値です。かっこ内は1回で削れる耐久値の割合です。建築物は種類ごとに爆発物の倍率が違うため、耐久値だけでは個数を計算できません。',
+    'vs.best': '枠で囲んだマスが最も少なく済む手段です。',
+    'build.link': '破壊に必要な爆発物を見る ›',
+    'vs.cellLegend': '大きい数字は破壊までの回数、小さい数字は1回のダメージです。'
   };
 
   var hans = {
@@ -1058,9 +1084,6 @@
     'blast.svgRadius': '爆炸半径 {r} m',
     'blast.aria': '{name}：爆炸半径 {r} m，距离 {d} m 处伤害 {dmg}',
     'build.hp': '建筑耐久度',
-    'build.demo': '摧毁所需爆炸物',
-    'build.caption': '各建筑所需爆炸物数量',
-    'build.note': '已高亮最省的方案。1 个 IED 即可摧毁整个 FOB。',
     'demo.target': '目标',
     'pcs': '{n} 个',
     'explosives.title': '爆炸物。',
@@ -1153,7 +1176,26 @@
     'fire.revolver': '左轮',
     'fire.single': '单发',
     'fire.lockon': '锁定',
-    'fire.manual': '手动'
+    'fire.manual': '手动',
+    'nav.vsgear': '装备伤害',
+    'vs.title': '爆炸物 vs 装备。<br>几次才能摧毁。',
+    'vs.lede': '爆炸物对载具车体与建筑造成的伤害，以及摧毁所需次数。倍率与对步兵的伤害不同。',
+    'vs.vehTitle': '载具车体',
+    'vs.vehAria': '选择载具',
+    'vs.hull': '车体耐久 {hp}',
+    'vs.perHit': '每次 {dmg} · 车体的 {pct}%',
+    'vs.hits': '{n} 次',
+    'vs.na': '暂无数据',
+    'vs.vehCaption': '各载具承受爆炸物的单次伤害与摧毁次数',
+    'vs.colVehicle': '载具',
+    'vs.colHull': '车体',
+    'vs.vehNote': '以命中车体主体计算。摧毁次数 = 车体耐久 ÷ 单次伤害，向上取整。命中发动机、油箱等弱点所需更少。坦克与自行火炮的发动机在尾部，从尾部打 3 发 RPG 或 1 个 IED 即可解决。',
+    'vs.strTitle': '建筑与固定武器',
+    'vs.strCaption': '摧毁建筑与固定武器所需的爆炸物数量',
+    'vs.strNote': 'MGL-40 与 M67 手榴弹的数量为大致值。括号内为每次削减的耐久比例。各类建筑对爆炸物的倍率不同，无法只靠耐久度推算数量。',
+    'vs.best': '带边框的格子是最省的方案。',
+    'build.link': '查看摧毁所需爆炸物 ›',
+    'vs.cellLegend': '大数字为摧毁所需次数，小数字为单次伤害。'
   };
 
   var hant = {
@@ -1326,9 +1368,6 @@
     'blast.svgRadius': '爆炸半徑 {r} m',
     'blast.aria': '{name}：爆炸半徑 {r} m，距離 {d} m 處傷害 {dmg}',
     'build.hp': '建築耐久度',
-    'build.demo': '摧毀所需爆炸物',
-    'build.caption': '各建築所需爆炸物數量',
-    'build.note': '已標亮最省的方案。1 個 IED 即可摧毀整個 FOB。',
     'demo.target': '目標',
     'pcs': '{n} 個',
     'explosives.title': '爆炸物。',
@@ -1421,18 +1460,37 @@
     'fire.revolver': '左輪',
     'fire.single': '單發',
     'fire.lockon': '鎖定',
-    'fire.manual': '手動'
+    'fire.manual': '手動',
+    'nav.vsgear': '裝備傷害',
+    'vs.title': '爆炸物 vs 裝備。<br>幾次才能摧毀。',
+    'vs.lede': '爆炸物對載具車體與建築造成的傷害，以及摧毀所需次數。倍率與對步兵的傷害不同。',
+    'vs.vehTitle': '載具車體',
+    'vs.vehAria': '選擇載具',
+    'vs.hull': '車體耐久 {hp}',
+    'vs.perHit': '每次 {dmg} · 車體的 {pct}%',
+    'vs.hits': '{n} 次',
+    'vs.na': '暫無資料',
+    'vs.vehCaption': '各載具承受爆炸物的單次傷害與摧毀次數',
+    'vs.colVehicle': '載具',
+    'vs.colHull': '車體',
+    'vs.vehNote': '以命中車體主體計算。摧毀次數 = 車體耐久 ÷ 單次傷害，無條件進位。命中引擎、油箱等弱點所需更少。坦克與自走砲的引擎在尾部，從尾部打 3 發 RPG 或 1 個 IED 即可解決。',
+    'vs.strTitle': '建築與固定武器',
+    'vs.strCaption': '摧毀建築與固定武器所需的爆炸物數量',
+    'vs.strNote': 'MGL-40 與 M67 手榴彈的數量為大約值。括號內為每次削減的耐久比例。各類建築對爆炸物的倍率不同，無法只靠耐久度推算數量。',
+    'vs.best': '有框線的格子是最省的方案。',
+    'build.link': '查看摧毀所需爆炸物 ›',
+    'vs.cellLegend': '大數字為摧毀所需次數，小數字為單次傷害。'
   };
 
   window.WD_I18N = {
     fallback: 'ko',
-    /* 선택 버튼 순서. short = 좁은 화면에서 쓰는 짧은 이름, font = Google Fonts 패밀리 */
+    /* 선택 버튼 순서. short = 좁은 화면에서 쓰는 짧은 이름, flag = 국기 SVG(없으면 이름만), font = Google Fonts 패밀리 */
     langs: [
       { id: 'ko', name: '한국어', short: '한국어', flag: kr, font: null },
       { id: 'en', name: 'English', short: 'English', flag: us, font: null },
       { id: 'ja', name: '日本語', short: '日本語', flag: jp, font: 'Noto+Sans+JP' },
-      { id: 'zh-Hans', name: '简体中文', short: '简体', flag: cn, font: 'Noto+Sans+SC' },
-      { id: 'zh-Hant', name: '繁體中文', short: '繁體', flag: tw, font: 'Noto+Sans+TC' }
+      { id: 'zh-Hans', name: '简体中文', short: '简体', flag: null, font: 'Noto+Sans+SC' },
+      { id: 'zh-Hant', name: '繁體中文', short: '繁體', flag: null, font: 'Noto+Sans+TC' }
     ],
     strings: { ko: ko, en: en, ja: ja, 'zh-Hans': hans, 'zh-Hant': hant }
   };
