@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>워독스 데미지 랩</title>
+<meta name="description" content="WARDOGS의 모든 무기, 갑옷, 헬멧, 건축물 장비 데미지를 부위별로 계산하는 비공식 팬 사이트.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 글로벌 내비게이션 -->
+<nav class="gnav" aria-label="전체 메뉴">
+  <div class="gnav__inner">
+    <a class="gnav__logo" href="#top" aria-label="데미지 랩 홈">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 1.5v5M12 17.5v5M1.5 12h5M17.5 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </a>
+    <ul class="gnav__links" id="gnav-links">
+      <li><a href="#calculator">계산기</a></li>
+      <li><a href="#matrix">데미지 표</a></li>
+      <li><a href="#armor">방어구</a></li>
+      <li><a href="#weapons">무기</a></li>
+      <li><a href="#structures">건축물 장비</a></li>
+      <li><a href="#explosives">폭발물</a></li>
+      <li><a href="#vehicles">차량</a></li>
+      <li><a href="#formula">계산 방식</a></li>
+    </ul>
+    <div class="gnav__tools">
+      <a class="gnav__icon" href="#weapons" id="gnav-search" aria-label="무기 검색">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </a>
+      <button class="gnav__icon gnav__menu" id="gnav-menu" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="gnav-links">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9h16M4 15h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- 로컬 내비게이션 (스크롤 시 고정) -->
+<nav class="lnav" aria-label="데미지 랩 바로가기">
+  <div class="lnav__inner">
+    <a class="lnav__title" href="#top">데미지 랩</a>
+    <div class="lnav__right">
+      <ul class="lnav__links">
+        <li><a href="#matrix">데미지 표</a></li>
+        <li><a href="#armor">방어구 비교</a></li>
+        <li><a href="#weapons">무기 라인업</a></li>
+      </ul>
+      <a class="btn btn--sm" href="#calculator">계산하기</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- 탐색 (분류별 개수) -->
+  <nav class="chapternav" aria-label="분류 탐색">
+    <ul class="chapternav__list" id="chapternav"></ul>
+  </nav>
+
+  <p class="ribbon">
+    데이터 기준 <span id="data-version"></span>. 커뮤니티 측정치를 모았으며 실제 게임 값과 다를 수 있습니다. <a href="#sources">출처 보기 ›</a>
+  </p>
+
+  <!-- 히어로 1 : 다크 -->
+  <section class="hero hero--ink" aria-labelledby="hero-title">
+    <p class="eyebrow eyebrow--ink">WARDOGS 데미지 랩</p>
+    <h1 class="hero__title" id="hero-title">한 발의 무게.</h1>
+    <p class="hero__sub">34종 무기, 4단계 갑옷과 헬멧, 12개 피격 부위.<br class="br-wide"> 어떤 장비가 몇 발을 버티는지 숫자로 보여줍니다.</p>
+    <div class="cta-row">
+      <a class="btn" href="#calculator">계산 시작하기</a>
+      <a class="btn btn--ghost btn--ink" href="#weapons">무기 둘러보기</a>
+    </div>
+
+    <figure class="hero-meter" aria-live="polite">
+      <div class="hero-meter__num"><span id="hero-dmg">65.8</span></div>
+      <figcaption class="hero-meter__cap">
+        <span>M4 · 일반탄 · 헤드샷</span>
+        <span class="hero-meter__state" id="hero-state">헬멧 없음 · 2발</span>
+      </figcaption>
+      <ol class="hero-meter__steps" id="hero-steps"></ol>
+    </figure>
+  </section>
+
+  <!-- 히어로 2 : 라이트 -->
+  <section class="hero hero--alt" aria-labelledby="hero2-title">
+    <p class="eyebrow">새로운 최상위 등급</p>
+    <h2 class="hero__title" id="hero2-title">Level 4 헬멧.</h2>
+    <p class="hero__sub">이제 목까지 막는다.</p>
+    <div class="cta-row">
+      <a class="btn" href="#armor" data-compare="helmets">비교하기</a>
+      <a class="btn btn--ghost" href="#calculator" data-apply-helmet="4">계산기에서 보기</a>
+    </div>
+    <div class="hero2-visual">
+      <div class="hero2-figure" id="hero2-figure"></div>
+      <dl class="hero2-facts">
+        <div><dt>피해 감소</dt><dd>65%</dd></div>
+        <div><dt>보호 부위</dt><dd>머리 + 목</dd></div>
+        <div><dt>가격</dt><dd>$3,000</dd></div>
+        <div><dt>무게</dt><dd>4.5 kg</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 프로모 타일 -->
+  <section class="tiles" aria-label="주요 항목">
+    <article class="tile">
+      <h3 class="tile__title">무기 34종.</h3>
+      <p class="tile__sub">권총부터 대물 저격총까지.</p>
+      <div class="cta-row cta-row--sm">
+        <a class="btn btn--sm" href="#weapons">둘러보기</a>
+        <a class="btn btn--sm btn--ghost" href="#matrix">데미지 표</a>
+      </div>
+      <div class="tile__visual tile-bars" id="tile-bars" aria-hidden="true"></div>
+    </article>
+
+    <article class="tile">
+      <h3 class="tile__title">탄종 3가지.</h3>
+      <p class="tile__sub">어디를 맞히느냐에 따라 답이 바뀝니다.</p>
+      <div class="cta-row cta-row--sm">
+        <a class="btn btn--sm" href="#formula">계산 방식</a>
+      </div>
+      <div class="tile__visual tile-ammo" aria-hidden="true">
+        <div class="ammo-chip"><b>FMJ</b><span>맨몸 ×1.0</span><span>방어구 ×1.0</span></div>
+        <div class="ammo-chip"><b>HP</b><span>맨몸 ×2.0</span><span>방어구 ×0.7</span></div>
+        <div class="ammo-chip"><b>AP</b><span>맨몸 ×0.8</span><span>방어구 ×1.3</span></div>
+      </div>
+    </article>
+
+    <article class="tile tile--ink">
+      <h3 class="tile__title">건축물 장비.</h3>
+      <p class="tile__sub">박격포, 대공 미사일, CIWS.</p>
+      <div class="cta-row cta-row--sm">
+        <a class="btn btn--sm" href="#structures">자세히 보기</a>
+      </div>
+      <div class="tile__visual tile-rings" aria-hidden="true">
+        <svg viewBox="0 0 220 120" width="220" height="120">
+          <circle cx="110" cy="120" r="100" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-dasharray="3 5"/>
+          <circle cx="110" cy="120" r="70" fill="none" stroke="currentColor" stroke-opacity=".4"/>
+          <circle cx="110" cy="120" r="25" fill="currentColor" fill-opacity=".9"/>
+          <text x="110" y="34" text-anchor="middle" fill="currentColor" font-size="11" opacity=".7">반경 10 m</text>
+        </svg>
+      </div>
+    </article>
+
+    <article class="tile">
+      <h3 class="tile__title">C4 한 개, 250.</h3>
+      <p class="tile__sub">2.5 m 안에서는 어떤 갑옷도 버티지 못합니다.</p>
+      <div class="cta-row cta-row--sm">
+        <a class="btn btn--sm" href="#explosives">폭발물 보기</a>
+      </div>
+      <div class="tile__visual tile-big" aria-hidden="true">250</div>
+    </article>
+  </section>
+
+  <!-- 계산기 -->
+  <section class="section" id="calculator" aria-labelledby="calc-title">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="calc-title">어떤 조합이든.<br>몇 발인지 바로.</h2>
+        <p class="section__lede">무기, 탄종, 갑옷, 헬멧을 고르면 12개 부위의 1발 피해와 처치 탄수를 계산합니다. 체력은 100 기준입니다.</p>
+      </header>
+
+      <div class="calc">
+        <div class="calc__stage">
+          <div class="stage">
+            <div class="stage__figure" id="calc-figure"></div>
+            <div class="stage__legend" id="calc-legend"></div>
+          </div>
+          <div class="summary" id="calc-summary"></div>
+        </div>
+
+        <div class="calc__steps">
+          <fieldset class="step">
+            <legend class="step__title">무기. <span class="step__hint">분류를 고른 뒤 무기를 선택하세요.</span></legend>
+            <div class="seg seg--scroll" id="calc-class" role="tablist" aria-label="무기 분류"></div>
+            <div class="chips" id="calc-weapons"></div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend class="step__title">탄종. <span class="step__hint">맨몸과 방어구에 들어가는 비율이 다릅니다.</span></legend>
+            <div class="opts opts--3" id="calc-ammo"></div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend class="step__title">갑옷. <span class="step__hint">상대가 입은 몸통 방어구.</span></legend>
+            <div class="opts opts--5" id="calc-armor"></div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend class="step__title">헬멧. <span class="step__hint">상대가 쓴 헬멧.</span></legend>
+            <div class="opts opts--5" id="calc-helmet"></div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="ztable" id="calc-table">
+          <caption class="sr-only">부위별 피해와 처치 탄수</caption>
+          <thead>
+            <tr><th scope="col">부위</th><th scope="col">부위 배율</th><th scope="col">보호</th><th scope="col">1발 피해</th><th scope="col">처치 탄수</th><th scope="col">처치 시간</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 전체 데미지 표 -->
+  <section class="section section--alt" id="matrix" aria-labelledby="matrix-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <h2 class="section__title" id="matrix-title">모든 무기, 모든 방어구.<br>한 장의 표로.</h2>
+        <p class="section__lede">머리는 헬멧 등급별로, 가슴(상부 몸통)은 갑옷 등급별로 계산합니다. 숫자가 작을수록 빨리 쓰러집니다.</p>
+      </header>
+
+      <div class="toolbar">
+        <div class="seg" id="matrix-ammo" role="radiogroup" aria-label="탄종"></div>
+        <div class="seg" id="matrix-metric" role="radiogroup" aria-label="표시 값"></div>
+      </div>
+
+      <div class="table-wrap table-wrap--card">
+        <table class="mtable" id="matrix-table">
+          <caption class="sr-only">무기별 헬멧·갑옷 등급에 따른 피해</caption>
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="legend-row" id="matrix-legend"></div>
+    </div>
+  </section>
+
+  <!-- 방어구 비교 -->
+  <section class="section" id="armor" aria-labelledby="armor-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <h2 class="section__title" id="armor-title">나에게 맞는 방어구는?</h2>
+        <div class="seg seg--center" id="compare-kind" role="radiogroup" aria-label="방어구 종류"></div>
+      </header>
+      <div class="compare" id="compare"></div>
+      <p class="footnote-inline">Level 4 방탄복의 보호 부위(골반·어깨)는 커뮤니티 관찰을 바탕으로 한 추정입니다. 내구도 소모는 계산에 반영하지 않습니다.</p>
+    </div>
+  </section>
+
+  <!-- 무기 라인업 -->
+  <section class="section section--alt" id="weapons" aria-labelledby="weapons-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <h2 class="section__title" id="weapons-title">무기 라인업 살펴보기.</h2>
+        <p class="section__lede">게임 속 34종 가운데 확인된 30종을 실었습니다. 카드를 누르면 계산기에 바로 적용되고, 처치 탄수는 일반탄으로 가슴을 맞혔을 때 기준입니다.</p>
+      </header>
+      <div class="toolbar toolbar--weapons">
+        <label class="search" for="weapon-search">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="weapon-search" type="search" placeholder="무기 이름이나 탄 구경 검색" autocomplete="off">
+        </label>
+        <div class="seg seg--scroll" id="weapon-filter" role="radiogroup" aria-label="무기 분류 필터"></div>
+      </div>
+      <div class="wgrid" id="weapon-grid"></div>
+      <p class="empty" id="weapon-empty" hidden>검색 결과가 없습니다. 다른 이름이나 구경으로 찾아보세요.</p>
+    </div>
+  </section>
+
+  <!-- 건축물 장비 -->
+  <section class="section section--ink" id="structures" aria-labelledby="structures-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <p class="eyebrow eyebrow--ink">FOB 방어</p>
+        <h2 class="section__title" id="structures-title">건축물 장비.<br>기지가 쏘는 데미지.</h2>
+        <p class="section__lede">FOB에 지을 수 있는 무기 시설입니다. 폭발 피해는 거리에 따라 줄어듭니다.</p>
+      </header>
+
+      <div class="scards" id="structure-cards"></div>
+
+      <div class="blast">
+        <div class="blast__viz" id="blast-viz"></div>
+        <div class="blast__panel">
+          <h3 class="blast__title">폭발 거리 시뮬레이터</h3>
+          <div class="seg seg--ink" id="blast-src" role="radiogroup" aria-label="폭발원"></div>
+          <label class="range" for="blast-range">
+            <span>폭심에서의 거리</span>
+            <output id="blast-out" for="blast-range">3.0 m</output>
+          </label>
+          <input id="blast-range" type="range" min="0" max="12" step="0.5" value="3">
+          <div class="blast__result" id="blast-result"></div>
+          <p class="blast__note">최대 피해 반경 밖에서는 반경 끝까지 직선으로 줄어든다고 가정했습니다. 폭발 피해에는 방어구 감소를 적용하지 않습니다.</p>
+        </div>
+      </div>
+
+      <div class="demo">
+        <h3 class="demo__title">건축물을 부수려면</h3>
+        <ul class="demo__list" id="demolition"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 폭발물 -->
+  <section class="section" id="explosives" aria-labelledby="explosives-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <h2 class="section__title" id="explosives-title">폭발물.</h2>
+        <p class="section__lede">설치형, 투척형, 발사형 폭발물의 피해와 반경입니다.</p>
+      </header>
+      <div class="ecards" id="explosive-cards"></div>
+    </div>
+  </section>
+
+  <!-- 차량 -->
+  <section class="section section--alt" id="vehicles" aria-labelledby="vehicles-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <h2 class="section__title" id="vehicles-title">차량 탑재 무기.</h2>
+        <p class="section__lede">전차, 자주포, 헬기에 달린 무기입니다. 피해량은 측정이 끝나는 대로 채워집니다.</p>
+      </header>
+      <div class="vcards" id="vehicle-cards"></div>
+      <ul class="facts">
+        <li><b>선체 임계선</b>선체 내구도가 임계선 아래로 떨어지면 불이 붙고, 수리할 수 없으며, 15초 뒤 폭발합니다.</li>
+        <li><b>전차 후면</b>C4, IED, RPG, MAAWS 중 하나라도 뒤쪽에 맞으면 기동 불능이 됩니다.</li>
+        <li><b>대전차 지뢰</b>밟은 차량을 한 번에 파괴합니다. 전차는 후진으로 밟고 수리하지 않았을 때만 불탑니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 계산 방식 -->
+  <section class="section" id="formula" aria-labelledby="formula-title">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="formula-title">데미지는 이렇게<br>계산됩니다.</h2>
+      </header>
+      <div class="formula">
+        <p class="formula__eq" aria-label="최종 피해 계산식">
+          <span>기본 피해</span><i>×</i><span>부위 배율</span><i>×</i><span>탄종 보정</span><i>×</i><span>(1 − 방어구 감소율)</span>
+        </p>
+        <ol class="formula__walk" id="formula-walk"></ol>
+      </div>
+      <div class="zone-ref" id="zone-ref"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" id="sources">
+  <div class="wrap wrap--wide">
+    <ol class="footer__notes">
+      <li>모든 수치는 근거리, 체력 100 기준입니다. 거리별 감쇠와 방어구 내구도 소모는 아직 반영하지 않았습니다.</li>
+      <li>기본 피해는 부위 배율을 곱하기 전의 값입니다. 일부 자료의 "가슴 1발 피해"는 상부 몸통 배율 1.1을 나눠 환산했습니다.</li>
+      <li>"추정" 표시는 같은 탄을 쓰는 다른 무기의 값을 빌려 온 것입니다. "측정 대기"는 아직 값이 없는 항목입니다.</li>
+      <li>자료마다 수치가 다른 경우가 있어, 여러 자료가 함께 가리키는 값을 택했습니다.</li>
+    </ol>
+    <div class="footer__sources">
+      <h2 class="footer__h">참고한 자료</h2>
+      <ul id="source-list"></ul>
+    </div>
+    <div class="footer__dir">
+      <div>
+        <h2 class="footer__h">계산</h2>
+        <ul><li><a href="#calculator">데미지 계산기</a></li><li><a href="#matrix">전체 데미지 표</a></li><li><a href="#formula">계산 방식</a></li></ul>
+      </div>
+      <div>
+        <h2 class="footer__h">장비</h2>
+        <ul><li><a href="#weapons">무기</a></li><li><a href="#armor">갑옷·헬멧</a></li></ul>
+      </div>
+      <div>
+        <h2 class="footer__h">전장</h2>
+        <ul><li><a href="#structures">건축물 장비</a></li><li><a href="#explosives">폭발물</a></li><li><a href="#vehicles">차량</a></li></ul>
+      </div>
+    </div>
+    <p class="footer__legal">
+      데미지 랩은 비공식 팬 프로젝트이며 게임 개발사와 관계가 없습니다. WARDOGS 및 관련 명칭은 각 권리자의 상표입니다.
+    </p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
