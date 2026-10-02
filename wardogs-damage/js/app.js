@@ -3,7 +3,9 @@
   'use strict';
 
   var D = window.WD_DATA;
+  var I = window.WD_I18N;
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
   var byId = function (list, key) {
     var map = {};
     list.forEach(function (item) { map[item[key || 'id']] = item; });
@@ -11,19 +13,62 @@
   };
 
   var ZONES = byId(D.zones);
+  var GROUPS = byId(D.zoneGroups);
   var CLASSES = byId(D.classes);
   var WEAPONS = byId(D.weapons);
   var AMMO = byId(D.ammo);
+  var LANGS = byId(I.langs);
   var CALC_CLASSES = ['ar', 'smg', 'lmg', 'dmr', 'sniper', 'shotgun', 'pistol', 'bow'];
   var CLASS_ROWS = [
-    { ids: ['ar'], name: '돌격소총' },
-    { ids: ['smg', 'pistol'], name: '기관단총·권총' },
-    { ids: ['lmg'], name: '경기관총' },
-    { ids: ['dmr'], name: '지정사수소총' },
-    { ids: ['sniper'], name: '저격소총' },
-    { ids: ['shotgun'], name: '산탄총 (펠릿당)' },
-    { ids: ['bow'], name: '활' }
+    { ids: ['ar'] },
+    { ids: ['smg', 'pistol'], key: 'crow.smgPistol' },
+    { ids: ['lmg'] },
+    { ids: ['dmr'] },
+    { ids: ['sniper'] },
+    { ids: ['shotgun'], key: 'crow.shotgun' },
+    { ids: ['bow'] }
   ];
+
+  /* ───────── 언어 ───────── */
+
+  function detectLang() {
+    try {
+      var saved = localStorage.getItem('wd-lang');
+      if (saved && I.strings[saved]) return saved;
+    } catch (e) { /* 저장소를 못 쓰면 브라우저 언어로 */ }
+    var nav = String((navigator.languages && navigator.languages[0]) || navigator.language || I.fallback).toLowerCase();
+    if (nav.indexOf('ko') === 0) return 'ko';
+    if (nav.indexOf('ja') === 0) return 'ja';
+    if (nav.indexOf('zh') === 0) return /(tw|hk|mo|hant)/.test(nav) ? 'zh-Hant' : 'zh-Hans';
+    if (nav.indexOf('en') === 0) return 'en';
+    return 'en';
+  }
+
+  var lang = detectLang();
+
+  // 화면 문구. vars.n이 1이면 _one 단수형을 먼저 찾는다
+  function t(key, vars) {
+    var dict = I.strings[lang] || I.strings[I.fallback];
+    var s = vars && vars.n === 1 && dict[key + '_one'] != null ? dict[key + '_one'] : dict[key];
+    if (s == null) s = I.strings[I.fallback][key];
+    if (s == null) return key;
+    return vars ? s.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] != null ? vars[k] : m; }) : s;
+  }
+
+  // 데이터의 다국어 값
+  function tx(v) {
+    if (v && typeof v === 'object') return v[lang] || v.en || v[I.fallback];
+    return v == null ? '' : v;
+  }
+
+  var zoneName = function (id) { return tx(ZONES[id].name); };
+  var groupName = function (id) { return tx(GROUPS[id].name); };
+  var className = function (id) { return tx(CLASSES[id].name); };
+  var fireName = function (w) { return t('fire.' + w.fire); };
+  var armorName = function (g) { return g.lvl ? t('armorName', { n: g.lvl }) : t('noArmor'); };
+  var helmetName = function (g) { return g.lvl ? t('helmetName', { n: g.lvl }) : t('noHelmet'); };
+  var gearShort = function (g) { return g.lvl ? g.short : t('none'); };
+  var shots = function (n) { return t('shots', { n: n }); };
 
   /* ───────── 계산 ───────── */
 
@@ -50,7 +95,7 @@
     var a = ammoFor(w, ammo.id);
     var base = w.dmg * (w.pellets || 1) * zoneMult(w, zoneId);
     var dmg = guard ? base * a.armored * (1 - guard.reduction) : base * a.flesh;
-    return { dmg: dmg, guard: guard };
+    return { dmg: dmg, guard: guard, guardName: guard ? (guard === helmet ? helmetName(guard) : armorName(guard)) : null };
   }
 
   function shotsToKill(dmg) {
@@ -61,17 +106,17 @@
   function rpmOf(w) { return w.rpmM || w.rpm || null; }
 
   // 첫 발부터 마지막 발까지 걸리는 시간 (ms)
-  function timeToKill(w, shots) {
+  function timeToKill(w, n) {
     var rpm = rpmOf(w);
-    if (!rpm || !isFinite(shots)) return null;
-    return Math.round((shots - 1) * 60000 / rpm);
+    if (!rpm || !isFinite(n)) return null;
+    return Math.round((n - 1) * 60000 / rpm);
   }
 
-  function kClass(shots) {
-    if (shots <= 1) return 'k1';
-    if (shots === 2) return 'k2';
-    if (shots === 3) return 'k3';
-    if (shots <= 5) return 'k4';
+  function kClass(n) {
+    if (n <= 1) return 'k1';
+    if (n === 2) return 'k2';
+    if (n === 3) return 'k3';
+    if (n <= 5) return 'k4';
     return 'k6';
   }
 
@@ -86,9 +131,9 @@
 
   var fmt1 = function (n) { return (Math.round(n * 10) / 10).toFixed(1); };
   var fmt2 = function (n) { return (Math.round(n * 100) / 100).toFixed(2); };
-  var money = function (n) { return n == null ? '—' : n === 0 ? '무료' : '$' + n.toLocaleString('en-US'); };
+  var money = function (n) { return n == null ? '—' : n === 0 ? t('free') : '$' + n.toLocaleString('en-US'); };
   var kg = function (n) { return n == null ? '—' : n.toFixed(1) + ' kg'; };
-  var ms = function (n) { return n == null ? '—' : (n === 0 ? '즉시' : (n / 1000).toFixed(2) + '초'); };
+  var ms = function (n) { return n == null ? '—' : n === 0 ? t('instant') : t('sec', { n: (n / 1000).toFixed(2) }); };
   var pct = function (r) { return r ? '−' + Math.round(r * 100) + '%' : '0%'; };
   var num = function (n) { return n == null ? '—' : n.toLocaleString('en-US'); };
   var esc = function (s) {
@@ -98,6 +143,7 @@
   };
   var usable = function (w) { return w.dmg != null && !w.explosive; };
   var baseLabel = function (w) { return w.pellets ? w.dmg + '×' + w.pellets : String(w.dmg); };
+  var measuredCount = D.weapons.reduce(function (sum, w) { return sum + (w.measured ? Object.keys(w.measured).length : 0); }, 0);
 
   /* ───────── 인체 도식 ───────── */
 
@@ -131,7 +177,7 @@
 
   /*
    * opts.fill    { zoneId: 'k1'..'k6' | 'is-hl' }
-   * opts.label   { zoneId: '3' }
+   * opts.label   { zoneId: 3 }
    * opts.outline [zoneId] 방어구 보호 부위 점선
    */
   function bodySVG(opts, title) {
@@ -142,7 +188,7 @@
 
     Object.keys(SHAPES).forEach(function (id) {
       var cls = fill[id] || '';
-      var tip = ZONES[id].name + (label[id] ? ' · ' + label[id] + '발' : '');
+      var tip = zoneName(id) + (label[id] != null ? ' · ' + shots(label[id]) : '');
       SHAPES[id].forEach(function (s) {
         parts.push(shapeTag(s, ('z ' + cls).trim(), 0, tip));
         if (outline.indexOf(id) >= 0) outlines.push(shapeTag(s, 'armor-outline', 3));
@@ -154,7 +200,7 @@
       });
     });
 
-    return '<svg class="body-svg" viewBox="0 0 240 476" role="img" aria-label="' + esc(title || '피격 부위 도식') + '">' +
+    return '<svg class="body-svg" viewBox="0 0 240 476" role="img" aria-label="' + esc(title || t('fig.default')) + '">' +
       parts.join('') + outlines.join('') + texts.join('') + '</svg>';
   }
 
@@ -198,12 +244,62 @@
   }
 
   function legendHTML(withArmor) {
-    var items = [['k1', '1발'], ['k2', '2발'], ['k3', '3발'], ['k4', '4–5발'], ['k6', '6발 이상']];
+    var items = [['k1', shots(1)], ['k2', shots(2)], ['k3', shots(3)], ['k4', t('legend.k45')], ['k6', t('legend.k6')]];
     var html = items.map(function (it) {
-      return '<span class="lg"><i class="' + it[0] + '"></i>' + it[1] + '</span>';
+      return '<span class="lg"><i class="' + it[0] + '"></i>' + esc(it[1]) + '</span>';
     }).join('');
-    if (withArmor) html += '<span class="lg lg--armor"><i></i>방어구 보호 부위</span>';
+    if (withArmor) html += '<span class="lg lg--armor"><i></i>' + esc(t('legend.armor')) + '</span>';
     return html;
+  }
+
+  /* ───────── 언어 선택 바 / 고정 문구 ───────── */
+
+  function renderLangBar() {
+    $('#lang-list').innerHTML = I.langs.map(function (l) {
+      var on = l.id === lang;
+      return '<button type="button" class="langbtn' + (on ? ' is-on' : '') + '" role="radio" aria-checked="' + on + '" data-lang="' + l.id + '" lang="' + l.id + '" title="' + esc(l.name) + '">' +
+        '<span class="flag">' + l.flag + '</span>' +
+        '<span class="langbtn__full">' + esc(l.name) + '</span><span class="langbtn__short">' + esc(l.short) + '</span></button>';
+    }).join('');
+  }
+
+  function loadFont(l) {
+    var meta = LANGS[l];
+    if (!meta || !meta.font || document.getElementById('font-' + l)) return;
+    var link = document.createElement('link');
+    link.id = 'font-' + l;
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=' + meta.font + ':wght@400;500;600;700&display=swap';
+    document.head.appendChild(link);
+  }
+
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.title = t('meta.title');
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', t('meta.desc'));
+
+    $$('[data-i18n]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n')); });
+    $$('[data-i18n-attr]').forEach(function (el) {
+      el.getAttribute('data-i18n-attr').split(';').forEach(function (pair) {
+        var p = pair.split(':');
+        if (p.length === 2) el.setAttribute(p[0].trim(), t(p[1].trim()));
+      });
+    });
+
+    $('#ribbon').innerHTML = t('ribbon', { version: esc(tx(D.version)), count: measuredCount });
+    $('#hero2-cover').textContent = zoneName('head') + ' + ' + zoneName('neck');
+    var open = $('#gnav-links').classList.contains('is-open');
+    $('#gnav-menu').setAttribute('aria-label', t(open ? 'nav.close' : 'nav.open'));
+  }
+
+  function setLang(id) {
+    if (!I.strings[id] || id === lang) return;
+    lang = id;
+    try { localStorage.setItem('wd-lang', id); } catch (e) { /* 무시 */ }
+    loadFont(id);
+    applyStatic();
+    renderAll();
   }
 
   /* ───────── 계산기 ───────── */
@@ -216,7 +312,7 @@
 
     // 분류
     segment($('#calc-class'), CALC_CLASSES.map(function (id) {
-      return { id: id, label: CLASSES[id].name };
+      return { id: id, label: className(id) };
     }), state.cls, function (id) {
       state.cls = id;
       if (WEAPONS[state.weapon].cls !== id) {
@@ -230,7 +326,7 @@
     var list = D.weapons.filter(function (x) { return x.cls === state.cls; });
     $('#calc-weapons').innerHTML = list.map(function (x) {
       var rpm = rpmOf(x);
-      var meta = '기본 ' + baseLabel(x) + (rpm ? ' · ' + num(rpm) + ' RPM' : '');
+      var meta = t('calc.base', { v: baseLabel(x) }) + (rpm ? ' · ' + num(rpm) + ' RPM' : '');
       return '<button type="button" class="chip' + (x.id === state.weapon ? ' is-on' : '') + '" data-id="' + x.id + '" aria-pressed="' + (x.id === state.weapon) + '">' +
         '<span class="chip__name">' + esc(x.name) + '</span>' +
         '<span class="chip__meta">' + esc(meta) + '</span></button>';
@@ -246,8 +342,8 @@
       var on = a.id === ammo.id;
       var off = locked && a.id !== 'fmj';
       return '<button type="button" class="opt' + (on ? ' is-on' : '') + '" data-id="' + a.id + '" aria-pressed="' + on + '"' + (off ? ' disabled' : '') + '>' +
-        '<span class="opt__name">' + esc(a.name) + ' <span class="tag">' + a.code + '</span></span>' +
-        '<span class="opt__desc">' + esc(off ? '이 무기는 탄종을 고를 수 없습니다.' : a.desc) + '</span></button>';
+        '<span class="opt__name">' + esc(tx(a.name)) + ' <span class="tag">' + a.code + '</span></span>' +
+        '<span class="opt__desc">' + esc(off ? t('calc.ammoLocked') : tx(a.desc)) + '</span></button>';
     }).join('');
     $('#calc-ammo').onclick = function (e) {
       var b = e.target.closest('button[data-id]');
@@ -255,28 +351,28 @@
     };
 
     // 갑옷 / 헬멧
-    function gearOpts(el, list, current, key) {
+    function gearOpts(el, list, current, key, nameOf) {
       el.innerHTML = list.map(function (g) {
         var on = g.lvl === current;
-        var desc = g.lvl === 0 ? '보호 없음' : money(g.price) + ' · ' + kg(g.weight);
-        return '<button type="button" class="opt' + (on ? ' is-on' : '') + '" data-lvl="' + g.lvl + '" aria-pressed="' + on + '" aria-label="' + esc(g.name) + '">' +
-          '<span class="opt__name">' + g.short + '</span>' +
+        var desc = g.lvl === 0 ? t('calc.noProtection') : money(g.price) + ' · ' + kg(g.weight);
+        return '<button type="button" class="opt' + (on ? ' is-on' : '') + '" data-lvl="' + g.lvl + '" aria-pressed="' + on + '" aria-label="' + esc(nameOf(g)) + '">' +
+          '<span class="opt__name">' + esc(gearShort(g)) + '</span>' +
           '<span class="opt__big">' + pct(g.reduction) + '</span>' +
-          '<span class="opt__desc">' + desc + '</span></button>';
+          '<span class="opt__desc">' + esc(desc) + '</span></button>';
       }).join('');
       el.onclick = function (e) {
         var b = e.target.closest('button[data-lvl]');
         if (b) { state[key] = +b.getAttribute('data-lvl'); renderCalc(); }
       };
     }
-    gearOpts($('#calc-armor'), D.armor, state.armor, 'armor');
-    gearOpts($('#calc-helmet'), D.helmets, state.helmet, 'helmet');
+    gearOpts($('#calc-armor'), D.armor, state.armor, 'armor', armorName);
+    gearOpts($('#calc-helmet'), D.helmets, state.helmet, 'helmet', helmetName);
 
     // 결과
     var rows = D.zones.map(function (z) {
       var h = hit(w, z.id, ammo, armor, helmet);
       var n = shotsToKill(h.dmg);
-      return { z: z, dmg: h.dmg, guard: h.guard, n: n, t: timeToKill(w, n) };
+      return { z: z, dmg: h.dmg, guard: h.guard, guardName: h.guardName, n: n, t: timeToKill(w, n) };
     });
     var byZone = {};
     rows.forEach(function (r) { byZone[r.z.id] = r; });
@@ -284,39 +380,40 @@
     var fill = {}, label = {}, outline = [];
     rows.forEach(function (r) {
       fill[r.z.id] = kClass(r.n);
-      label[r.z.id] = String(r.n);
+      label[r.z.id] = r.n;
       if (r.guard) outline.push(r.z.id);
     });
     $('#calc-figure').innerHTML = bodySVG({ fill: fill, label: label, outline: outline },
-      w.name + ' ' + ammo.code + ', ' + armor.name + ', ' + helmet.name + ' 기준 부위별 처치 탄수');
+      t('calc.figure', { weapon: w.name, ammo: ammo.code, armor: armorName(armor), helmet: helmetName(helmet) }));
     $('#calc-legend').innerHTML = legendHTML(true);
 
     var head = byZone.head, chest = byZone.upperTorso;
     var rpm = rpmOf(w);
+    var shotsValue = function (n) { return n + '<small>' + esc(t('shotsUnit', { n: n })) + '</small>'; };
     $('#calc-summary').innerHTML =
-      '<div class="summary__item"><span class="summary__label">머리</span><span class="summary__value">' + head.n + '<small>발</small></span><span class="summary__meta">1발 ' + fmt1(head.dmg) + '</span></div>' +
-      '<div class="summary__item"><span class="summary__label">가슴</span><span class="summary__value">' + chest.n + '<small>발</small></span><span class="summary__meta">1발 ' + fmt1(chest.dmg) + '</span></div>' +
-      '<div class="summary__item"><span class="summary__label">가슴 처치 시간</span><span class="summary__value">' + (chest.t == null ? '—' : (chest.t / 1000).toFixed(2) + '<small>초</small>') + '</span><span class="summary__meta">' + (rpm ? num(rpm) + ' RPM' + (w.rpmM ? ' 실측' : '') : '연사 속도 미공개') + '</span></div>';
+      '<div class="summary__item"><span class="summary__label">' + esc(zoneName('head')) + '</span><span class="summary__value">' + shotsValue(head.n) + '</span><span class="summary__meta">' + esc(t('calc.perShot', { v: fmt1(head.dmg) })) + '</span></div>' +
+      '<div class="summary__item"><span class="summary__label">' + esc(groupName('chest')) + '</span><span class="summary__value">' + shotsValue(chest.n) + '</span><span class="summary__meta">' + esc(t('calc.perShot', { v: fmt1(chest.dmg) })) + '</span></div>' +
+      '<div class="summary__item"><span class="summary__label">' + esc(t('calc.chestTtk')) + '</span><span class="summary__value">' + (chest.t == null ? '—' : (chest.t / 1000).toFixed(2) + '<small>' + esc(t('secUnit')) + '</small>') + '</span><span class="summary__meta">' + esc(rpm ? t(w.rpmM ? 'calc.rpmMeasured' : 'calc.rpm', { rpm: num(rpm) }) : t('calc.rpmNA')) + '</span></div>';
 
     // 실측 대조
     var m = w.measured || {};
     var checks = Object.keys(m).map(function (zid) {
       var calc = w.dmg * (w.pellets || 1) * zoneMult(w, zid);
-      return ZONES[zid].name + ' ' + m[zid] + (Math.abs(calc - m[zid]) <= 0.15 ? ' ✓' : ' (계산 ' + fmt2(calc) + ')');
+      return zoneName(zid) + ' ' + m[zid] + (Math.abs(calc - m[zid]) <= 0.15 ? ' ✓' : ' ' + t('verify.calcValue', { v: fmt2(calc) }));
     });
     $('#calc-verify').innerHTML = checks.length
-      ? '<b>사격장 실측과 대조</b> ' + esc(checks.join(' · ')) + ' <span>(일반탄, 맨몸 기준)</span>'
-      : '<b>사격장 실측 없음</b> <span>같은 탄과 같은 종류 배율로 계산한 값입니다.</span>';
+      ? '<b>' + esc(t('verify.calcTitle')) + '</b> ' + esc(checks.join(' · ')) + ' <span>' + esc(t('verify.basis')) + '</span>'
+      : '<b>' + esc(t('verify.noneTitle')) + '</b> <span>' + esc(t('verify.noneText')) + '</span>';
 
     $('#calc-table tbody').innerHTML = rows.map(function (r) {
       var mult = zoneMult(w, r.z.id);
       var meas = m[r.z.id] != null && ammo.id === 'fmj' && !r.guard ? m[r.z.id] : null;
-      return '<tr><th scope="row">' + esc(r.z.name) + '</th>' +
-        '<td class="is-dim">×' + fmt2(mult) + (isEstZone(w, r.z.id) ? ' <span class="tag">추정</span>' : '') + '</td>' +
-        '<td>' + (r.guard ? '<span class="tag tag--on">' + esc(r.guard.name) + '</span>' : '<span class="is-dim">—</span>') + '</td>' +
+      return '<tr><th scope="row">' + esc(tx(r.z.name)) + '</th>' +
+        '<td class="is-dim">×' + fmt2(mult) + (isEstZone(w, r.z.id) ? ' <span class="tag">' + esc(t('est')) + '</span>' : '') + '</td>' +
+        '<td>' + (r.guard ? '<span class="tag tag--on">' + esc(r.guardName) + '</span>' : '<span class="is-dim">—</span>') + '</td>' +
         '<td>' + fmt1(r.dmg) + '</td>' +
-        '<td><span class="pill ' + kClass(r.n) + '">' + r.n + '발</span></td>' +
-        '<td class="' + (r.t == null ? 'is-dim' : '') + '">' + ms(r.t) + '</td>' +
+        '<td><span class="pill ' + kClass(r.n) + '">' + esc(shots(r.n)) + '</span></td>' +
+        '<td class="' + (r.t == null ? 'is-dim' : '') + '">' + esc(ms(r.t)) + '</td>' +
         '<td class="' + (meas == null ? 'is-dim' : '') + '">' + (meas == null ? '—' : meas + ' ✓') + '</td></tr>';
     }).join('');
 
@@ -341,11 +438,11 @@
   /* ───────── 전체 데미지 표 ───────── */
 
   function renderMatrix() {
-    segment($('#matrix-ammo'), D.ammo.map(function (a) { return { id: a.id, label: a.name }; }), matrixState.ammo, function (id) {
+    segment($('#matrix-ammo'), D.ammo.map(function (a) { return { id: a.id, label: tx(a.name) }; }), matrixState.ammo, function (id) {
       matrixState.ammo = id; renderMatrix();
     });
     segment($('#matrix-metric'), [
-      { id: 'stk', label: '처치 탄수' }, { id: 'dmg', label: '1발 피해' }, { id: 'ttk', label: '처치 시간' }
+      { id: 'stk', label: t('metric.stk') }, { id: 'dmg', label: t('metric.dmg') }, { id: 'ttk', label: t('metric.ttk') }
     ], matrixState.metric, function (id) {
       matrixState.metric = id; renderMatrix();
     });
@@ -355,11 +452,11 @@
     var noHelmet = D.helmets[0];
 
     $('#matrix-table thead').innerHTML =
-      '<tr><th></th><th colspan="5">머리 · 헬멧 등급</th><th class="gap"></th><th colspan="5">가슴 · 갑옷 등급</th></tr>' +
-      '<tr><th scope="col" style="text-align:left">무기</th>' +
-      D.helmets.map(function (h) { return '<th scope="col">' + h.short + '</th>'; }).join('') +
+      '<tr><th></th><th colspan="5">' + esc(t('matrix.headCol')) + '</th><th class="gap"></th><th colspan="5">' + esc(t('matrix.chestCol')) + '</th></tr>' +
+      '<tr><th scope="col" style="text-align:left">' + esc(t('matrix.weapon')) + '</th>' +
+      D.helmets.map(function (h) { return '<th scope="col">' + esc(gearShort(h)) + '</th>'; }).join('') +
       '<th class="gap"></th>' +
-      D.armor.map(function (a) { return '<th scope="col">' + a.short + '</th>'; }).join('') + '</tr>';
+      D.armor.map(function (a) { return '<th scope="col">' + esc(gearShort(a)) + '</th>'; }).join('') + '</tr>';
 
     function cell(w, zoneId, armor, helmet) {
       var h = hit(w, zoneId, ammo, armor, helmet);
@@ -367,18 +464,18 @@
       var v = matrixState.metric === 'stk' ? n
         : matrixState.metric === 'dmg' ? fmt1(h.dmg)
         : ms(timeToKill(w, n));
-      return '<td class="t' + kClass(n).slice(1) + '" title="' + n + '발 · 1발 ' + fmt1(h.dmg) + '">' + v + '</td>';
+      return '<td class="t' + kClass(n).slice(1) + '" title="' + esc(t('matrix.cellTitle', { shots: shots(n), v: fmt1(h.dmg) })) + '">' + esc(v) + '</td>';
     }
 
     var html = '';
     D.classes.forEach(function (c) {
       var list = D.weapons.filter(function (w) { return w.cls === c.id && usable(w); });
       if (!list.length) return;
-      html += '<tr class="grp"><th colspan="12">' + esc(c.name) + '</th></tr>';
+      html += '<tr class="grp"><th colspan="12">' + esc(tx(c.name)) + '</th></tr>';
       list.forEach(function (w) {
-        var lockTag = w.ammo === false && ammo.id !== 'fmj' ? ' <span class="tag">일반 탄 고정</span>' : '';
-        html += '<tr class="row" data-id="' + w.id + '" tabindex="0" aria-label="' + esc(w.name) + ' 계산기에서 보기">' +
-          '<th scope="row"><b>' + esc(w.name) + lockTag + '</b><span>' + esc(w.caliber) + ' · 기본 ' + baseLabel(w) + '</span></th>' +
+        var lockTag = w.ammo === false && ammo.id !== 'fmj' ? ' <span class="tag">' + esc(t('matrix.lock')) + '</span>' : '';
+        html += '<tr class="row" data-id="' + w.id + '" tabindex="0" aria-label="' + esc(t('aria.toCalc', { name: w.name })) + '">' +
+          '<th scope="row"><b>' + esc(w.name) + lockTag + '</b><span>' + esc(tx(w.caliber)) + ' · ' + esc(t('calc.base', { v: baseLabel(w) })) + '</span></th>' +
           D.helmets.map(function (h) { return cell(w, 'head', none, h); }).join('') +
           '<td class="gap"></td>' +
           D.armor.map(function (a) { return cell(w, 'upperTorso', a, noHelmet); }).join('') +
@@ -396,13 +493,13 @@
       if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); applyWeapon(tr.getAttribute('data-id')); }
     };
 
-    $('#matrix-legend').innerHTML = legendHTML(false) + '<span>행을 누르면 계산기에 적용됩니다</span>';
+    $('#matrix-legend').innerHTML = legendHTML(false) + '<span>' + esc(t('matrix.hint')) + '</span>';
   }
 
   /* ───────── 방어구 비교 ───────── */
 
   function renderCompare() {
-    segment($('#compare-kind'), [{ id: 'armor', label: '갑옷' }, { id: 'helmets', label: '헬멧' }], compareKind, function (id) {
+    segment($('#compare-kind'), [{ id: 'armor', label: t('kind.armor') }, { id: 'helmets', label: t('kind.helmet') }], compareKind, function (id) {
       compareKind = id; renderCompare();
     });
 
@@ -410,25 +507,27 @@
     var list = (isArmor ? D.armor : D.helmets).slice(1);
     var ref = WEAPONS.m4;
     var fmj = AMMO.fmj;
+    var nameOf = isArmor ? armorName : helmetName;
 
     $('#compare').innerHTML = list.map(function (g) {
       var hl = {};
       g.covers.forEach(function (z) { hl[z] = 'is-hl'; });
       var zone = isArmor ? 'upperTorso' : 'head';
       var h = hit(ref, zone, fmj, isArmor ? g : D.armor[0], isArmor ? D.helmets[0] : g);
-      var coverText = g.covers.map(function (z) { return ZONES[z].name; }).join(', ');
+      var coverText = g.covers.map(zoneName).join(', ');
+      var badge = g.lvl === 4 ? t('compare.top') : g.lvl === 2 ? t('compare.value') : (!isArmor && g.lvl === 3) ? t('compare.neck') : '';
       return '<div class="ccol">' +
-        '<div class="ccol__fig">' + bodySVG({ fill: hl }, g.name + ' 보호 부위') + '</div>' +
-        '<span class="ccol__lvl">' + (g.lvl === 4 ? '최상위 등급' : g.lvl === 2 ? '가성비 추천' : (!isArmor && g.lvl === 3) ? '목 보호 시작' : '') + '</span>' +
-        '<h3 class="ccol__name">' + esc(g.name) + '</h3>' +
+        '<div class="ccol__fig">' + bodySVG({ fill: hl }, t('compare.figure', { name: nameOf(g) })) + '</div>' +
+        '<span class="ccol__lvl">' + esc(badge) + '</span>' +
+        '<h3 class="ccol__name">' + esc(nameOf(g)) + '</h3>' +
         '<p class="ccol__price">' + money(g.price) + '</p>' +
-        '<button type="button" class="btn btn--sm ccol__cta" data-kind="' + (isArmor ? 'armor' : 'helmet') + '" data-lvl="' + g.lvl + '">계산기에 적용</button>' +
-        '<div class="ccol__row"><span class="ccol__big">' + pct(g.reduction) + '</span><span class="ccol__label">피해 감소</span></div>' +
-        '<div class="ccol__row"><span class="ccol__big">' + shotsToKill(h.dmg) + '발</span><span class="ccol__label">M4 일반탄 ' + (isArmor ? '가슴' : '머리') + ' 처치 탄수</span></div>' +
-        '<div class="ccol__row"><span class="ccol__big">' + (g.durability == null ? '—' : g.durability) + '</span><span class="ccol__label">내구도</span></div>' +
-        '<div class="ccol__row"><span class="ccol__big">' + kg(g.weight) + '</span><span class="ccol__label">무게</span></div>' +
-        '<div class="ccol__row"><span class="ccol__text">' + esc(coverText) + '</span><span class="ccol__label">보호 부위</span></div>' +
-        '<div class="ccol__row"><span class="ccol__text">' + esc(g.unlock || '—') + '</span><span class="ccol__label">해금 조건</span></div>' +
+        '<button type="button" class="btn btn--sm ccol__cta" data-kind="' + (isArmor ? 'armor' : 'helmet') + '" data-lvl="' + g.lvl + '">' + esc(t('compare.apply')) + '</button>' +
+        '<div class="ccol__row"><span class="ccol__big">' + pct(g.reduction) + '</span><span class="ccol__label">' + esc(t('label.reduction')) + '</span></div>' +
+        '<div class="ccol__row"><span class="ccol__big">' + esc(shots(shotsToKill(h.dmg))) + '</span><span class="ccol__label">' + esc(t('compare.stk', { zone: isArmor ? groupName('chest') : zoneName('head') })) + '</span></div>' +
+        '<div class="ccol__row"><span class="ccol__big">' + (g.durability == null ? '—' : g.durability) + '</span><span class="ccol__label">' + esc(t('label.durability')) + '</span></div>' +
+        '<div class="ccol__row"><span class="ccol__big">' + kg(g.weight) + '</span><span class="ccol__label">' + esc(t('label.weight')) + '</span></div>' +
+        '<div class="ccol__row"><span class="ccol__text">' + esc(coverText) + '</span><span class="ccol__label">' + esc(t('label.coverage')) + '</span></div>' +
+        '<div class="ccol__row"><span class="ccol__text">' + esc(g.unlock || '—') + '</span><span class="ccol__label">' + esc(t('label.unlock')) + '</span></div>' +
         '</div>';
     }).join('');
 
@@ -444,13 +543,24 @@
   /* ───────── 무기 라인업 ───────── */
 
   function renderWeaponFilter() {
-    var items = [{ id: 'all', label: '전체 ' + D.weapons.length }].concat(D.classes.map(function (c) {
+    var items = [{ id: 'all', label: t('filterItem', { name: t('weapons.all'), n: D.weapons.length }) }].concat(D.classes.map(function (c) {
       var n = D.weapons.filter(function (w) { return w.cls === c.id; }).length;
-      return { id: c.id, label: c.name + ' ' + n };
+      return { id: c.id, label: t('filterItem', { name: tx(c.name), n: n }) };
     }));
     segment($('#weapon-filter'), items, listState.cls, function (id) {
       listState.cls = id; renderWeaponFilter(); renderWeapons();
     });
+  }
+
+  function launcherNote(w) {
+    var parts = [];
+    if (w.blast) {
+      parts.push(w.blast.radius == null ? t('launcher.radiusNA')
+        : w.blast.full ? t('launcher.blast', { r: w.blast.radius, full: w.blast.full })
+        : t('launcher.blastR', { r: w.blast.radius }));
+    }
+    if (w.note) parts.push(tx(w.note));
+    return parts.join(' · ');
   }
 
   function renderWeapons() {
@@ -459,35 +569,40 @@
     var list = D.weapons.filter(function (w) {
       if (listState.cls !== 'all' && w.cls !== listState.cls) return false;
       if (!q) return true;
-      return (w.name + ' ' + (w.caliber || '') + ' ' + CLASSES[w.cls].name).toLowerCase().indexOf(q) >= 0;
+      // 어느 언어로 검색해도 찾을 수 있게 모든 언어의 분류명·구경을 포함
+      var hay = [w.name, CLASSES[w.cls].name, w.caliber].map(function (v) {
+        return v && typeof v === 'object' ? Object.keys(v).map(function (k) { return v[k]; }).join(' ') : (v || '');
+      }).join(' ').toLowerCase();
+      return hay.indexOf(q) >= 0;
     });
 
     $('#weapon-grid').innerHTML = list.map(function (w) {
       var ok = usable(w);
       var chest = ok ? hit(w, 'upperTorso', fmj, none, nh).dmg : null;
       var dmgBlock = ok
-        ? '<div class="wcard__dmg"><b>' + fmt1(chest) + '</b><span>가슴 1발 · 기본 ' + baseLabel(w) + '</span></div>'
-        : '<div class="wcard__dmg"><b>' + w.dmg + '</b><span>폭발 피해</span></div>';
+        ? '<div class="wcard__dmg"><b>' + fmt1(chest) + '</b><span>' + esc(t('card.chest', { base: baseLabel(w) })) + '</span></div>'
+        : '<div class="wcard__dmg"><b>' + w.dmg + '</b><span>' + esc(t('card.blast')) + '</span></div>';
       var stk = '';
       if (ok) {
-        stk = '<div class="wcard__stk">' + [['맨몸', none], ['L2', l2], ['L4', l4]].map(function (p) {
+        stk = '<div class="wcard__stk">' + [[t('card.bare'), none], ['L2', l2], ['L4', l4]].map(function (p) {
           var n = shotsToKill(hit(w, 'upperTorso', fmj, p[1], nh).dmg);
-          return '<span class="pill ' + kClass(n) + '">' + p[0] + ' ' + n + '발</span>';
+          return '<span class="pill ' + kClass(n) + '">' + esc(p[0] + ' ' + shots(n)) + '</span>';
         }).join('') + '</div>';
       }
-      var note = w.note ? '<p class="wcard__note">' + esc(w.note) + '</p>' : '';
-      var action = ok ? ' data-id="' + w.id + '" aria-label="' + esc(w.name) + ' 계산기에서 보기"'
-        : ' data-go="#explosives" aria-label="' + esc(w.name) + ' 폭발물 항목 보기"';
+      var noteText = w.explosive ? launcherNote(w) : tx(w.note);
+      var note = noteText ? '<p class="wcard__note">' + esc(noteText) + '</p>' : '';
+      var action = ok ? ' data-id="' + w.id + '" aria-label="' + esc(t('aria.toCalc', { name: w.name })) + '"'
+        : ' data-go="#explosives" aria-label="' + esc(t('aria.toExpl', { name: w.name })) + '"';
       var rpm = rpmOf(w);
       return '<button type="button" class="wcard"' + action + '>' +
-        '<span class="wcard__cls"><span>' + esc(CLASSES[w.cls].name) + '</span>' + (w.measured ? '<span class="tag">실측</span>' : '') + '</span>' +
+        '<span class="wcard__cls"><span>' + esc(className(w.cls)) + '</span>' + (w.measured ? '<span class="tag">' + esc(t('card.measured')) + '</span>' : '') + '</span>' +
         '<span class="wcard__name">' + esc(w.name) + '</span>' +
-        '<span class="wcard__cal">' + esc(w.caliber) + ' · ' + esc(w.fire) + '</span>' +
+        '<span class="wcard__cal">' + esc(tx(w.caliber)) + ' · ' + esc(fireName(w)) + '</span>' +
         dmgBlock +
         '<dl class="wcard__stats">' +
-        '<div><dt>연사' + (w.rpmM ? ' 실측' : '') + '</dt><dd>' + (rpm ? num(rpm) : '—') + '</dd></div>' +
-        '<div><dt>가격</dt><dd>' + money(w.price) + '</dd></div>' +
-        '<div><dt>유효 사거리</dt><dd>' + (w.range ? num(w.range) + ' m' : '—') + '</dd></div>' +
+        '<div><dt>' + esc(t(w.rpmM ? 'card.rpmM' : 'card.rpm')) + '</dt><dd>' + (rpm ? num(rpm) : '—') + '</dd></div>' +
+        '<div><dt>' + esc(t('label.price')) + '</dt><dd>' + esc(money(w.price)) + '</dd></div>' +
+        '<div><dt>' + esc(t('card.range')) + '</dt><dd>' + (w.range ? num(w.range) + ' m' : '—') + '</dd></div>' +
         '</dl>' + stk + note + '</button>';
     }).join('');
 
@@ -505,29 +620,30 @@
   function renderStructures() {
     $('#structure-cards').innerHTML = D.structures.map(function (s) {
       return '<article class="scard">' +
-        '<span class="scard__role">' + esc(s.role) + '</span>' +
-        '<h3 class="scard__name">' + esc(s.name) + '</h3>' +
-        '<p class="scard__dmg">' + s.dmg + '<span>1발 피해</span></p>' +
+        '<span class="scard__role">' + esc(tx(s.role)) + '</span>' +
+        '<h3 class="scard__name">' + esc(tx(s.name)) + '</h3>' +
+        '<p class="scard__dmg">' + s.dmg + '<span>' + esc(t('str.perShot')) + '</span></p>' +
         '<dl class="scard__stats">' + s.stats.map(function (p) {
-          return '<div><dt>' + esc(p[0]) + '</dt><dd>' + esc(p[1]) + '</dd></div>';
+          return '<div><dt>' + esc(t('stat.' + p[0])) + '</dt><dd>' + esc(tx(p[1])) + '</dd></div>';
         }).join('') + '</dl>' +
-        '<p class="scard__note">' + esc(s.note) + '</p></article>';
+        '<p class="scard__note">' + esc(tx(s.note)) + '</p></article>';
     }).join('');
 
     var maxHp = Math.max.apply(null, D.buildables.map(function (b) { return b.hp; }));
     $('#buildables').innerHTML = D.buildables.map(function (b) {
-      return '<li><span class="hpbar__name">' + esc(b.name) + '</span>' +
+      return '<li><span class="hpbar__name">' + esc(tx(b.name)) + '</span>' +
         '<span class="hpbar__track"><i style="width:' + (b.hp / maxHp * 100).toFixed(1) + '%"></i></span>' +
         '<span class="hpbar__val">' + num(b.hp) + '</span></li>';
     }).join('');
 
     var demo = D.demolition;
     $('#demolition').innerHTML =
-      '<thead><tr><th scope="col">대상</th>' + demo.tools.map(function (t) { return '<th scope="col">' + esc(t) + '</th>'; }).join('') + '</tr></thead>' +
+      '<caption class="sr-only">' + esc(t('build.caption')) + '</caption>' +
+      '<thead><tr><th scope="col">' + esc(t('demo.target')) + '</th>' + demo.tools.map(function (tool) { return '<th scope="col">' + esc(tool) + '</th>'; }).join('') + '</tr></thead>' +
       '<tbody>' + demo.rows.map(function (r) {
         var min = Math.min.apply(null, r.counts);
-        return '<tr><th scope="row">' + esc(r.target) + '</th>' + r.counts.map(function (c) {
-          return '<td class="' + (c === min ? 'is-best' : '') + '">' + c + '개</td>';
+        return '<tr><th scope="row">' + esc(tx(r.target)) + '</th>' + r.counts.map(function (c) {
+          return '<td class="' + (c === min ? 'is-best' : '') + '">' + esc(t('pcs', { n: c })) + '</td>';
         }).join('') + '</tr>';
       }).join('') + '</tbody>';
   }
@@ -537,12 +653,13 @@
 
   function renderBlast() {
     var x = BLAST_SRC.filter(function (b) { return b.id === blastState.src; })[0] || BLAST_SRC[0];
+    var name = tx(x.name);
     var range = $('#blast-range');
     range.max = x.radius;
     if (blastState.d > x.radius) blastState.d = x.radius;
     range.value = blastState.d;
 
-    segment($('#blast-src'), BLAST_SRC.map(function (b) { return { id: b.id, label: b.name }; }), x.id, function (id) {
+    segment($('#blast-src'), BLAST_SRC.map(function (b) { return { id: b.id, label: tx(b.name) }; }), x.id, function (id) {
       blastState.src = id; renderBlast();
     });
 
@@ -550,12 +667,12 @@
     var dmg = blastDamage(x, d);
     $('#blast-out').textContent = d.toFixed(1) + ' m';
 
-    var outcome = dmg >= D.hp ? '즉사' : dmg <= 0 ? '피해 없음' : '체력 ' + Math.round(D.hp - dmg) + ' 남음';
+    var outcome = dmg >= D.hp ? t('blast.kill') : dmg <= 0 ? t('blast.none') : t('blast.left', { n: Math.round(D.hp - dmg) });
     $('#blast-result').innerHTML =
-      '<div class="blast__cell"><span>받는 피해</span><b>' + Math.round(dmg) + '</b></div>' +
-      '<div class="blast__cell"><span>체력 100 기준</span><b>' + outcome + '</b></div>';
-    $('#blast-meta').textContent = x.name + ' · 최대 ' + x.dmg + ', 반경 ' + x.radius + ' m' +
-      (x.full ? ', 최대 피해 ' + x.full + ' m까지' : '') + (x.edge ? ', 가장자리 ' + x.edge : '');
+      '<div class="blast__cell"><span>' + esc(t('blast.taken')) + '</span><b>' + Math.round(dmg) + '</b></div>' +
+      '<div class="blast__cell"><span>' + esc(t('blast.hpBasis')) + '</span><b>' + esc(outcome) + '</b></div>';
+    $('#blast-meta').textContent = t('blast.meta', { name: name, dmg: x.dmg, r: x.radius }) +
+      (x.full ? t('blast.metaFull', { full: x.full }) : '') + (x.edge ? t('blast.metaEdge', { edge: x.edge }) : '');
 
     // 도식: 중심(200,200), 반경 x.radius → 180px
     var R = 180, scale = R / x.radius;
@@ -564,20 +681,20 @@
     var ticks = '';
     var step = x.radius > 12 ? 4 : x.radius > 6 ? 2 : 1;
     for (var m = 0; m <= x.radius; m += step) {
-      var tx = 200 + m * scale;
-      ticks += '<line x1="' + tx + '" y1="206" x2="' + tx + '" y2="212" stroke="currentColor" stroke-opacity=".5"/>' +
-        '<text x="' + tx + '" y="226" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">' + m + '</text>';
+      var tickX = 200 + m * scale;
+      ticks += '<line x1="' + tickX + '" y1="206" x2="' + tickX + '" y2="212" stroke="currentColor" stroke-opacity=".5"/>' +
+        '<text x="' + tickX + '" y="226" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">' + m + '</text>';
     }
     $('#blast-viz').innerHTML =
-      '<svg viewBox="0 0 400 400" role="img" aria-label="' + esc(x.name) + ' 폭발 반경 ' + x.radius + 'm, 거리 ' + d.toFixed(1) + 'm에서 피해 ' + Math.round(dmg) + '" style="color:var(--ink-fg)">' +
+      '<svg viewBox="0 0 400 400" role="img" aria-label="' + esc(t('blast.aria', { name: name, r: x.radius, d: d.toFixed(1), dmg: Math.round(dmg) })) + '" style="color:var(--ink-fg)">' +
       '<defs><radialGradient id="bg-grad" cx="50%" cy="50%" r="50%">' +
       '<stop offset="' + (fr / R * 100).toFixed(1) + '%" stop-color="#ff9f0a" stop-opacity=".9"/>' +
       '<stop offset="100%" stop-color="#ff9f0a" stop-opacity="' + (x.edge ? (x.edge / x.dmg * 0.9).toFixed(2) : 0) + '"/></radialGradient></defs>' +
       '<circle cx="200" cy="200" r="' + R + '" fill="url(#bg-grad)"/>' +
       '<circle cx="200" cy="200" r="' + R + '" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="3 5"/>' +
       (fr > 0 ? '<circle cx="200" cy="200" r="' + fr + '" fill="none" stroke="currentColor" stroke-opacity=".8"/>' +
-        '<text x="200" y="' + (200 - fr - 8) + '" text-anchor="middle" font-size="12" fill="currentColor">최대 피해 ' + x.full + ' m</text>' : '') +
-      '<text x="200" y="' + (200 - R + 18) + '" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity=".7">폭발 반경 ' + x.radius + ' m</text>' +
+        '<text x="200" y="' + (200 - fr - 8) + '" text-anchor="middle" font-size="12" fill="currentColor">' + esc(t('blast.svgFull', { full: x.full })) + '</text>' : '') +
+      '<text x="200" y="' + (200 - R + 18) + '" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity=".7">' + esc(t('blast.svgRadius', { r: x.radius })) + '</text>' +
       '<line x1="200" y1="209" x2="' + (200 + R) + '" y2="209" stroke="currentColor" stroke-opacity=".5"/>' + ticks +
       '<circle cx="200" cy="200" r="4" fill="currentColor"/>' +
       '<line x1="' + px + '" y1="160" x2="' + px + '" y2="200" stroke="#2997ff" stroke-width="2"/>' +
@@ -591,21 +708,21 @@
   function renderExplosives() {
     $('#explosive-cards').innerHTML = D.explosives.map(function (x) {
       var rows = [
-        ['가격', money(x.price)],
-        ['기폭', x.trigger || '—'],
-        ['해금', x.unlock || '—'],
-        ['참고', x.note || '—']
+        [t('label.price'), money(x.price)],
+        [t('expl.trigger'), tx(x.trigger) || '—'],
+        [t('expl.unlock'), x.unlock || '—'],
+        [t('expl.note'), tx(x.note) || '—']
       ];
       var radius = x.radius != null
-        ? '폭발 반경 ' + x.radius + ' m' + (x.full ? ' · 최대 피해 ' + x.full + ' m' : '') + (x.edge ? ' · 가장자리 ' + x.edge : '')
-        : '반경 미공개';
+        ? [t('expl.radius', { r: x.radius })].concat(x.full ? [t('expl.full', { full: x.full })] : [], x.edge ? [t('expl.edge', { edge: x.edge })] : []).join(' · ')
+        : t('expl.radiusNA');
       return '<article class="ecard">' +
-        '<span class="ecard__kind">' + esc(x.kind) + '</span>' +
-        '<h3 class="ecard__name">' + esc(x.name) + '</h3>' +
-        (x.dmg != null ? '<p class="ecard__dmg">' + x.dmg + '</p>' : '<p class="ecard__dmg ecard__dmg--na">피해 미공개</p>') +
-        '<span class="ecard__radius">' + radius + '</span>' +
+        '<span class="ecard__kind">' + esc(tx(x.kind)) + '</span>' +
+        '<h3 class="ecard__name">' + esc(tx(x.name)) + '</h3>' +
+        (x.dmg != null ? '<p class="ecard__dmg">' + x.dmg + '</p>' : '<p class="ecard__dmg ecard__dmg--na">' + esc(t('expl.dmgNA')) + '</p>') +
+        '<span class="ecard__radius">' + esc(radius) + '</span>' +
         '<ul class="ecard__list">' + rows.map(function (r) {
-          return '<li><span>' + r[0] + '</span><span>' + esc(r[1]) + '</span></li>';
+          return '<li><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></li>';
         }).join('') + '</ul></article>';
     }).join('');
   }
@@ -614,18 +731,19 @@
     $('#vehicle-cards').innerHTML = D.vehicles.map(function (v) {
       var weapons = v.weapons.length
         ? '<ul class="vcard__weapons">' + v.weapons.map(function (wp) {
-          var val = wp.perRound ? '탄 ' + wp.dmg : String(wp.dmg);
-          return '<li><span><b>' + esc(wp.name) + '</b><small>' + esc(wp.ammo) + (wp.blast ? ' · ' + esc(wp.blast) : '') + '</small></span><span class="vcard__dmg">' + val + '</span></li>';
+          var val = wp.perRound ? t('veh.round', { v: wp.dmg }) : String(wp.dmg);
+          var blast = wp.blast ? t('veh.blastR', { r: wp.blast.radius }) + (wp.blast.full ? ' · ' + t('veh.blastFull', { full: wp.blast.full }) : '') : '';
+          return '<li><span><b>' + esc(tx(wp.name)) + '</b><small>' + esc(tx(wp.ammo)) + (blast ? ' · ' + esc(blast) : '') + '</small></span><span class="vcard__dmg">' + esc(val) + '</span></li>';
         }).join('') + '</ul>'
-        : '<p class="vcard__note">무장 없음</p>';
+        : '<p class="vcard__note">' + esc(t('veh.unarmed')) + '</p>';
       return '<article class="vcard">' +
-        '<span class="vcard__kind">' + esc(v.kind) + '</span>' +
+        '<span class="vcard__kind">' + esc(tx(v.kind)) + '</span>' +
         '<h3 class="vcard__name">' + esc(v.name) + '</h3>' +
         '<dl class="vcard__stats">' +
-        '<div><dt>선체 내구도</dt><dd>' + num(v.hp) + '</dd></div>' +
-        '<div><dt>좌석</dt><dd>' + (v.seats || '—') + '</dd></div>' +
-        '<div><dt>최고 속도</dt><dd>' + (v.speed ? v.speed + ' km/h' : '—') + '</dd></div>' +
-        '</dl>' + weapons + (v.note ? '<p class="vcard__note">' + esc(v.note) + '</p>' : '') + '</article>';
+        '<div><dt>' + esc(t('veh.hp')) + '</dt><dd>' + num(v.hp) + '</dd></div>' +
+        '<div><dt>' + esc(t('veh.seats')) + '</dt><dd>' + (v.seats || '—') + '</dd></div>' +
+        '<div><dt>' + esc(t('veh.speed')) + '</dt><dd>' + (v.speed ? v.speed + ' km/h' : '—') + '</dd></div>' +
+        '</dl>' + weapons + (v.note ? '<p class="vcard__note">' + esc(tx(v.note)) + '</p>' : '') + '</article>';
     }).join('');
   }
 
@@ -643,28 +761,29 @@
     var final = hit(w, 'head', ammo, D.armor[state.armor], helmet).dmg;
 
     $('#formula-walk').innerHTML =
-      '<li><b>' + fmt1(base) + '</b><span>' + esc(w.name) + ' 기본 피해' + (w.pellets ? ' (' + w.dmg + ' × 펠릿 ' + w.pellets + ')' : '') + '</span></li>' +
-      '<li><b>' + fmt1(afterZone) + '</b><span>' + esc(CLASSES[w.cls].name) + ' 머리 배율 ×' + fmt2(mult) + '</span></li>' +
-      '<li><b>' + fmt1(final) + '</b><span>' + esc(ammo.name) + ' ×' + ammoMult.toFixed(1) +
-      (guarded ? ', ' + esc(helmet.name) + ' ' + pct(helmet.reduction) : ', 헬멧 없음') + '</span></li>' +
-      '<li><b>' + shotsToKill(final) + '발</b><span>체력 100 ÷ ' + fmt1(final) + ', 올림</span></li>';
+      '<li><b>' + fmt1(base) + '</b><span>' + esc(t('walk.base', { name: w.name }) + (w.pellets ? t('walk.pellets', { dmg: w.dmg, p: w.pellets }) : '')) + '</span></li>' +
+      '<li><b>' + fmt1(afterZone) + '</b><span>' + esc(t('walk.mult', { cls: className(w.cls), m: fmt2(mult) })) + '</span></li>' +
+      '<li><b>' + fmt1(final) + '</b><span>' + esc(t('walk.ammo', { ammo: tx(ammo.name), a: ammoMult.toFixed(1) }) +
+      (guarded ? t('walk.helmet', { helmet: helmetName(helmet), pct: pct(helmet.reduction) }) : t('walk.noHelmet'))) + '</span></li>' +
+      '<li><b>' + esc(shots(shotsToKill(final))) + '</b><span>' + esc(t('walk.stk', { v: fmt1(final) })) + '</span></li>';
   }
 
   function renderClassTable() {
     var groups = D.zoneGroups;
     $('#class-table').innerHTML =
-      '<thead><tr><th scope="col">무기 종류</th>' + groups.map(function (g) { return '<th scope="col">' + g.name + '</th>'; }).join('') + '</tr></thead>' +
+      '<caption class="sr-only">' + esc(t('mults.title')) + '</caption>' +
+      '<thead><tr><th scope="col">' + esc(t('ct.class')) + '</th>' + groups.map(function (g) { return '<th scope="col">' + esc(tx(g.name)) + '</th>'; }).join('') + '</tr></thead>' +
       '<tbody>' + CLASS_ROWS.map(function (row) {
         var cm = D.classMults[row.ids[0]];
         var est = cm.est || [];
-        return '<tr><th scope="row">' + esc(row.name) + '</th>' + groups.map(function (g) {
-          return '<td>×' + fmt2(cm[g.id]) + (est.indexOf(g.id) >= 0 ? ' <span class="tag">추정</span>' : '') + '</td>';
+        var label = row.key ? t(row.key) : className(row.ids[0]);
+        return '<tr><th scope="row">' + esc(label) + '</th>' + groups.map(function (g) {
+          return '<td>×' + fmt2(cm[g.id]) + (est.indexOf(g.id) >= 0 ? ' <span class="tag">' + esc(t('est')) + '</span>' : '') + '</td>';
         }).join('') + '</tr>';
       }).join('') + '</tbody>';
 
     $('#zone-ratio').innerHTML = D.zones.filter(function (z) { return z.k !== 1; }).map(function (z) {
-      var g = groups.filter(function (x) { return x.id === z.group; })[0];
-      return '<li><b>' + esc(z.name) + '</b> = ' + esc(g.name) + ' × ' + z.k + '</li>';
+      return '<li>' + esc(t('zoneRatio', { zone: '\u0000', group: groupName(z.group), k: z.k })).replace('\u0000', '<b>' + esc(tx(z.name)) + '</b>') + '</li>';
     }).join('');
   }
 
@@ -679,67 +798,69 @@
         total++;
         if (diff <= 0.15) pass++;
         worst = Math.max(worst, diff);
-        return ZONES[zid].name + ' ' + meas + ' / ' + fmt2(calc);
+        return zoneName(zid) + ' ' + meas + ' / ' + fmt2(calc);
       });
-      rows.push('<tr><th scope="row">' + esc(w.name) + '</th><td>' + esc(CLASSES[w.cls].name) + '</td><td>' + esc(cells.join(' · ')) + '</td></tr>');
+      rows.push('<tr><th scope="row">' + esc(w.name) + '</th><td>' + esc(className(w.cls)) + '</td><td>' + esc(cells.join(' · ')) + '</td></tr>');
     });
-    $('#verify-summary').textContent = '사격장 실측 ' + total + '개 값 가운데 ' + pass + '개가 계산과 일치합니다 (최대 오차 ' + fmt2(worst) + ').';
+    $('#verify-summary').textContent = t('verify.summary', { total: total, pass: pass, worst: fmt2(worst) });
     $('#verify-table tbody').innerHTML = rows.join('');
   }
 
   /* ───────── 히어로 ───────── */
 
-  function initHero() {
-    var w = WEAPONS.m4, fmj = AMMO.fmj, none = D.armor[0];
-    var steps = D.helmets.map(function (h) {
-      var dmg = hit(w, 'head', fmj, none, h).dmg;
-      return { h: h, dmg: dmg, n: shotsToKill(dmg) };
-    });
-    var list = $('#hero-steps');
-    list.innerHTML = steps.map(function (s, i) {
-      return '<li><button type="button" data-i="' + i + '" aria-label="' + esc(s.h.name) + '">' +
-        '<span class="bar"><i></i></span><b>' + s.n + '발</b><span>' + s.h.short + '</span></button></li>';
-    }).join('');
+  var hero = { idx: 0, timer: null, steps: [] };
+  var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    var idx = 0, timer = null;
+  function heroShow(i, animate) {
+    hero.idx = i;
+    var s = hero.steps[i];
     var numEl = $('#hero-dmg');
-    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function show(i) {
-      idx = i;
-      var s = steps[i];
+    if (animate && !reduceMotion) {
       numEl.classList.add('is-swap');
       setTimeout(function () {
         numEl.textContent = fmt1(s.dmg);
         numEl.classList.remove('is-swap');
-      }, reduce ? 0 : 180);
-      $('#hero-state').textContent = s.h.name + ' · ' + s.n + '발';
-      Array.prototype.forEach.call(list.querySelectorAll('button'), function (b, j) {
-        b.classList.toggle('is-on', j === i);
-        b.classList.toggle('is-past', j < i);
-        b.setAttribute('aria-pressed', String(j === i));
-      });
+      }, 180);
+    } else {
+      numEl.textContent = fmt1(s.dmg);
     }
-    function tick() { show((idx + 1) % steps.length); }
-    function play() { if (!reduce && !timer) timer = setInterval(tick, 2600); }
-    function stop() { clearInterval(timer); timer = null; }
+    $('#hero-state').textContent = t('hero.state', { helmet: helmetName(s.h), shots: shots(s.n) });
+    $$('#hero-steps button').forEach(function (b, j) {
+      b.classList.toggle('is-on', j === i);
+      b.classList.toggle('is-past', j < i);
+      b.setAttribute('aria-pressed', String(j === i));
+    });
+  }
 
-    list.onclick = function (e) {
+  function renderHero() {
+    var w = WEAPONS.m4, fmj = AMMO.fmj, none = D.armor[0];
+    hero.steps = D.helmets.map(function (h) {
+      var dmg = hit(w, 'head', fmj, none, h).dmg;
+      return { h: h, dmg: dmg, n: shotsToKill(dmg) };
+    });
+    $('#hero-steps').innerHTML = hero.steps.map(function (s, i) {
+      return '<li><button type="button" data-i="' + i + '" aria-label="' + esc(helmetName(s.h)) + '">' +
+        '<span class="bar"><i></i></span><b>' + esc(shots(s.n)) + '</b><span>' + esc(gearShort(s.h)) + '</span></button></li>';
+    }).join('');
+    heroShow(hero.idx, false);
+    $('#hero2-figure').innerHTML = bodySVG({ fill: { head: 'is-hl', neck: 'is-hl' } }, t('fig.hero2'));
+  }
+
+  function initHero() {
+    function play() { if (!reduceMotion && !hero.timer) hero.timer = setInterval(function () { heroShow((hero.idx + 1) % hero.steps.length, true); }, 2600); }
+    function stop() { clearInterval(hero.timer); hero.timer = null; }
+    $('#hero-steps').onclick = function (e) {
       var b = e.target.closest('button[data-i]');
       if (!b) return;
       stop();
-      show(+b.getAttribute('data-i'));
+      heroShow(+b.getAttribute('data-i'), true);
       play();
     };
     document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else play(); });
-
-    show(0);
     play();
-
-    $('#hero2-figure').innerHTML = bodySVG({ fill: { head: 'is-hl', neck: 'is-hl' } }, 'Level 4 헬멧 보호 부위: 머리와 목');
   }
 
-  function initTiles() {
+  function renderTiles() {
     // 분류별 가슴 1발 피해가 가장 큰 무기
     var none = D.armor[0], nh = D.helmets[0], fmj = AMMO.fmj;
     var picks = ['pistol', 'smg', 'ar', 'lmg', 'dmr', 'sniper'].map(function (c) {
@@ -753,46 +874,53 @@
     }).join('');
   }
 
-  function initChapterNav() {
+  function renderChapterNav() {
     var items = D.classes.map(function (c) {
-      return { count: c.total, label: c.name, href: '#weapons', cls: c.id };
+      return { count: c.total, label: tx(c.name), href: '#weapons', cls: c.id };
     }).concat([
-      { count: D.explosives.length, label: '폭발물', href: '#explosives' },
-      { count: D.structures.length, label: '건축물 장비', href: '#structures' },
-      { count: D.vehicles.length, label: '차량', href: '#vehicles' }
+      { count: D.explosives.length, label: t('nav.explosives'), href: '#explosives' },
+      { count: D.structures.length, label: t('nav.structures'), href: '#structures' },
+      { count: D.vehicles.length, label: t('nav.vehicles'), href: '#vehicles' }
     ]);
-    var ul = $('#chapternav');
-    ul.innerHTML = items.map(function (it) {
+    $('#chapternav').innerHTML = items.map(function (it) {
       return '<li class="chapternav__item"><a href="' + it.href + '"' + (it.cls ? ' data-cls="' + it.cls + '"' : '') + '>' +
         '<span class="chapternav__count">' + it.count + '</span><span>' + esc(it.label) + '</span></a></li>';
     }).join('');
-    ul.onclick = function (e) {
+  }
+
+  function renderFooter() {
+    $('#source-list').innerHTML = D.sources.map(function (s) {
+      return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.site + ' · ' + tx(s.topic)) + '</a></li>';
+    }).join('');
+  }
+
+  function initEvents() {
+    var menu = $('#gnav-menu');
+    var links = $('#gnav-links');
+    function setMenu(open) {
+      links.classList.toggle('is-open', open);
+      menu.setAttribute('aria-expanded', String(open));
+      menu.setAttribute('aria-label', t(open ? 'nav.close' : 'nav.open'));
+    }
+    menu.onclick = function () { setMenu(!links.classList.contains('is-open')); };
+    links.onclick = function (e) { if (e.target.closest('a')) setMenu(false); };
+
+    $('#gnav-search').addEventListener('click', function () {
+      setTimeout(function () { $('#weapon-search').focus({ preventScroll: true }); }, 400);
+    });
+
+    $('#lang-list').onclick = function (e) {
+      var b = e.target.closest('button[data-lang]');
+      if (b) setLang(b.getAttribute('data-lang'));
+    };
+
+    $('#chapternav').onclick = function (e) {
       var a = e.target.closest('a[data-cls]');
       if (!a) return;
       listState.cls = a.getAttribute('data-cls');
       renderWeaponFilter();
       renderWeapons();
     };
-  }
-
-  function initNav() {
-    var menu = $('#gnav-menu');
-    var links = $('#gnav-links');
-    menu.onclick = function () {
-      var open = links.classList.toggle('is-open');
-      menu.setAttribute('aria-expanded', String(open));
-      menu.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
-    };
-    links.onclick = function (e) {
-      if (e.target.closest('a')) {
-        links.classList.remove('is-open');
-        menu.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-label', '메뉴 열기');
-      }
-    };
-    $('#gnav-search').addEventListener('click', function () {
-      setTimeout(function () { $('#weapon-search').focus({ preventScroll: true }); }, 400);
-    });
 
     document.addEventListener('click', function (e) {
       var c = e.target.closest('[data-compare]');
@@ -800,40 +928,41 @@
       var h = e.target.closest('[data-apply-helmet]');
       if (h) { state.helmet = +h.getAttribute('data-apply-helmet'); renderCalc(); }
     });
+
+    $('#weapon-search').addEventListener('input', function (e) {
+      listState.q = e.target.value;
+      renderWeapons();
+    });
+    $('#blast-range').addEventListener('input', function (e) {
+      blastState.d = +e.target.value;
+      renderBlast();
+    });
   }
 
-  function initFooter() {
-    $('#data-version').textContent = D.version;
-    $('#source-list').innerHTML = D.sources.map(function (s) {
-      return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.name) + '</a></li>';
-    }).join('');
+  function renderAll() {
+    renderLangBar();
+    renderChapterNav();
+    renderHero();
+    renderTiles();
+    renderCalc();
+    renderMatrix();
+    renderCompare();
+    renderWeaponFilter();
+    renderWeapons();
+    renderStructures();
+    renderBlast();
+    renderExplosives();
+    renderVehicles();
+    renderClassTable();
+    renderVerify();
+    renderFooter();
   }
 
   /* ───────── 시작 ───────── */
 
-  $('#weapon-search').addEventListener('input', function (e) {
-    listState.q = e.target.value;
-    renderWeapons();
-  });
-  $('#blast-range').addEventListener('input', function (e) {
-    blastState.d = +e.target.value;
-    renderBlast();
-  });
-
-  initNav();
-  initChapterNav();
+  loadFont(lang);
+  applyStatic();
+  renderAll();
+  initEvents();
   initHero();
-  initTiles();
-  renderCalc();
-  renderMatrix();
-  renderCompare();
-  renderWeaponFilter();
-  renderWeapons();
-  renderStructures();
-  renderBlast();
-  renderExplosives();
-  renderVehicles();
-  renderClassTable();
-  renderVerify();
-  initFooter();
 })();

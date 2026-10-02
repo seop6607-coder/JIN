@@ -24,6 +24,7 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   --zone: #e3e3e8;
   --zone-line: #ffffff;
+  --flag-line: rgba(0, 0, 0, 0.14);
 
   /* 처치 탄수 색 (의미 색) */
   --k1: #ff3b30;
@@ -77,6 +78,7 @@
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     --zone: #3a3a3c;
     --zone-line: #1d1d1f;
+    --flag-line: rgba(255, 255, 255, 0.2);
     --k1: #ff453a;
     --k2: #ff9f0a;
     --k3: #ffd60a;
@@ -107,6 +109,7 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   --zone: #3a3a3c;
   --zone-line: #1d1d1f;
+  --flag-line: rgba(255, 255, 255, 0.2);
   --k1: #ff453a;
   --k2: #ff9f0a;
   --k3: #ffd60a;
@@ -114,6 +117,12 @@
   --k6: #636366;
   color-scheme: dark;
 }
+
+/* 언어별 서체. 한·중·일 한자는 lang 속성에 맞는 글꼴로 그려야 모양이 맞습니다 */
+:root:lang(en) { --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+:root:lang(ja) { --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif; }
+:root:lang(zh-Hans) { --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+:root:lang(zh-Hant) { --font: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
 
 /* ───────── 기본 ───────── */
 *, *::before, *::after { box-sizing: border-box; }
@@ -133,6 +142,9 @@ body {
   overflow-wrap: break-word;
   overflow-x: hidden;
 }
+
+/* 중국어·일본어는 띄어쓰기가 없어 글자 단위로 줄을 바꿉니다 */
+:root:lang(ja) body, :root:lang(zh) body { word-break: normal; line-break: strict; }
 
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -163,6 +175,37 @@ img, svg { max-width: 100%; }
 .btn--sm { padding: 7px 15px; font-size: 14px; }
 .cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 16px; margin-top: 22px; }
 .cta-row--sm { margin-top: 16px; gap: 10px 12px; }
+
+/* ───────── 언어 선택 바 ───────── */
+.langbar { background: var(--bg-alt); border-bottom: 1px solid var(--line-2); position: relative; z-index: 31; }
+.langbar__inner {
+  max-width: 1024px; margin-inline: auto; padding: 6px var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.langbar__label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--fg-2); white-space: nowrap; }
+.langbar__list { display: flex; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+.langbar__list::-webkit-scrollbar { display: none; }
+.langbtn {
+  display: inline-flex; align-items: center; gap: 7px; flex: none;
+  padding: 5px 11px; border: 0; border-radius: 980px; background: transparent; cursor: pointer;
+  font-size: 12px; line-height: 1.2; color: var(--fg); white-space: nowrap;
+}
+.langbtn:hover { background: var(--line-2); }
+.langbtn.is-on { background: var(--card); box-shadow: var(--shadow); font-weight: 600; }
+.langbtn__short { display: none; }
+.langbtn:lang(ja) { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif; }
+.langbtn:lang(zh-Hans) { font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+.langbtn:lang(zh-Hant) { font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+.flag { display: inline-block; width: 21px; height: 14px; border-radius: 2px; overflow: hidden; flex: none; box-shadow: 0 0 0 1px var(--flag-line); }
+.flag svg { display: block; width: 100%; height: 100%; }
+@media (max-width: 640px) {
+  .langbar__inner { padding-inline: 10px; justify-content: center; }
+  .langbar__label { display: none; }
+  .langbtn { padding: 5px 6px; gap: 4px; }
+  .langbtn__full { display: none; }
+  .langbtn__short { display: inline; }
+  .flag { width: 18px; height: 12px; }
+}
 
 /* ───────── 글로벌 내비 ───────── */
 .gnav {
@@ -221,9 +264,11 @@ img, svg { max-width: 100%; }
 .chapternav { background: var(--bg); }
 .chapternav__list {
   list-style: none; margin: 0 auto; padding: 18px var(--gutter) 10px;
-  max-width: 1024px; display: flex; gap: 6px; justify-content: center;
+  max-width: 1200px; display: flex; gap: 6px; justify-content: flex-start;
   overflow-x: auto; scrollbar-width: none;
 }
+.chapternav__item:first-child { margin-left: auto; }
+.chapternav__item:last-child { margin-right: auto; }
 .chapternav__list::-webkit-scrollbar { display: none; }
 .chapternav__item a {
   display: grid; justify-items: center; gap: 4px; padding: 4px 14px; min-width: 76px;
@@ -231,7 +276,6 @@ img, svg { max-width: 100%; }
 }
 .chapternav__item a:hover { color: var(--link); text-decoration: none; }
 .chapternav__count { font-size: 30px; line-height: 1; font-weight: 300; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
-@media (max-width: 1023px) { .chapternav__list { justify-content: flex-start; } }
 
 .ribbon {
   margin: 0; padding: 14px var(--gutter); text-align: center;
