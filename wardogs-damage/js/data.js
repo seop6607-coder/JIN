@@ -7,6 +7,7 @@
  *   - range: 피해가 줄지 않는 거리(유효 사거리, m)
  *   - measured: 사격장 실측 1발 피해 (일반탄, 맨몸, 약 20 m). 계산 모델 검증에 사용
  *   - fire: 사격 방식 키 (번역은 js/i18n.js의 fire.*)
+ *   - kg: 무기 무게 (게임 데이터베이스)
  *   - null: 아직 공개된 값이 없는 항목 (화면에 "미공개"로 표시)
  *
  * 화면에 보이는 글은 T(한국어, 영어, 일본어, 중국어 간체, 중국어 번체) 순서로 적습니다.
@@ -134,55 +135,55 @@
 
     /* 무기 34종 */
     weapons: [
-      { id: 'a91', cls: 'ar', name: 'A-91', caliber: '5.56×45mm', dmg: 28, rpm: 700, fire: 'semiBurst', price: 0, range: null, vel: 715,
+      { id: 'a91', kg: 3.17, cls: 'ar', name: 'A-91', caliber: '5.56×45mm', dmg: 28, rpm: 700, fire: 'semiBurst', price: 0, range: null, vel: 715,
         note: T('진영 신병 소총. 부착물 장착 불가', 'Faction recruit rifle. No attachments.', '陣営の新兵用ライフル。アタッチメント装着不可', '阵营新兵步枪。无法安装配件', '陣營新兵步槍。無法安裝配件') },
-      { id: 'kh2002', cls: 'ar', name: 'KH-2002', caliber: '5.56×45mm', dmg: 28, rpm: 700, fire: 'semiBurst', price: 0, range: 300, vel: 715,
+      { id: 'kh2002', kg: 3.17, cls: 'ar', name: 'KH-2002', caliber: '5.56×45mm', dmg: 28, rpm: 700, fire: 'semiBurst', price: 0, range: 300, vel: 715,
         note: T('Manticore 신병 소총. 부착물 장착 불가', 'Manticore recruit rifle. No attachments.', 'Manticoreの新兵用ライフル。アタッチメント装着不可', 'Manticore 新兵步枪。无法安装配件', 'Manticore 新兵步槍。無法安裝配件') },
-      { id: 'm17s', cls: 'ar', name: 'Bushmaster M17S', caliber: '5.56×45mm', dmg: 28, rpm: 700, rpmM: 578, fire: 'semiBurst', price: 0, range: 300, vel: 715, weight: 3.17, measured: { upperTorso: 30.81, head: 65.81 } },
-      { id: 't21', cls: 'ar', name: 'T-21', caliber: '5.56×45mm', dmg: 28, rpm: 750, fire: 'auto', price: 600, range: 550, vel: 910, weight: 3.27 },
-      { id: 'galil', cls: 'ar', name: 'Galil', caliber: '5.56×45mm', dmg: 28, rpm: 650, fire: 'auto', price: 2200, range: 400, vel: 950 },
-      { id: 'ak74', cls: 'ar', name: 'AK74', caliber: '5.45×39mm', dmg: 26, rpm: 650, fire: 'auto', price: 1600, range: 500, vel: 880, weight: 3.0, measured: { neck: 45.8 } },
-      { id: 'm4', cls: 'ar', name: 'M4', caliber: '5.56×45mm', dmg: 28, rpm: 800, rpmM: 786, fire: 'auto', price: 2800, range: 500, vel: 910, unlock: 'Assault Lv20 · $100,000', measured: { upperTorso: 30.8, head: 65.8 } },
-      { id: 'fal', cls: 'ar', name: 'FAL', caliber: '7.62×51mm', dmg: 60, rpm: 650, fire: 'auto', price: 6500, range: 800, vel: 840, unlock: 'Assault Lv35 · $200,000', measured: { upperTorso: 66 } },
+      { id: 'm17s', kg: 3.17, cls: 'ar', name: 'Bushmaster M17S', caliber: '5.56×45mm', dmg: 28, rpm: 700, rpmM: 578, fire: 'semiBurst', price: 0, range: 300, vel: 715, measured: { upperTorso: 30.81, head: 65.81 } },
+      { id: 't21', kg: 3.27, cls: 'ar', name: 'T-21', caliber: '5.56×45mm', dmg: 28, rpm: 750, fire: 'auto', price: 600, range: 550, vel: 910 },
+      { id: 'galil', kg: 3.95, cls: 'ar', name: 'Galil', caliber: '5.56×45mm', dmg: 28, rpm: 650, fire: 'auto', price: 2200, range: 400, vel: 950 },
+      { id: 'ak74', kg: 3.0, cls: 'ar', name: 'AK74', caliber: '5.45×39mm', dmg: 26, rpm: 650, fire: 'auto', price: 1600, range: 500, vel: 880, measured: { neck: 45.8 } },
+      { id: 'm4', kg: 2.92, cls: 'ar', name: 'M4', caliber: '5.56×45mm', dmg: 28, rpm: 800, rpmM: 786, fire: 'auto', price: 2800, range: 500, vel: 910, unlock: 'Assault Lv20 · $100,000', measured: { upperTorso: 30.8, head: 65.8 } },
+      { id: 'fal', kg: 4.25, cls: 'ar', name: 'FAL', caliber: '7.62×51mm', dmg: 60, rpm: 650, fire: 'auto', price: 6500, range: 800, vel: 840, unlock: 'Assault Lv35 · $200,000', measured: { upperTorso: 66 } },
 
-      { id: 'amp9', cls: 'smg', name: 'AMP-9', caliber: '9×19mm', dmg: 22, rpm: 900, rpmM: 868, fire: 'auto', price: 900, range: null, measured: { upperTorso: 25.4, head: 46.2 } },
-      { id: 'pp19', cls: 'smg', name: 'PP-19 Vityaz', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 770, fire: 'auto', price: 1200, range: 200, measured: { upperTorso: 25.43, head: 46.21 } },
-      { id: 'mp5', cls: 'smg', name: 'MP5', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 786, fire: 'auto', price: 1500, range: null, measured: { upperTorso: 25.43, head: 46.21 } },
-      { id: 'super45', cls: 'smg', name: 'Super-45', caliber: '.45 ACP', dmg: 30, rpm: 1200, rpmM: 1137, fire: 'auto', price: 2600, range: null, unlock: 'Medic Lv35', measured: { upperTorso: 34.7, head: 63 } },
+      { id: 'amp9', kg: 1.4, cls: 'smg', name: 'AMP-9', caliber: '9×19mm', dmg: 22, rpm: 900, rpmM: 868, fire: 'auto', price: 900, range: null, measured: { upperTorso: 25.4, head: 46.2 } },
+      { id: 'pp19', kg: 2.9, cls: 'smg', name: 'PP-19 Vityaz', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 770, fire: 'auto', price: 1200, range: 200, measured: { upperTorso: 25.43, head: 46.21 } },
+      { id: 'mp5', kg: 2.54, cls: 'smg', name: 'MP5', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 786, fire: 'auto', price: 1500, range: null, measured: { upperTorso: 25.43, head: 46.21 } },
+      { id: 'super45', kg: 3.0, cls: 'smg', name: 'Super-45', caliber: '.45 ACP', dmg: 30, rpm: 1200, rpmM: 1137, fire: 'auto', price: 2600, range: null, unlock: 'Medic Lv35', measured: { upperTorso: 34.7, head: 63 } },
 
-      { id: 'm249', cls: 'lmg', name: 'M249 SAW', caliber: '5.56×45mm', dmg: 28, rpm: 850, rpmM: 824, fire: 'auto', price: 3200, range: null, measured: { upperTorso: 32.36, head: 64.4 } },
-      { id: 'pkm', cls: 'lmg', name: 'PKM', caliber: '7.62×54mmR', dmg: 55, rpm: null, rpmM: 865, fire: 'auto', price: 4500, range: 1000, unlock: 'Support Lv30', measured: { upperTorso: 63.54, head: 126.5 } },
+      { id: 'm249', kg: 7.5, cls: 'lmg', name: 'M249 SAW', caliber: '5.56×45mm', dmg: 28, rpm: 850, rpmM: 824, fire: 'auto', price: 3200, range: null, measured: { upperTorso: 32.36, head: 64.4 } },
+      { id: 'pkm', kg: 7.5, cls: 'lmg', name: 'PKM', caliber: '7.62×54mmR', dmg: 55, rpm: null, rpmM: 865, fire: 'auto', price: 4500, range: 1000, unlock: 'Support Lv30', measured: { upperTorso: 63.54, head: 126.5 } },
 
-      { id: 'sks', cls: 'dmr', name: 'SKS', caliber: '7.62×39mm', dmg: 42, rpm: null, rpmM: 360, fire: 'semi', price: 2400, range: null, measured: { upperTorso: 60.08 } },
-      { id: 'svd', cls: 'dmr', name: 'SVD', caliber: '7.62×54mmR', dmg: 55, rpm: null, rpmM: 341, fire: 'semi', price: 4800, range: null, measured: { upperTorso: 78.7, head: 137.5 } },
-      { id: 'bmr308', cls: 'dmr', name: 'BMR-308', caliber: '.308 Win', dmg: 60, rpm: null, rpmM: 381, fire: 'semi', price: 6000, range: null, measured: { upperTorso: 85.8, head: 150 } },
+      { id: 'sks', kg: 3.85, cls: 'dmr', name: 'SKS', caliber: '7.62×39mm', dmg: 42, rpm: null, rpmM: 360, fire: 'semi', price: 2400, range: null, measured: { upperTorso: 60.08 } },
+      { id: 'svd', kg: 5.3, cls: 'dmr', name: 'SVD', caliber: '7.62×54mmR', dmg: 55, rpm: null, rpmM: 341, fire: 'semi', price: 4800, range: null, measured: { upperTorso: 78.7, head: 137.5 } },
+      { id: 'bmr308', kg: 3.9, cls: 'dmr', name: 'BMR-308', caliber: '.308 Win', dmg: 60, rpm: null, rpmM: 381, fire: 'semi', price: 6000, range: null, measured: { upperTorso: 85.8, head: 150 } },
 
-      { id: 'scout', cls: 'sniper', name: 'Scout Rifle TD', caliber: '5.56×45mm', dmg: 28, rpm: 46, fire: 'bolt', price: 1100, range: null, weight: 2.95, measured: { upperTorso: 55.4, head: 89.6 } },
-      { id: 'mosin', cls: 'sniper', name: 'Mosin Nagant', caliber: '7.62×54mmR', dmg: 55, rpm: 46, fire: 'bolt', price: 4500, range: 500, vel: 865, measured: { upperTorso: 108.92, head: 176 } },
-      { id: 'sv98', cls: 'sniper', name: 'SV98', caliber: '7.62×54mmR', dmg: 55, rpm: 46, fire: 'bolt', price: 5200, range: null, weight: 5.8, measured: { upperTorso: 108.9, head: 176 } },
-      { id: 'mk22', cls: 'sniper', name: 'MK22', caliber: '.308 Win', dmg: 60, rpm: 46, fire: 'bolt', price: 6400, range: 1000, weight: 6.3, measured: { upperTorso: 118.8, head: 192 } },
-      { id: 'amr50', cls: 'sniper', name: 'AMR 50', caliber: '.50 Cal', dmg: 107, rpm: 41.5, fire: 'bolt', price: 8800, range: null, unlock: 'Recon Lv35 · $200,000', measured: { upperTorso: 211.9, head: 342.4 } },
+      { id: 'scout', kg: 2.95, cls: 'sniper', name: 'Scout Rifle TD', caliber: '5.56×45mm', dmg: 28, rpm: 46, fire: 'bolt', price: 1100, range: null, measured: { upperTorso: 55.4, head: 89.6 } },
+      { id: 'mosin', kg: 4.1, cls: 'sniper', name: 'Mosin Nagant', caliber: '7.62×54mmR', dmg: 55, rpm: 46, fire: 'bolt', price: 4500, range: 500, vel: 865, measured: { upperTorso: 108.92, head: 176 } },
+      { id: 'sv98', kg: 5.8, cls: 'sniper', name: 'SV98', caliber: '7.62×54mmR', dmg: 55, rpm: 46, fire: 'bolt', price: 5200, range: null, measured: { upperTorso: 108.9, head: 176 } },
+      { id: 'mk22', kg: 6.3, cls: 'sniper', name: 'MK22', caliber: '.308 Win', dmg: 60, rpm: 46, fire: 'bolt', price: 6400, range: 1000, measured: { upperTorso: 118.8, head: 192 } },
+      { id: 'amr50', kg: 12.5, cls: 'sniper', name: 'AMR 50', caliber: '.50 Cal', dmg: 107, rpm: 41.5, fire: 'bolt', price: 8800, range: null, unlock: 'Recon Lv35 · $200,000', measured: { upperTorso: 211.9, head: 342.4 } },
 
-      { id: 'mp43', cls: 'shotgun', name: 'MP43', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 900, fire: 'break2', price: 400, range: null, vel: 391, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
-      { id: 'm500', cls: 'shotgun', name: 'M500', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 120, fire: 'pump6', price: 1200, range: 70, vel: 480, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
+      { id: 'mp43', kg: 3.2, cls: 'shotgun', name: 'MP43', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 900, fire: 'break2', price: 400, range: null, vel: 391, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
+      { id: 'm500', kg: 3.52, cls: 'shotgun', name: 'M500', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 120, fire: 'pump6', price: 1200, range: 70, vel: 480, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
 
-      { id: 'ggx17', cls: 'pistol', name: 'GGX 17', caliber: '9×19mm', dmg: 22, rpm: null, rpmM: 482, fire: 'semi', price: 200, range: null, unlock: 'WARDOG Lv1', measured: { upperTorso: 25.4, head: 46.2 } },
-      { id: 'ggx18', cls: 'pistol', name: 'GGX 18', caliber: '9×19mm', dmg: 22, rpm: null, rpmM: 1150, fire: 'auto', price: 800, range: null, unlock: 'WARDOG Lv70', measured: { upperTorso: 25.4, head: 46.2 } },
-      { id: 'm1911', cls: 'pistol', name: 'M1911', caliber: '.45 ACP', dmg: 30, rpm: 430, fire: 'semi', price: 300, range: 50, vel: 253 },
-      { id: 'judge', cls: 'pistol', name: 'Judge', caliber: '.45 Colt', dmg: 45, rpm: 200, fire: 'revolver', price: 250, range: 50, vel: 335, measured: { upperTorso: 51.99, head: 94.5 } },
-      { id: 'deagle', cls: 'pistol', name: 'Deagle', caliber: '.50 AE', dmg: 63, rpm: 267, rpmM: 240, fire: 'semi', price: 900, range: null, unlock: 'WARDOG Lv85 · $75,000', measured: { upperTorso: 72.78, head: 132.32 } },
+      { id: 'ggx17', kg: 0.63, cls: 'pistol', name: 'GGX 17', caliber: '9×19mm', dmg: 22, rpm: null, rpmM: 482, fire: 'semi', price: 200, range: null, unlock: 'WARDOG Lv1', measured: { upperTorso: 25.4, head: 46.2 } },
+      { id: 'ggx18', kg: 0.63, cls: 'pistol', name: 'GGX 18', caliber: '9×19mm', dmg: 22, rpm: null, rpmM: 1150, fire: 'auto', price: 800, range: null, unlock: 'WARDOG Lv70', measured: { upperTorso: 25.4, head: 46.2 } },
+      { id: 'm1911', kg: 1.1, cls: 'pistol', name: 'M1911', caliber: '.45 ACP', dmg: 30, rpm: 430, fire: 'semi', price: 300, range: 50, vel: 253 },
+      { id: 'judge', kg: 0.82, cls: 'pistol', name: 'Judge', caliber: '.45 Colt', dmg: 45, rpm: 200, fire: 'revolver', price: 250, range: 50, vel: 335, measured: { upperTorso: 51.99, head: 94.5 } },
+      { id: 'deagle', kg: 2.0, cls: 'pistol', name: 'Deagle', caliber: '.50 AE', dmg: 63, rpm: 267, rpmM: 240, fire: 'semi', price: 900, range: null, unlock: 'WARDOG Lv85 · $75,000', measured: { upperTorso: 72.78, head: 132.32 } },
 
-      { id: 'rpg7', cls: 'launcher', name: 'RPG-7', dmg: 110, rpm: null, fire: 'single', price: 2000, range: 300, explosive: true, blast: { radius: 12, full: 2.5 }, unlock: 'Support Lv5 · $30,000',
+      { id: 'rpg7', kg: 6.3, cls: 'launcher', name: 'RPG-7', dmg: 110, rpm: null, fire: 'single', price: 2000, range: 300, explosive: true, blast: { radius: 12, full: 2.5 }, unlock: 'Support Lv5 · $30,000',
         caliber: T('PG-7 로켓', 'PG-7 rocket', 'PG-7ロケット', 'PG-7 火箭弹', 'PG-7 火箭彈') },
-      { id: 'maaws', cls: 'launcher', name: 'MAAWS', dmg: 100, rpm: null, fire: 'single', price: 2600, range: null, explosive: true, blast: { radius: 10, full: 4 }, unlock: 'Support Lv20 · $125,000',
+      { id: 'maaws', kg: 7.0, cls: 'launcher', name: 'MAAWS', dmg: 100, rpm: null, fire: 'single', price: 2600, range: null, explosive: true, blast: { radius: 10, full: 4 }, unlock: 'Support Lv20 · $125,000',
         caliber: AT_84, note: TANK_FRONT_2 },
-      { id: 'mgl40', cls: 'launcher', name: 'MGL-40', dmg: 100, rpm: 75, fire: 'semi', price: 6000, range: 400, explosive: true, blast: { radius: null }, unlock: 'Support Lv35 · $200,000',
+      { id: 'mgl40', kg: 5.3, cls: 'launcher', name: 'MGL-40', dmg: 100, rpm: 75, fire: 'semi', price: 6000, range: 400, explosive: true, blast: { radius: null }, unlock: 'Support Lv35 · $200,000',
         caliber: T('40mm 유탄 6연발', '40mm grenades, 6 rounds', '40mmグレネード 6連発', '40mm 榴弹 6 连发', '40mm 榴彈 6 連發') },
-      { id: 'verba', cls: 'launcher', name: '9K333 Verba', dmg: 200, rpm: null, fire: 'lockon', price: 800, range: 1000, explosive: true, unlock: 'Support Lv16 · $50,000',
+      { id: 'verba', kg: 17.25, cls: 'launcher', name: '9K333 Verba', dmg: 200, rpm: null, fire: 'lockon', price: 800, range: 1000, explosive: true, unlock: 'Support Lv16 · $50,000',
         caliber: T('적외선 유도 대공 미사일', 'IR-guided anti-air missile', '赤外線誘導対空ミサイル', '红外制导防空导弹', '紅外線導引防空飛彈'),
         note: T('항공기에만 락온', 'Locks on to aircraft only', '航空機にのみロックオン', '仅可锁定飞行器', '僅可鎖定飛行器') },
 
-      { id: 'bow', cls: 'bow', name: 'Compound Bow', dmg: 77, rpm: 90, fire: 'manual', price: 800, range: null, ammo: false, unlock: 'Recon Lv17 · $125,000', measured: { upperTorso: 160.9, head: 177.1 },
+      { id: 'bow', kg: 1.3, cls: 'bow', name: 'Compound Bow', dmg: 77, rpm: 90, fire: 'manual', price: 800, range: null, ammo: false, unlock: 'Recon Lv17 · $125,000', measured: { upperTorso: 160.9, head: 177.1 },
         caliber: T('브로드헤드 화살', 'Broadhead arrow', 'ブロードヘッドアロー', '宽头箭', '寬頭箭'),
         note: T('소음 없는 암살용', 'Built for silent takedowns', '無音の暗殺向け', '适合无声暗杀', '適合無聲暗殺') }
     ],
@@ -227,6 +228,79 @@
         trigger: T('시한 신관', 'Timed fuze', '時限信管', '定时引信', '定時引信'),
         note: T('피해·반경 미공개. 무게 0.4 kg', 'Damage and radius not published. 0.4 kg', 'ダメージ・半径は非公開。重量0.4 kg', '伤害与半径未公开。重量 0.4 kg', '傷害與半徑未公開。重量 0.4 kg') }
     ],
+
+    /*
+     * 로드아웃 무게 계산기.
+     * 무게 등급: 총무게가 from kg를 넘으면 해당 등급. 페널티는 % (커뮤니티 측정치), null = 미공개
+     */
+    loadout: {
+      classes: [
+        { from: 0, move: 0, stamina: 0, ads: 0, sway: 0, name: T('최경량', 'Lightest', '最軽量', '最轻', '最輕') },
+        { from: 10, move: -5, stamina: -15, ads: 5, sway: 2, name: T('경량', 'Light', '軽量', '轻', '輕') },
+        { from: 17, move: -13, stamina: -35, ads: 6, sway: 8, name: T('중간', 'Medium', '中量', '中等', '中等') },
+        { from: 27, move: -20, stamina: null, ads: 15, sway: 18, noSprint: true, slowLean: true, noDrag: true, name: T('중량', 'Heavy', '重量', '重', '重') },
+        { from: 40, move: -20, stamina: null, ads: 17, sway: 20, noSprint: true, slowLean: true, noDrag: true, name: T('초중량', 'Super heavy', '超重量', '超重', '超重') }
+      ],
+      backpacks: [
+        { id: 'pouch', kg: 0.3, slots: 6, name: T('파우치', 'Pouch', 'ポーチ', '腰包', '腰包') },
+        { id: 'scout', kg: 0.5, slots: 8, name: T('스카우트 백팩', 'Scout backpack', 'スカウトバックパック', '侦察背包', '偵察背包') },
+        { id: 'field', kg: 0.8, slots: 12, name: T('필드 백팩', 'Field backpack', 'フィールドバックパック', '野战背包', '野戰背包') },
+        { id: 'operator', kg: 0.88, slots: 15, name: T('오퍼레이터 백팩', 'Operator backpack', 'オペレーターバックパック', '特战背包', '特戰背包') },
+        { id: 'assault', kg: 1.3, slots: 21, name: T('어설트 백팩', 'Assault backpack', 'アサルトバックパック', '突击背包', '突擊背包') },
+        { id: 'ruck', kg: 1.5, slots: 24, name: T('럭 백팩', 'Ruck backpack', 'ラックバックパック', '大型行军背包', '大型行軍背包') },
+        { id: 'gunner', kg: 1.5, slots: 24, name: T('거너 백팩 + 슬링', 'Gunner backpack + sling', 'ガンナーバックパック＋スリング', '机枪手背包 + 枪带', '機槍手背包 + 槍帶') },
+        { id: 'arsenal', kg: 1.5, slots: 24, name: T('아스널 백팩 + 슬링 2개', 'Arsenal backpack + 2 slings', 'アーセナルバックパック＋スリング2本', '军械背包 + 2 条枪带', '軍械背包 + 2 條槍帶') }
+      ],
+      vests: [
+        { id: 'small', kg: 0.82, name: T('소형 전술 조끼', 'Small tac vest', 'タクティカルベスト（小）', '小型战术背心', '小型戰術背心') },
+        { id: 'medium', kg: 1.65, name: T('중형 전술 조끼', 'Medium tac vest', 'タクティカルベスト（中）', '中型战术背心', '中型戰術背心') },
+        { id: 'large', kg: 3.6, name: T('대형 전술 조끼', 'Large tac vest', 'タクティカルベスト（大）', '大型战术背心', '大型戰術背心') }
+      ],
+      parachutes: [
+        { id: 'basic', kg: 2.5, name: T('기본 낙하산', 'Basic parachute', 'ベーシックパラシュート', '基础降落伞', '基礎降落傘') },
+        { id: 'sport', kg: 9, name: T('스포츠 낙하산', 'Sport parachute', 'スポーツパラシュート', '运动降落伞', '運動降落傘') }
+      ],
+      /* 무기별 탄창·탄약 (공개된 것만) */
+      mags: {
+        m4: [{ id: 'stanag30', kg: 0.53, name: 'STANAG 30 RND' }],
+        ak74: [{ id: 'ak30', kg: 0.55, name: 'AK74 30 RND' }],
+        galil: [{ id: 'galil50', kg: 1.16, name: 'Galil 50 RND' }],
+        amp9: [{ id: 'amp30', kg: 0.48, name: 'AMP-9 30 RND' }],
+        mp5: [{ id: 'mp530', kg: 0.51, name: 'MP5 30 RND' }],
+        super45: [{ id: 's4530', kg: 0.89, name: 'Super-45 30 RND' }],
+        m249: [{ id: 'm249box', kg: 3.14, name: 'M249 200 RND Box' }, { id: 'm249fab', kg: 1.62, name: 'M249 100 RND Fabric' }],
+        pkm: [{ id: 'pkm100', kg: 3.9, name: 'PKM 100 RND Box' }],
+        svd: [{ id: 'svd10', kg: 0.34, name: 'SVD 10 RND' }],
+        deagle: [{ id: 'deagle7', kg: 0.43, name: 'Deagle 7 RND' }],
+        rpg7: [{ id: 'r93', kg: 2.6, name: T('93mm 로켓', '93mm rocket', '93mmロケット', '93mm 火箭弹', '93mm 火箭彈') }],
+        maaws: [{ id: 's84', kg: 3.5, name: AT_84 }]
+      },
+      medical: [
+        { id: 'bandage', kg: 0.08, name: T('붕대', 'Bandage', '包帯', '绷带', '繃帶') },
+        { id: 'ifak', kg: 0.16, name: T('개인 응급 키트 (IFAK)', 'IFAK', '個人救急キット（IFAK）', '单兵急救包（IFAK）', '單兵急救包（IFAK）') },
+        { id: 'adrenaline', kg: 0.06, name: T('아드레날린 펜', 'Adrenaline pen', 'アドレナリンペン', '肾上腺素笔', '腎上腺素筆') },
+        { id: 'fieldres', kg: 0.39, name: T('야전 소생기', 'Field resuscitator', 'フィールド蘇生器', '战地复苏器', '戰地復甦器') },
+        { id: 'emres', kg: 0.39, name: T('응급 소생기', 'Emergency resuscitator', '緊急蘇生器', '紧急复苏器', '緊急復甦器') },
+        { id: 'defib', kg: 2.6, name: T('제세동기', 'Defibrillator', '除細動器', '除颤器', '除顫器') },
+        { id: 'medbag', kg: 3.45, name: T('의료 가방', 'Medical bag', 'メディカルバッグ', '医疗包', '醫療包') }
+      ],
+      throwables: [
+        { id: 'm67', kg: 0.4, name: T('M67 세열수류탄', 'M67 frag grenade', 'M67破片手榴弾', 'M67 破片手榴弹', 'M67 破片手榴彈') },
+        { id: 'm18', kg: 0.54, name: T('M18 연막·신호탄', 'M18 smoke / signal grenade', 'M18スモーク・信号弾', 'M18 烟雾·信号弹', 'M18 煙霧·信號彈') },
+        { id: 'c4', kg: 0.57, name: 'C4' },
+        { id: 'detonator', kg: 0.02, name: T('리모트 기폭기', 'Remote detonator', '遠隔起爆装置', '遥控引爆器', '遙控引爆器') },
+        { id: 'ied', kg: 1.5, name: 'IED' },
+        { id: 'claymore', kg: 1.6, name: T('클레이모어', 'Claymore', 'クレイモア', '阔剑地雷', '闊劍地雷') },
+        { id: 'atmine', kg: 8.6, name: T('대전차 지뢰', 'AT mine', '対戦車地雷', '反坦克地雷', '反坦克地雷') }
+      ],
+      tools: [
+        { id: 'hammerS', kg: 0.32, name: T('소형 망치', 'Small hammer', '小型ハンマー', '小锤', '小錘') },
+        { id: 'hammerM', kg: 1.23, name: T('중형 망치', 'Medium hammer', '中型ハンマー', '中锤', '中錘') },
+        { id: 'hammerL', kg: 3.18, name: T('대형 망치', 'Large hammer', '大型ハンマー', '大锤', '大錘') },
+        { id: 'binoculars', kg: 0.3, name: T('쌍안경', 'Binoculars', '双眼鏡', '望远镜', '望遠鏡') },
+        { id: 'rangefinder', kg: 0.23, name: T('거리 측정기', 'Range finder', 'レンジファインダー', '测距仪', '測距儀') }
+      ]
+    },
 
     /* 포탄·로켓 (폭발 거리 시뮬레이터용). L81의 full은 커뮤니티가 말하는 살상 반경 5 m를 썼습니다 */
     ordnance: [
@@ -447,7 +521,10 @@
       { site: 'Metaforge', url: 'https://metaforge.app/wardogs/database/vehicles/page/1', topic: T('차량 선체 피해', 'Vehicle hull damage', '車体ダメージ', '载具车体伤害', '載具車體傷害') },
       { site: 'guided.news', url: 'https://guided.news/en/guides/wardogs-fob-raiding-guide-c4-ied/', topic: T('FOB 공략 (C4·IED 피해율)', 'FOB raiding (C4 & IED damage)', 'FOB攻略（C4・IEDのダメージ率）', 'FOB 突袭（C4·IED 伤害比例）', 'FOB 突襲（C4·IED 傷害比例）') },
       { site: 'Guidexon', url: 'https://guidexon.com/wardogs-explosives-cheat-sheet/', topic: T('폭발물 치트시트', 'Explosives cheat sheet', '爆発物チートシート', '爆炸物速查表', '爆炸物速查表') },
-      { site: 'All Things How', url: 'https://allthings.how/wardogs-tank-killing-guide-armor-zones-and-time-to-kill/', topic: T('전차 장갑 구역', 'Tank armor zones', '戦車の装甲区画', '坦克装甲分区', '坦克裝甲分區') }
+      { site: 'All Things How', url: 'https://allthings.how/wardogs-tank-killing-guide-armor-zones-and-time-to-kill/', topic: T('전차 장갑 구역', 'Tank armor zones', '戦車の装甲区画', '坦克装甲分区', '坦克裝甲分區') },
+      { site: 'metabot.gg', url: 'https://metabot.gg/en/wardogs/guides/armor-and-weight-guide', topic: T('방어구·가방 무게', 'Armor & backpack weights', '防具・バッグの重量', '护甲与背包重量', '護甲與背包重量') },
+      { site: 'WarDogs.News', url: 'https://wardogs.news/guides/weight-classes/', topic: T('무게 등급', 'Weight classes', '重量クラス', '重量等级', '重量等級') },
+      { site: 'GameWatcher', url: 'https://www.gamewatcher.com/wardogs/items', topic: T('아이템 무게', 'Item weights', 'アイテム重量', '物品重量', '物品重量') }
     ]
   };
 })();

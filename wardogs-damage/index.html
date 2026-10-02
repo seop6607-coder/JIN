@@ -30,6 +30,7 @@
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 1.5v5M12 17.5v5M1.5 12h5M17.5 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </a>
     <ul class="gnav__links" id="gnav-links">
+      <li><a href="#weight" data-i18n="nav.weight">무게</a></li>
       <li><a href="#calculator" data-i18n="nav.calculator">계산기</a></li>
       <li><a href="#matrix" data-i18n="nav.matrix">데미지 표</a></li>
       <li><a href="#armor" data-i18n="nav.armor">방어구</a></li>
@@ -67,6 +68,33 @@
 </nav>
 
 <main id="top">
+
+  <!-- 로드아웃 무게 계산기 (최상단) -->
+  <section class="section section--alt wt-section" id="weight" aria-labelledby="wt-title">
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <p class="eyebrow" data-i18n="wt.eyebrow">로드아웃</p>
+        <h2 class="section__title" id="wt-title" data-i18n="wt.title">얼마나 들고 갈까.<br>로드아웃 무게 계산기.</h2>
+        <p class="section__lede" data-i18n="wt.lede">무기, 방어구, 가방, 의료품, 투척물을 골라 담으면 총무게와 무게 등급, 페널티를 바로 보여줍니다.</p>
+      </header>
+
+      <div class="wt">
+        <div class="wt__pick">
+          <fieldset class="wt__group">
+            <legend data-i18n="wt.gear">무기와 장비</legend>
+            <div class="wt__selects" id="wt-selects"></div>
+          </fieldset>
+          <fieldset class="wt__group">
+            <legend data-i18n="wt.items">소모품과 도구</legend>
+            <div class="wt__items" id="wt-items"></div>
+          </fieldset>
+          <div class="wt__mini" id="wt-mini" aria-hidden="true"></div>
+        </div>
+        <aside class="wt__sum" id="wt-summary"></aside>
+      </div>
+      <p class="table-note" data-i18n="wt.note">무게는 게임 데이터베이스 기준이며 부착물과 기본 복장 무게는 넣지 않았습니다.</p>
+    </div>
+  </section>
 
   <!-- 탐색 (분류별 개수) -->
   <nav class="chapternav" aria-label="분류 탐색" data-i18n-attr="aria-label:chapter.aria">
@@ -433,6 +461,7 @@
       <div>
         <h2 class="footer__h" data-i18n="footer.calc">계산</h2>
         <ul>
+          <li><a href="#weight" data-i18n="nav.weight">무게</a></li>
           <li><a href="#calculator" data-i18n="footer.calcLink">데미지 계산기</a></li>
           <li><a href="#matrix" data-i18n="footer.matrixLink">전체 데미지 표</a></li>
           <li><a href="#formula" data-i18n="nav.formula">계산 방식</a></li>

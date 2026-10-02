@@ -302,6 +302,238 @@
     renderAll();
   }
 
+  /* ───────── 로드아웃 무게 ───────── */
+
+  var LO = D.loadout;
+  var W_DEFAULT = {
+    primary: 'm4', secondary: 'ggx17', launcher: '', armor: 2, helmet: 1,
+    backpack: 'field', vest: 'small', parachute: '',
+    counts: { stanag30: 4, bandage: 3, ifak: 1, m67: 2, hammerS: 1 }
+  };
+  var W_EMPTY = { primary: '', secondary: '', launcher: '', armor: 0, helmet: 0, backpack: '', vest: '', parachute: '', counts: {} };
+  var copy = function (o) { return JSON.parse(JSON.stringify(o)); };
+  var wState = copy(W_DEFAULT);
+  try {
+    var savedW = JSON.parse(localStorage.getItem('wd-weight') || 'null');
+    if (savedW && typeof savedW === 'object' && savedW.counts) wState = savedW;
+  } catch (e) { /* 저장소를 못 쓰면 기본 로드아웃으로 */ }
+  function wSave() { try { localStorage.setItem('wd-weight', JSON.stringify(wState)); } catch (e) { /* 무시 */ } }
+
+  var kgStr = function (v) { return String(Math.round(v * 100) / 100); };
+  var findId = function (list, id) { return list.filter(function (x) { return x.id === id; })[0] || null; };
+
+  function wPicked() {
+    var byLvl = function (list, lvl) { return list.filter(function (g) { return g.lvl === lvl; })[0] || list[0]; };
+    return {
+      primary: WEAPONS[wState.primary] || null,
+      secondary: WEAPONS[wState.secondary] || null,
+      launcher: WEAPONS[wState.launcher] || null,
+      armor: byLvl(D.armor, wState.armor),
+      helmet: byLvl(D.helmets, wState.helmet),
+      backpack: findId(LO.backpacks, wState.backpack),
+      vest: findId(LO.vests, wState.vest),
+      parachute: findId(LO.parachutes, wState.parachute)
+    };
+  }
+
+  // 고른 무기에 맞는 탄창·탄약
+  function wMags(p) {
+    var weapons = [p.primary, p.secondary, p.launcher].filter(Boolean);
+    var items = [], missing = [];
+    weapons.forEach(function (w) {
+      if (LO.mags[w.id]) items = items.concat(LO.mags[w.id]);
+      else missing.push(w.name);
+    });
+    return { items: items, missing: missing, any: weapons.length > 0 };
+  }
+
+  function wTotals() {
+    var p = wPicked(), mags = wMags(p);
+    var counted = function (list) { return list.reduce(function (sum, it) { return sum + it.kg * (wState.counts[it.id] || 0); }, 0); };
+    var groups = [
+      { key: 'nav.weapons', kg: [p.primary, p.secondary, p.launcher].reduce(function (sum, w) { return sum + (w ? w.kg : 0); }, 0) },
+      { key: 'nav.armor', kg: (p.armor.weight || 0) + (p.helmet.weight || 0) },
+      { key: 'wt.carry', kg: (p.backpack ? p.backpack.kg : 0) + (p.vest ? p.vest.kg : 0) + (p.parachute ? p.parachute.kg : 0) },
+      { key: 'wt.mags', kg: counted(mags.items) },
+      { key: 'wt.medical', kg: counted(LO.medical) },
+      { key: 'wt.throwables', kg: counted(LO.throwables) },
+      { key: 'wt.tools', kg: counted(LO.tools) }
+    ];
+    var total = Math.round(groups.reduce(function (sum, g) { return sum + g.kg; }, 0) * 100) / 100;
+    return { p: p, mags: mags, groups: groups, total: total };
+  }
+
+  // 10 kg를 넘는 순간부터 다음 등급
+  function wClass(total) {
+    var idx = 0;
+    LO.classes.forEach(function (c, i) { if (c.from === 0 || total > c.from) idx = i; });
+    return idx;
+  }
+
+  function renderWeightSelects() {
+    var none = t('none');
+    var opt = function (value, label, on) { return '<option value="' + esc(value) + '"' + (on ? ' selected' : '') + '>' + esc(label) + '</option>'; };
+    var kgLabel = function (name, kg) { return name + ' · ' + kgStr(kg) + ' kg'; };
+    var weaponOpts = function (cls, cur) {
+      return D.weapons.filter(function (w) { return w.cls === cls; }).map(function (w) { return opt(w.id, kgLabel(w.name, w.kg), w.id === cur); }).join('');
+    };
+    var primary = opt('', none, !wState.primary) + D.classes.filter(function (c) { return c.id !== 'pistol' && c.id !== 'launcher'; }).map(function (c) {
+      return '<optgroup label="' + esc(tx(c.name)) + '">' + weaponOpts(c.id, wState.primary) + '</optgroup>';
+    }).join('');
+    var gear = function (list, cur, nameOf) {
+      return list.map(function (g) { return opt(String(g.lvl), g.lvl ? kgLabel(nameOf(g), g.weight) : nameOf(g), g.lvl === cur); }).join('');
+    };
+    var carry = function (list, cur, slots) {
+      return opt('', none, !cur) + list.map(function (x) {
+        return opt(x.id, kgLabel(tx(x.name) + (slots ? ' (' + t('wt.slots', { n: x.slots }) + ')' : ''), x.kg), x.id === cur);
+      }).join('');
+    };
+    var p = wPicked();
+    var pickedKg = {
+      primary: p.primary && p.primary.kg, secondary: p.secondary && p.secondary.kg, launcher: p.launcher && p.launcher.kg,
+      armor: p.armor.weight, helmet: p.helmet.weight,
+      backpack: p.backpack && p.backpack.kg, vest: p.vest && p.vest.kg, parachute: p.parachute && p.parachute.kg
+    };
+    var fields = [
+      ['primary', t('wt.primary'), primary],
+      ['secondary', t('wt.secondary'), opt('', none, !wState.secondary) + weaponOpts('pistol', wState.secondary)],
+      ['launcher', t('wt.launcher'), opt('', none, !wState.launcher) + weaponOpts('launcher', wState.launcher)],
+      ['armor', t('kind.armor'), gear(D.armor, wState.armor, armorName)],
+      ['helmet', t('kind.helmet'), gear(D.helmets, wState.helmet, helmetName)],
+      ['backpack', t('wt.backpack'), carry(LO.backpacks, wState.backpack, true)],
+      ['vest', t('wt.vest'), carry(LO.vests, wState.vest)],
+      ['parachute', t('wt.parachute'), carry(LO.parachutes, wState.parachute)]
+    ];
+    $('#wt-selects').innerHTML = fields.map(function (f) {
+      var kg = pickedKg[f[0]];
+      return '<label class="wsel" for="wt-' + f[0] + '"><span class="wsel__head"><span>' + esc(f[1]) + '</span><b>' + (kg ? kgStr(kg) + ' kg' : '') + '</b></span>' +
+        '<select id="wt-' + f[0] + '" data-key="' + f[0] + '">' + f[2] + '</select></label>';
+    }).join('');
+  }
+
+  function wRow(it) {
+    var n = wState.counts[it.id] || 0;
+    var name = tx(it.name);
+    return '<li class="wrow' + (n ? ' is-on' : '') + '" data-id="' + esc(it.id) + '">' +
+      '<span class="wrow__name">' + esc(name) + '<small>' + kgStr(it.kg) + ' kg</small></span>' +
+      '<span class="stepper">' +
+      '<button type="button" data-step="-1" data-id="' + esc(it.id) + '" aria-label="' + esc(t('wt.dec', { name: name })) + '"' + (n ? '' : ' disabled') + '>−</button>' +
+      '<output aria-live="polite">' + n + '</output>' +
+      '<button type="button" data-step="1" data-id="' + esc(it.id) + '" aria-label="' + esc(t('wt.inc', { name: name })) + '">+</button>' +
+      '</span><span class="wrow__sum">' + (n ? kgStr(n * it.kg) + ' kg' : '—') + '</span></li>';
+  }
+
+  function renderWeightItems() {
+    var mags = wMags(wPicked());
+    var magBody = mags.items.map(wRow).join('');
+    var magNote = !mags.any ? t('wt.magsEmpty')
+      : mags.missing.length ? mags.missing.map(function (name) { return t('wt.magsNA', { name: name }); }).join(' ') : '';
+    var group = function (key, body, note) {
+      return '<div class="wgroup"><h3 class="wgroup__title">' + esc(t(key)) + '</h3>' +
+        (body ? '<ul class="wrows">' + body + '</ul>' : '') + (note ? '<p class="wgroup__note">' + esc(note) + '</p>' : '') + '</div>';
+    };
+    $('#wt-items').innerHTML =
+      group('wt.mags', magBody, magNote) +
+      group('wt.medical', LO.medical.map(wRow).join('')) +
+      group('wt.throwables', LO.throwables.map(wRow).join('')) +
+      group('wt.tools', LO.tools.map(wRow).join(''));
+  }
+
+  function renderWeightSummary() {
+    var tot = wTotals();
+    var idx = wClass(tot.total);
+    var cls = LO.classes[idx];
+    var next = LO.classes[idx + 1];
+    var name = tx(cls.name);
+
+    // 눈금: 0 ~ 45 kg (더 무거우면 늘림)
+    var max = Math.max(45, Math.ceil(tot.total + 3));
+    var bands = LO.classes.map(function (c, i) {
+      var to = LO.classes[i + 1] ? LO.classes[i + 1].from : max;
+      return '<i class="wband wband--' + i + '" style="width:' + ((to - c.from) / max * 100).toFixed(2) + '%"></i>';
+    }).join('');
+    var ticks = LO.classes.slice(1).map(function (c) {
+      return '<span class="wtick" style="left:' + (c.from / max * 100).toFixed(2) + '%">' + c.from + '</span>';
+    }).join('');
+    var marker = Math.min(tot.total, max) / max * 100;
+
+    var sign = function (v) { return v == null ? '<small>' + esc(t('wt.na')) + '</small>' : v > 0 ? '+' + v + '%' : v < 0 ? '−' + Math.abs(v) + '%' : '0%'; };
+    var pens = idx === 0
+      ? '<p class="wpen__none">' + esc(t('wt.noPenalty')) + '</p>'
+      : '<dl class="wpen">' + [['wt.move', cls.move], ['wt.stamina', cls.stamina], ['wt.ads', cls.ads], ['wt.sway', cls.sway]].map(function (r) {
+        return '<div><dt>' + esc(t(r[0])) + '</dt><dd>' + sign(r[1]) + '</dd></div>';
+      }).join('') + '</dl>' +
+      ((cls.noSprint || cls.slowLean || cls.noDrag) ? '<ul class="wflags">' +
+        (cls.noSprint ? '<li>' + esc(t('wt.noSprint')) + '</li>' : '') +
+        (cls.slowLean ? '<li>' + esc(t('wt.slowLean')) + '</li>' : '') +
+        (cls.noDrag ? '<li>' + esc(t('wt.noDrag')) + '</li>' : '') + '</ul>' : '');
+
+    var breakdown = tot.groups.map(function (g) {
+      var share = tot.total ? g.kg / tot.total * 100 : 0;
+      return '<li><span>' + esc(t(g.key)) + '</span><span class="wbreak__bar"><i style="width:' + share.toFixed(1) + '%"></i></span><b>' + kgStr(g.kg) + '</b></li>';
+    }).join('');
+
+    $('#wt-summary').innerHTML =
+      '<span class="wsum__label">' + esc(t('wt.total')) + '</span>' +
+      '<p class="wsum__total"><b>' + tot.total.toFixed(1) + '</b><span>kg</span></p>' +
+      '<p class="wsum__class"><span class="wpill wband--' + idx + '">' + esc(name) + '</span><span class="wsum__next">' +
+      esc(next ? t('wt.next', { name: tx(next.name), kg: kgStr(next.from - tot.total) }) : t('wt.max')) + '</span></p>' +
+      '<div class="wscale" role="img" aria-label="' + esc(t('wt.scaleAria', { kg: tot.total.toFixed(1), name: name })) + '">' +
+      '<div class="wscale__bar">' + bands + '</div><span class="wscale__mark" style="left:' + marker.toFixed(2) + '%"></span>' +
+      '<div class="wscale__ticks">' + ticks + '</div></div>' +
+      '<h4 class="wsum__h">' + esc(t('wt.penalties')) + '</h4>' + pens +
+      '<h4 class="wsum__h">' + esc(t('wt.breakdown')) + '</h4><ul class="wbreak">' + breakdown + '</ul>' +
+      '<button type="button" class="btn btn--sm btn--ghost wsum__reset" id="wt-reset">' + esc(t('wt.reset')) + '</button>';
+
+    // 좁은 화면에서 화면 아래에 붙는 총무게 띠 (요약과 같은 내용이라 스크린리더에는 숨김)
+    $('#wt-mini').innerHTML = '<span>' + esc(t('wt.total')) + '</span><b>' + tot.total.toFixed(1) + ' kg</b>' +
+      '<span class="wpill wband--' + idx + '">' + esc(name) + '</span>';
+  }
+
+  function renderWeight() {
+    renderWeightSelects();
+    renderWeightItems();
+    renderWeightSummary();
+  }
+
+  function initWeightEvents() {
+    $('#wt-selects').onchange = function (e) {
+      var el = e.target.closest('select[data-key]');
+      if (!el) return;
+      var key = el.getAttribute('data-key');
+      wState[key] = key === 'armor' || key === 'helmet' ? +el.value : el.value;
+      wSave();
+      var p = wPicked(), g = p[key];
+      var kg = g && (g.kg != null ? g.kg : g.weight);
+      el.parentNode.querySelector('.wsel__head b').textContent = kg ? kgStr(kg) + ' kg' : '';
+      renderWeightItems();
+      renderWeightSummary();
+    };
+    $('#wt-items').onclick = function (e) {
+      var b = e.target.closest('button[data-step]');
+      if (!b) return;
+      var id = b.getAttribute('data-id');
+      var n = Math.max(0, Math.min(99, (wState.counts[id] || 0) + +b.getAttribute('data-step')));
+      if (n) wState.counts[id] = n; else delete wState.counts[id];
+      wSave();
+      // 누른 버튼의 포커스를 지키려고 해당 줄만 바꾼다
+      var row = b.closest('.wrow');
+      var it = findId([].concat(LO.medical, LO.throwables, LO.tools, wMags(wPicked()).items), id);
+      row.classList.toggle('is-on', n > 0);
+      row.querySelector('output').textContent = n;
+      row.querySelector('[data-step="-1"]').disabled = n === 0;
+      row.querySelector('.wrow__sum').textContent = n && it ? kgStr(n * it.kg) + ' kg' : '—';
+      renderWeightSummary();
+    };
+    $('#wt-summary').onclick = function (e) {
+      if (!e.target.closest('#wt-reset')) return;
+      wState = copy(W_EMPTY);
+      wSave();
+      renderWeight();
+      $('#wt-reset').focus();
+    };
+  }
+
   /* ───────── 계산기 ───────── */
 
   function renderCalc() {
@@ -1014,6 +1246,7 @@
 
   function renderAll() {
     renderLangBar();
+    renderWeight();
     renderChapterNav();
     renderHero();
     renderTiles();
@@ -1038,5 +1271,6 @@
   applyStatic();
   renderAll();
   initEvents();
+  initWeightEvents();
   initHero();
 })();
