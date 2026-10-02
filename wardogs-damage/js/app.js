@@ -275,7 +275,7 @@
 
   function applyStatic() {
     document.documentElement.lang = lang;
-    document.title = t('meta.title');
+    tabTitle();
     var desc = document.querySelector('meta[name="description"]');
     if (desc) desc.setAttribute('content', t('meta.desc'));
 
@@ -289,8 +289,7 @@
 
     $('#ribbon').innerHTML = t('ribbon', { version: esc(tx(D.version)), count: measuredCount });
     $('#hero2-cover').textContent = zoneName('head') + ' + ' + zoneName('neck');
-    var open = $('#gnav-links').classList.contains('is-open');
-    $('#gnav-menu').setAttribute('aria-label', t(open ? 'nav.close' : 'nav.open'));
+    $('#tabbar-meta').textContent = tx(D.version);
   }
 
   function setLang(id) {
@@ -300,6 +299,190 @@
     loadFont(id);
     applyStatic();
     renderAll();
+  }
+
+  /* ───────── 탭 (데미지 · 무게 · 패치노트) ───────── */
+
+  // 주소의 #값이 탭 이름이면 그 탭을, 섹션 id면 그 섹션이 들어 있는 탭을 연다
+  var TABS = ['damage', 'weight', 'patch'];
+  var tab = null;
+
+  function savedTab() {
+    try {
+      var s = localStorage.getItem('wd-tab');
+      if (TABS.indexOf(s) >= 0) return s;
+    } catch (e) { /* 저장소를 못 쓰면 기본 탭 */ }
+    return 'damage';
+  }
+
+  function tabTitle() {
+    document.title = tab && tab !== 'damage' ? t('tab.' + tab) + ' · ' + t('meta.title') : t('meta.title');
+  }
+
+  function setTab(name) {
+    tab = TABS.indexOf(name) >= 0 ? name : 'damage';
+    document.body.setAttribute('data-tab', tab);
+    TABS.forEach(function (n) { $('#panel-' + n).hidden = n !== tab; });
+    $$('#tabs a[data-tab]').forEach(function (a) {
+      var on = a.getAttribute('data-tab') === tab;
+      a.classList.toggle('is-on', on);
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    tabTitle();
+    try { localStorage.setItem('wd-tab', tab); } catch (e) { /* 무시 */ }
+  }
+
+  // 탭을 바꾸면 탭 바가 화면 맨 위에 오도록 (언어 바만 위로 올라간 상태)
+  function toTabTop(smooth) {
+    var y = $('.langbar').offsetHeight;
+    if (window.scrollY > y) window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'instant' });
+  }
+
+  function route(first) {
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (TABS.indexOf(id) >= 0) {
+      setTab(id);
+      if (!first) toTabTop(false);
+      return;
+    }
+    var el = id ? document.getElementById(id) : null;
+    var panel = el && el.closest('.tabpanel');
+    if (!panel) {
+      if (first) setTab(savedTab());
+      return;
+    }
+    var name = panel.id.replace('panel-', '');
+    if (name !== tab || first) {
+      setTab(name);
+      requestAnimationFrame(function () { el.scrollIntoView({ behavior: 'instant', block: 'start' }); });
+    }
+  }
+
+  function initTabEvents() {
+    window.addEventListener('hashchange', function () { route(false); });
+    // 이미 열린 탭을 다시 누르면 그 탭의 맨 위로
+    $('#tabs').addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-tab]');
+      if (a && a.getAttribute('data-tab') === tab && location.hash === '#' + tab) {
+        e.preventDefault();
+        toTabTop(true);
+      }
+    });
+  }
+
+  /* ───────── 패치노트 ───────── */
+
+  var PT = D.patches;
+  var CATS = ['balance', 'gameplay', 'stability', 'fair', 'ui'];
+  var patchState = { cat: 'all' };
+
+  function fmtDate(iso, opts) {
+    var o = opts || { year: 'numeric', month: 'long', day: 'numeric' };
+    o.timeZone = 'UTC';
+    try { return new Intl.DateTimeFormat(lang, o).format(new Date(iso + 'T00:00:00Z')); } catch (e) { return iso; }
+  }
+  var catOn = function (c) { return patchState.cat === 'all' || patchState.cat === c; };
+  var shown = function (p) {
+    return p.items.some(function (it) { return catOn(it.cat); }) || (p.tables || []).some(function (tb) { return catOn(tb.cat); });
+  };
+
+  // 이전 → 이후 변화. 레벨은 차이, 나머지는 %
+  function deltaHTML(before, after) {
+    var num = function (v) { return parseFloat(String(v).replace(/[^0-9.]/g, '')); };
+    var a = num(before), b = num(after);
+    if (!isFinite(a) || !isFinite(b) || a === b) return '';
+    var up = b > a;
+    var txt = /^Lv/.test(before) ? (up ? '+' : '−') + Math.abs(b - a) : (up ? '+' : '−') + Math.round(Math.abs(b - a) / a * 100) + '%';
+    return '<span class="pdelta pdelta--' + (up ? 'up' : 'down') + '"><span aria-hidden="true">' + (up ? '▲' : '▼') + '</span> ' + txt + '</span>';
+  }
+
+  function ptableHTML(tb) {
+    return '<div class="ptable-wrap"><table class="ptable"><caption>' + esc(tx(tb.title)) + '</caption>' +
+      '<thead><tr><th scope="col"></th><th scope="col">' + esc(t('patch.before')) + '</th><th scope="col">' + esc(t('patch.after')) + '</th><th scope="col">' + esc(t('patch.change')) + '</th></tr></thead><tbody>' +
+      tb.rows.map(function (r) {
+        return '<tr><th scope="row">' + esc(tx(r[0])) + '</th><td>' + esc(r[1]) + '</td><td><b>' + esc(r[2]) + '</b></td><td>' + deltaHTML(r[1], r[2]) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function pgroupsHTML(p) {
+    return CATS.filter(catOn).map(function (c) {
+      var items = p.items.filter(function (it) { return it.cat === c; });
+      var tables = (p.tables || []).filter(function (tb) { return tb.cat === c; });
+      if (!items.length && !tables.length) return '';
+      return '<div class="pgroup"><h4 class="pgroup__title"><i class="pdot pdot--' + c + '" aria-hidden="true"></i>' + esc(t('cat.' + c)) + '</h4>' +
+        (items.length ? '<ul class="pitems">' + items.map(function (it) {
+          return '<li>' + esc(tx(it.text)) + (it.lab ? ' <a class="plab" href="#' + it.lab + '">' + esc(t('nav.' + it.lab)) + ' ›</a>' : '') + '</li>';
+        }).join('') + '</ul>' : '') +
+        (tables.length ? '<div class="ptables">' + tables.map(ptableHTML).join('') + '</div>' : '') + '</div>';
+    }).join('');
+  }
+
+  var impactHTML = function (p) {
+    return '<p class="pimpact' + (p.impact.some ? ' pimpact--some' : '') + '"><b>' + esc(t('patch.impact')) + '</b><span>' + esc(tx(p.impact.text)) + '</span></p>';
+  };
+  var sourcesHTML = function (p) {
+    return '<p class="psrc"><span>' + esc(t('patch.sources')) + '</span>' + p.sources.map(function (src) {
+      return '<a href="' + esc(src.url) + '" target="_blank" rel="noopener">' + esc(src.site) + '</a>';
+    }).join('') + '</p>';
+  };
+
+  function dday(iso) {
+    var now = new Date();
+    var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var n = Math.round((Date.parse(iso + 'T00:00:00Z') - today) / 86400000);
+    return n > 0 ? t('patch.dday', { n: n }) : n === 0 ? t('patch.today') : t('patch.released');
+  }
+
+  function renderPatches() {
+    var nx = PT.next;
+    var latest = PT.list[0];
+    $('#patch-check').innerHTML =
+      '<span class="pcheck__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<p class="pcheck__title">' + esc(t('patch.check.title')) + '</p>' +
+      '<p class="pcheck__body">' + esc(t('patch.check.body')) + ' <span class="pcheck__as">' + esc(t('patch.check.as', { date: fmtDate(latest.date) })) + '</span></p>';
+
+    $('#patch-filter').innerHTML = ['all'].concat(CATS).map(function (c) {
+      return '<button type="button" data-cat="' + c + '" class="' + (patchState.cat === c ? 'is-on' : '') + '" aria-pressed="' + (patchState.cat === c) + '">' +
+        (c === 'all' ? '' : '<i class="pdot pdot--' + c + '" aria-hidden="true"></i>') + esc(t(c === 'all' ? 'patch.all' : 'cat.' + c)) + '</button>';
+    }).join('');
+
+    var short = { month: 'short', day: 'numeric' };
+    $('#patch-index').innerHTML =
+      '<li class="pindex__next' + (shown(nx) ? '' : ' is-off') + '"><a href="#patch-next"><time datetime="' + nx.date + '">' + esc(t('patch.upcoming')) + ' · ' + esc(fmtDate(nx.date, short)) + '</time>' + esc(tx(nx.title)) + '</a></li>' +
+      PT.list.map(function (p) {
+        return '<li class="' + (shown(p) ? '' : 'is-off') + '"><a href="#patch-' + p.id + '"><time datetime="' + p.date + '">' + esc(fmtDate(p.date, short)) + ' · ' + esc(t('type.' + p.type)) + (p.version ? ' ' + esc(p.version) : '') + '</time>' + esc(tx(p.title)) + '</a></li>';
+      }).join('');
+
+    var next = !shown(nx) ? '' :
+      '<article class="pnext" id="patch-next" aria-labelledby="patch-next-title">' +
+      '<p class="eyebrow eyebrow--ink">' + esc(t('patch.next')) + '</p>' +
+      '<div class="pnext__head"><h3 class="pnext__title" id="patch-next-title">' + esc(tx(nx.title)) + '</h3>' +
+      '<p class="pnext__when"><time datetime="' + nx.date + '">' + esc(fmtDate(nx.date)) + '</time><span class="pnext__dday">' + esc(dday(nx.date)) + '</span></p></div>' +
+      '<p class="pnext__sum">' + esc(tx(nx.summary)) + '</p>' +
+      pgroupsHTML(nx) + impactHTML(nx) + sourcesHTML(nx) + '</article>';
+
+    var cards = PT.list.filter(shown).map(function (p) {
+      return '<article class="pcard" id="patch-' + p.id + '" aria-labelledby="patch-' + p.id + '-title">' +
+        '<header class="pcard__head"><p class="pcard__meta"><time datetime="' + p.date + '">' + esc(fmtDate(p.date)) + '</time>' +
+        '<span class="ptype ptype--' + p.type + '">' + esc(t('type.' + p.type)) + '</span>' + (p.version ? '<span class="pver">' + esc(p.version) + '</span>' : '') +
+        '<span class="pcount">' + esc(t('patch.count', { n: p.items.length })) + '</span></p>' +
+        '<h3 class="pcard__title" id="patch-' + p.id + '-title">' + esc(tx(p.title)) + '</h3>' +
+        '<p class="pcard__sum">' + esc(tx(p.summary)) + '</p>' +
+        (p.downtime ? '<dl class="pcard__facts"><div><dt>' + esc(t('patch.downtime')) + '</dt><dd>' + esc(tx(p.downtime)) + '</dd></div></dl>' : '') + '</header>' +
+        impactHTML(p) + pgroupsHTML(p) + sourcesHTML(p) + '</article>';
+    }).join('');
+
+    $('#patch-list').innerHTML = next + cards + (next || cards ? '' : '<p class="pempty">' + esc(t('patch.empty')) + '</p>');
+  }
+
+  function initPatchEvents() {
+    $('#patch-filter').onclick = function (e) {
+      var b = e.target.closest('button[data-cat]');
+      if (!b) return;
+      patchState.cat = b.getAttribute('data-cat');
+      renderPatches();
+      $('#patch-filter [data-cat="' + patchState.cat + '"]').focus();
+    };
   }
 
   /* ───────── 로드아웃 무게 ───────── */
@@ -1200,17 +1383,7 @@
   }
 
   function initEvents() {
-    var menu = $('#gnav-menu');
-    var links = $('#gnav-links');
-    function setMenu(open) {
-      links.classList.toggle('is-open', open);
-      menu.setAttribute('aria-expanded', String(open));
-      menu.setAttribute('aria-label', t(open ? 'nav.close' : 'nav.open'));
-    }
-    menu.onclick = function () { setMenu(!links.classList.contains('is-open')); };
-    links.onclick = function (e) { if (e.target.closest('a')) setMenu(false); };
-
-    $('#gnav-search').addEventListener('click', function () {
+    $('#subnav-search').addEventListener('click', function () {
       setTimeout(function () { $('#weapon-search').focus({ preventScroll: true }); }, 400);
     });
 
@@ -1262,6 +1435,7 @@
     renderVehicles();
     renderClassTable();
     renderVerify();
+    renderPatches();
     renderFooter();
   }
 
@@ -1272,5 +1446,8 @@
   renderAll();
   initEvents();
   initWeightEvents();
+  initTabEvents();
+  initPatchEvents();
+  route(true);
   initHero();
 })();

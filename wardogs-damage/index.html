@@ -23,78 +23,54 @@
   </div>
 </div>
 
-<!-- 글로벌 내비게이션 -->
-<nav class="gnav" aria-label="전체 메뉴" data-i18n-attr="aria-label:nav.aria">
-  <div class="gnav__inner">
-    <a class="gnav__logo" href="#top" aria-label="데미지 랩 홈" data-i18n-attr="aria-label:nav.home">
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 1.5v5M12 17.5v5M1.5 12h5M17.5 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+<!-- 탭 바 (최상단 고정): 데미지 · 무게 · 패치노트 -->
+<header class="tabbar" id="tabbar">
+  <div class="tabbar__inner">
+    <a class="tabbar__brand" href="#damage" aria-label="데미지 랩 홈" data-i18n-attr="aria-label:nav.home">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 1.5v5M12 17.5v5M1.5 12h5M17.5 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span data-i18n="lnav.title">데미지 랩</span>
     </a>
-    <ul class="gnav__links" id="gnav-links">
-      <li><a href="#weight" data-i18n="nav.weight">무게</a></li>
-      <li><a href="#calculator" data-i18n="nav.calculator">계산기</a></li>
-      <li><a href="#matrix" data-i18n="nav.matrix">데미지 표</a></li>
-      <li><a href="#armor" data-i18n="nav.armor">방어구</a></li>
-      <li><a href="#weapons" data-i18n="nav.weapons">무기</a></li>
-      <li><a href="#structures" data-i18n="nav.structures">건축물 장비</a></li>
-      <li><a href="#explosives" data-i18n="nav.explosives">폭발물</a></li>
-      <li><a href="#vs-gear" data-i18n="nav.vsgear">장비 피해</a></li>
-      <li><a href="#vehicles" data-i18n="nav.vehicles">차량</a></li>
-      <li><a href="#formula" data-i18n="nav.formula">계산 방식</a></li>
-    </ul>
-    <div class="gnav__tools">
-      <a class="gnav__icon" href="#weapons" id="gnav-search" aria-label="무기 검색" data-i18n-attr="aria-label:nav.search">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </a>
-      <button class="gnav__icon gnav__menu" id="gnav-menu" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="gnav-links">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9h16M4 15h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </div>
-</nav>
-
-<!-- 로컬 내비게이션 (스크롤 시 고정) -->
-<nav class="lnav" aria-label="데미지 랩 바로가기" data-i18n-attr="aria-label:lnav.aria">
-  <div class="lnav__inner">
-    <a class="lnav__title" href="#top" data-i18n="lnav.title">데미지 랩</a>
-    <div class="lnav__right">
-      <ul class="lnav__links">
-        <li><a href="#matrix" data-i18n="nav.matrix">데미지 표</a></li>
-        <li><a href="#armor" data-i18n="lnav.compare">방어구 비교</a></li>
-        <li><a href="#weapons" data-i18n="lnav.lineup">무기 라인업</a></li>
+    <nav class="tabbar__nav" aria-label="전체 메뉴" data-i18n-attr="aria-label:nav.aria">
+      <ul class="tabs" id="tabs">
+        <li><a class="tab" href="#damage" data-tab="damage">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <span data-i18n="tab.damage">데미지</span></a></li>
+        <li><a class="tab" href="#weight" data-tab="weight">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M5 20h14M5 7h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M5 7 2.5 13.5a2.6 2.6 0 0 0 5 0L5 7ZM19 7l-2.5 6.5a2.6 2.6 0 0 0 5 0L19 7Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span data-i18n="tab.weight">무게</span></a></li>
+        <li><a class="tab" href="#patch" data-tab="patch">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <span data-i18n="tab.patch">패치노트</span></a></li>
       </ul>
-      <a class="btn btn--sm" href="#calculator" data-i18n="lnav.cta">계산하기</a>
-    </div>
+    </nav>
+    <span class="tabbar__meta" id="tabbar-meta">2026.10 · 시즌 1</span>
   </div>
-</nav>
+</header>
 
 <main id="top">
 
-  <!-- 로드아웃 무게 계산기 (최상단) -->
-  <section class="section section--alt wt-section" id="weight" aria-labelledby="wt-title">
-    <div class="wrap wrap--wide">
-      <header class="section__head">
-        <p class="eyebrow" data-i18n="wt.eyebrow">로드아웃</p>
-        <h2 class="section__title" id="wt-title" data-i18n="wt.title">얼마나 들고 갈까.<br>로드아웃 무게 계산기.</h2>
-        <p class="section__lede" data-i18n="wt.lede">무기, 방어구, 가방, 의료품, 투척물을 골라 담으면 총무게와 무게 등급, 페널티를 바로 보여줍니다.</p>
-      </header>
+  <!-- ═════════ 데미지 탭 ═════════ -->
+  <div class="tabpanel" id="panel-damage">
 
-      <div class="wt">
-        <div class="wt__pick">
-          <fieldset class="wt__group">
-            <legend data-i18n="wt.gear">무기와 장비</legend>
-            <div class="wt__selects" id="wt-selects"></div>
-          </fieldset>
-          <fieldset class="wt__group">
-            <legend data-i18n="wt.items">소모품과 도구</legend>
-            <div class="wt__items" id="wt-items"></div>
-          </fieldset>
-          <div class="wt__mini" id="wt-mini" aria-hidden="true"></div>
-        </div>
-        <aside class="wt__sum" id="wt-summary"></aside>
-      </div>
-      <p class="table-note" data-i18n="wt.note">무게는 게임 데이터베이스 기준이며 부착물과 기본 복장 무게는 넣지 않았습니다.</p>
+  <nav class="subnav" aria-label="데미지 메뉴" data-i18n-attr="aria-label:subnav.aria">
+    <div class="subnav__inner">
+      <ul class="subnav__list">
+        <li><a href="#calculator" data-i18n="nav.calculator">계산기</a></li>
+        <li><a href="#matrix" data-i18n="nav.matrix">데미지 표</a></li>
+        <li><a href="#armor" data-i18n="nav.armor">방어구</a></li>
+        <li><a href="#weapons" data-i18n="nav.weapons">무기</a></li>
+        <li><a href="#structures" data-i18n="nav.structures">건축물 장비</a></li>
+        <li><a href="#explosives" data-i18n="nav.explosives">폭발물</a></li>
+        <li><a href="#vs-gear" data-i18n="nav.vsgear">장비 피해</a></li>
+        <li><a href="#vehicles" data-i18n="nav.vehicles">차량</a></li>
+        <li><a href="#formula" data-i18n="nav.formula">계산 방식</a></li>
+      </ul>
+      <a class="subnav__search" href="#weapons" id="subnav-search" aria-label="무기 검색" data-i18n-attr="aria-label:nav.search">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </a>
     </div>
-  </section>
+  </nav>
+
 
   <!-- 탐색 (분류별 개수) -->
   <nav class="chapternav" aria-label="분류 탐색" data-i18n-attr="aria-label:chapter.aria">
@@ -442,6 +418,58 @@
     </div>
   </section>
 
+  </div>
+
+  <!-- ═════════ 무게 탭 ═════════ -->
+  <section class="tabpanel section section--alt wt-section" id="panel-weight" aria-labelledby="wt-title" hidden>
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <p class="eyebrow" data-i18n="wt.eyebrow">로드아웃</p>
+        <h2 class="section__title" id="wt-title" data-i18n="wt.title">얼마나 들고 갈까.<br>로드아웃 무게 계산기.</h2>
+        <p class="section__lede" data-i18n="wt.lede">무기, 방어구, 가방, 의료품, 투척물을 골라 담으면 총무게와 무게 등급, 페널티를 바로 보여줍니다.</p>
+      </header>
+
+      <div class="wt">
+        <div class="wt__pick">
+          <fieldset class="wt__group">
+            <legend data-i18n="wt.gear">무기와 장비</legend>
+            <div class="wt__selects" id="wt-selects"></div>
+          </fieldset>
+          <fieldset class="wt__group">
+            <legend data-i18n="wt.items">소모품과 도구</legend>
+            <div class="wt__items" id="wt-items"></div>
+          </fieldset>
+          <div class="wt__mini" id="wt-mini" aria-hidden="true"></div>
+        </div>
+        <aside class="wt__sum" id="wt-summary"></aside>
+      </div>
+      <p class="table-note" data-i18n="wt.note">무게는 게임 데이터베이스 기준이며 부착물과 기본 복장 무게는 넣지 않았습니다.</p>
+    </div>
+  </section>
+
+  <!-- ═════════ 패치노트 탭 ═════════ -->
+  <section class="tabpanel section patch-section" id="panel-patch" aria-labelledby="patch-title" hidden>
+    <div class="wrap wrap--wide">
+      <header class="section__head">
+        <p class="eyebrow" data-i18n="patch.eyebrow">패치노트</p>
+        <h2 class="section__title" id="patch-title" data-i18n="patch.title">바뀐 것만.<br>한눈에.</h2>
+        <p class="section__lede" data-i18n="patch.lede">얼리 액세스 출시부터 최신 핫픽스까지 공식 발표를 분야별로 정리했습니다.</p>
+      </header>
+
+      <div class="pcheck" id="patch-check"></div>
+      <div class="ptoolbar"><div class="seg seg--scroll" id="patch-filter" role="group" aria-label="분야별 보기" data-i18n-attr="aria-label:patch.filter"></div></div>
+
+      <div class="patch">
+        <aside class="pindex">
+          <h3 class="pindex__title" data-i18n="patch.index">업데이트 목록</h3>
+          <ol id="patch-index"></ol>
+        </aside>
+        <div class="plist" id="patch-list"></div>
+      </div>
+      <p class="table-note" data-i18n="patch.note">공식 발표와 보도 내용을 요약했습니다.</p>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer" id="sources">
@@ -483,12 +511,20 @@
           <li><a href="#vehicles" data-i18n="nav.vehicles">차량</a></li>
         </ul>
       </div>
+      <div>
+        <h2 class="footer__h" data-i18n="footer.news">소식</h2>
+        <ul>
+          <li><a href="#patch" data-i18n="tab.patch">패치노트</a></li>
+          <li><a href="#patch-next" data-i18n="patch.next">다음 업데이트</a></li>
+        </ul>
+      </div>
     </div>
     <p class="footer__legal" data-i18n="footer.legal">데미지 랩은 비공식 팬 프로젝트이며 게임 개발사와 관계가 없습니다. WARDOGS 및 관련 명칭은 각 권리자의 상표입니다.</p>
   </div>
 </footer>
 
 <script src="js/data.js"></script>
+<script src="js/patches.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/app.js"></script>
 </body>
