@@ -62,7 +62,7 @@
   </nav>
 
   <p class="ribbon">
-    데이터 기준 <span id="data-version"></span>. 커뮤니티 측정치를 모았으며 실제 게임 값과 다를 수 있습니다. <a href="#sources">출처 보기 ›</a>
+    데이터 기준 <span id="data-version"></span>. 해외 데이터베이스와 사격장 실측 47개 값으로 검증했습니다. <a href="#formula">검증 결과 보기 ›</a>
   </p>
 
   <!-- 히어로 1 : 다크 -->
@@ -87,9 +87,9 @@
 
   <!-- 히어로 2 : 라이트 -->
   <section class="hero hero--alt" aria-labelledby="hero2-title">
-    <p class="eyebrow">새로운 최상위 등급</p>
+    <p class="eyebrow">최상위 등급</p>
     <h2 class="hero__title" id="hero2-title">Level 4 헬멧.</h2>
-    <p class="hero__sub">이제 목까지 막는다.</p>
+    <p class="hero__sub">머리와 목에 들어오는 피해의 65%를 막는다.</p>
     <div class="cta-row">
       <a class="btn" href="#armor" data-compare="helmets">비교하기</a>
       <a class="btn btn--ghost" href="#calculator" data-apply-helmet="4">계산기에서 보기</a>
@@ -100,7 +100,7 @@
         <div><dt>피해 감소</dt><dd>65%</dd></div>
         <div><dt>보호 부위</dt><dd>머리 + 목</dd></div>
         <div><dt>가격</dt><dd>$3,000</dd></div>
-        <div><dt>무게</dt><dd>4.5 kg</dd></div>
+        <div><dt>내구도</dt><dd>200</dd></div>
       </dl>
     </div>
   </section>
@@ -109,7 +109,7 @@
   <section class="tiles" aria-label="주요 항목">
     <article class="tile">
       <h3 class="tile__title">무기 34종.</h3>
-      <p class="tile__sub">권총부터 대물 저격총까지.</p>
+      <p class="tile__sub">종류마다 부위 배율이 다릅니다.</p>
       <div class="cta-row cta-row--sm">
         <a class="btn btn--sm" href="#weapons">둘러보기</a>
         <a class="btn btn--sm btn--ghost" href="#matrix">데미지 표</a>
@@ -161,7 +161,7 @@
     <div class="wrap">
       <header class="section__head">
         <h2 class="section__title" id="calc-title">어떤 조합이든.<br>몇 발인지 바로.</h2>
-        <p class="section__lede">무기, 탄종, 갑옷, 헬멧을 고르면 12개 부위의 1발 피해와 처치 탄수를 계산합니다. 체력은 100 기준입니다.</p>
+        <p class="section__lede">무기, 탄종, 갑옷, 헬멧을 고르면 12개 부위의 1발 피해와 처치 탄수를 계산합니다. 무기 종류별 부위 배율을 적용하고, 체력은 100 기준입니다.</p>
       </header>
 
       <div class="calc">
@@ -171,6 +171,7 @@
             <div class="stage__legend" id="calc-legend"></div>
           </div>
           <div class="summary" id="calc-summary"></div>
+          <p class="verify" id="calc-verify"></p>
         </div>
 
         <div class="calc__steps">
@@ -201,11 +202,12 @@
         <table class="ztable" id="calc-table">
           <caption class="sr-only">부위별 피해와 처치 탄수</caption>
           <thead>
-            <tr><th scope="col">부위</th><th scope="col">부위 배율</th><th scope="col">보호</th><th scope="col">1발 피해</th><th scope="col">처치 탄수</th><th scope="col">처치 시간</th></tr>
+            <tr><th scope="col">부위</th><th scope="col">부위 배율</th><th scope="col">보호</th><th scope="col">1발 피해</th><th scope="col">처치 탄수</th><th scope="col">처치 시간</th><th scope="col">사격장 실측</th></tr>
           </thead>
           <tbody></tbody>
         </table>
       </div>
+      <p class="table-note">사격장 실측은 일반탄으로 방어구 없는 부위를 맞혔을 때만 표시합니다. 처치 시간은 실측 연사 속도가 있으면 그 값으로 계산합니다.</p>
     </div>
   </section>
 
@@ -214,7 +216,7 @@
     <div class="wrap wrap--wide">
       <header class="section__head">
         <h2 class="section__title" id="matrix-title">모든 무기, 모든 방어구.<br>한 장의 표로.</h2>
-        <p class="section__lede">머리는 헬멧 등급별로, 가슴(상부 몸통)은 갑옷 등급별로 계산합니다. 숫자가 작을수록 빨리 쓰러집니다.</p>
+        <p class="section__lede">머리는 헬멧 등급별로, 가슴(상부 몸통)은 갑옷 등급별로 계산합니다. 숫자가 작을수록 빨리 쓰러집니다. 산탄총은 펠릿 8개가 모두 맞았을 때 기준입니다.</p>
       </header>
 
       <div class="toolbar">
@@ -241,7 +243,7 @@
         <div class="seg seg--center" id="compare-kind" role="radiogroup" aria-label="방어구 종류"></div>
       </header>
       <div class="compare" id="compare"></div>
-      <p class="footnote-inline">Level 4 방탄복의 보호 부위(골반·어깨)는 커뮤니티 관찰을 바탕으로 한 추정입니다. 내구도 소모는 계산에 반영하지 않습니다.</p>
+      <p class="footnote-inline">방어구는 맞을 때마다 내구도가 줄고, 0이 되면 더는 막지 못합니다. 계산기는 내구도가 남아 있는 상태를 기준으로 합니다.</p>
     </div>
   </section>
 
@@ -250,7 +252,7 @@
     <div class="wrap wrap--wide">
       <header class="section__head">
         <h2 class="section__title" id="weapons-title">무기 라인업 살펴보기.</h2>
-        <p class="section__lede">게임 속 34종 가운데 확인된 30종을 실었습니다. 카드를 누르면 계산기에 바로 적용되고, 처치 탄수는 일반탄으로 가슴을 맞혔을 때 기준입니다.</p>
+        <p class="section__lede">게임 속 34종을 모두 실었습니다. 큰 숫자는 일반탄으로 맨몸 가슴을 맞혔을 때의 1발 피해이고, 카드를 누르면 계산기에 바로 적용됩니다.</p>
       </header>
       <div class="toolbar toolbar--weapons">
         <label class="search" for="weapon-search">
@@ -270,7 +272,7 @@
       <header class="section__head">
         <p class="eyebrow eyebrow--ink">FOB 방어</p>
         <h2 class="section__title" id="structures-title">건축물 장비.<br>기지가 쏘는 데미지.</h2>
-        <p class="section__lede">FOB에 지을 수 있는 무기 시설입니다. 폭발 피해는 거리에 따라 줄어듭니다.</p>
+        <p class="section__lede">FOB에 지을 수 있는 무기 시설 4종과 건축물 21종의 내구도입니다. 폭발 피해는 거리에 따라 줄어듭니다.</p>
       </header>
 
       <div class="scards" id="structure-cards"></div>
@@ -279,20 +281,30 @@
         <div class="blast__viz" id="blast-viz"></div>
         <div class="blast__panel">
           <h3 class="blast__title">폭발 거리 시뮬레이터</h3>
-          <div class="seg seg--ink" id="blast-src" role="radiogroup" aria-label="폭발원"></div>
+          <div class="seg seg--ink seg--wrap" id="blast-src" role="radiogroup" aria-label="폭발원"></div>
           <label class="range" for="blast-range">
             <span>폭심에서의 거리</span>
             <output id="blast-out" for="blast-range">3.0 m</output>
           </label>
           <input id="blast-range" type="range" min="0" max="12" step="0.5" value="3">
           <div class="blast__result" id="blast-result"></div>
-          <p class="blast__note">최대 피해 반경 밖에서는 반경 끝까지 직선으로 줄어든다고 가정했습니다. 폭발 피해에는 방어구 감소를 적용하지 않습니다.</p>
+          <p class="blast__meta" id="blast-meta"></p>
+          <p class="blast__note">최대 피해 반경부터 반경 끝까지는 직선으로 줄어든다고 가정했습니다. 게임 데이터에 감쇠 곡선이 없어서입니다. 폭발 피해에는 방어구 감소를 적용하지 않습니다.</p>
         </div>
       </div>
 
-      <div class="demo">
-        <h3 class="demo__title">건축물을 부수려면</h3>
-        <ul class="demo__list" id="demolition"></ul>
+      <div class="build">
+        <div class="build__col">
+          <h3 class="demo__title">건축물 내구도</h3>
+          <ol class="hpbar" id="buildables"></ol>
+        </div>
+        <div class="build__col">
+          <h3 class="demo__title">부수는 데 필요한 폭발물</h3>
+          <div class="table-wrap table-wrap--ink">
+            <table class="dtable" id="demolition"><caption class="sr-only">건축물별 필요한 폭발물 개수</caption></table>
+          </div>
+          <p class="blast__note">가장 적게 드는 수단을 밝게 표시했습니다. IED 1개면 FOB 전체가 무너집니다.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -302,7 +314,7 @@
     <div class="wrap wrap--wide">
       <header class="section__head">
         <h2 class="section__title" id="explosives-title">폭발물.</h2>
-        <p class="section__lede">설치형, 투척형, 발사형 폭발물의 피해와 반경입니다.</p>
+        <p class="section__lede">설치형, 투척형, 발사형 폭발물 8종의 피해와 반경입니다.</p>
       </header>
       <div class="ecards" id="explosive-cards"></div>
     </div>
@@ -313,7 +325,7 @@
     <div class="wrap wrap--wide">
       <header class="section__head">
         <h2 class="section__title" id="vehicles-title">차량 탑재 무기.</h2>
-        <p class="section__lede">전차, 자주포, 헬기에 달린 무기입니다. 피해량은 측정이 끝나는 대로 채워집니다.</p>
+        <p class="section__lede">주요 차량의 선체 내구도와 탑재 무기입니다. "탄"으로 표시한 값은 부위 배율을 곱하기 전 탄 1발의 기본 피해입니다.</p>
       </header>
       <div class="vcards" id="vehicle-cards"></div>
       <ul class="facts">
@@ -332,11 +344,33 @@
       </header>
       <div class="formula">
         <p class="formula__eq" aria-label="최종 피해 계산식">
-          <span>기본 피해</span><i>×</i><span>부위 배율</span><i>×</i><span>탄종 보정</span><i>×</i><span>(1 − 방어구 감소율)</span>
+          <span>기본 피해</span><i>×</i><span>무기 종류별 부위 배율</span><i>×</i><span>탄종 보정</span><i>×</i><span>(1 − 방어구 감소율)</span>
         </p>
         <ol class="formula__walk" id="formula-walk"></ol>
       </div>
-      <div class="zone-ref" id="zone-ref"></div>
+      <div class="mults">
+        <h3 class="mults__title">무기 종류별 부위 배율</h3>
+        <p class="mults__lede">같은 탄이라도 무기 종류에 따라 피해가 다릅니다. 7.62×54mmR 탄(기본 55)으로 가슴을 맞히면 PKM은 63.5, SVD는 78.7, Mosin Nagant는 108.9입니다.</p>
+        <div class="table-wrap table-wrap--card">
+          <table class="ctable" id="class-table"><caption class="sr-only">무기 종류별 부위 배율</caption></table>
+        </div>
+        <ul class="zone-ratio" id="zone-ratio"></ul>
+      </div>
+
+      <div class="verify-block">
+        <h3 class="mults__title">계산 검증</h3>
+        <p class="mults__lede" id="verify-summary"></p>
+        <details class="verify-details">
+          <summary>무기별 실측값과 계산값 보기</summary>
+          <div class="table-wrap">
+            <table class="ztable" id="verify-table">
+              <caption class="sr-only">사격장 실측값과 계산값 비교</caption>
+              <thead><tr><th scope="col">무기</th><th scope="col">종류</th><th scope="col">부위 실측 / 계산</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -345,10 +379,11 @@
 <footer class="footer" id="sources">
   <div class="wrap wrap--wide">
     <ol class="footer__notes">
-      <li>모든 수치는 근거리, 체력 100 기준입니다. 거리별 감쇠와 방어구 내구도 소모는 아직 반영하지 않았습니다.</li>
-      <li>기본 피해는 부위 배율을 곱하기 전의 값입니다. 일부 자료의 "가슴 1발 피해"는 상부 몸통 배율 1.1을 나눠 환산했습니다.</li>
-      <li>"추정" 표시는 같은 탄을 쓰는 다른 무기의 값을 빌려 온 것입니다. "측정 대기"는 아직 값이 없는 항목입니다.</li>
-      <li>자료마다 수치가 다른 경우가 있어, 여러 자료가 함께 가리키는 값을 택했습니다.</li>
+      <li>모든 수치는 유효 사거리 안, 체력 100 기준입니다. 유효 사거리를 넘으면 무기마다 다른 곡선으로 피해가 줄어듭니다(M4는 500 m까지 그대로, 1,200 m에서 20%).</li>
+      <li>기본 피해는 탄 1발의 값이고, 부위 배율은 무기 종류마다 다릅니다. 사격장 실측 47개 값으로 계산식을 검증했습니다.</li>
+      <li>탄종의 맨몸 보정(HP ×2.0, AP ×0.8)은 실측값입니다. 방어구에 맞았을 때의 보정(AP +30%, HP −30%)은 커뮤니티 해석이며 아직 실측되지 않았습니다.</li>
+      <li>"추정"은 실측이 없어 비슷한 종류의 값을 빌려 온 항목이고, "미공개"는 공개된 자료에서 값을 찾지 못한 항목입니다.</li>
+      <li>자료마다 수치가 다를 때는 사격장 실측과 계산식이 함께 맞는 값을 택했습니다.</li>
     </ol>
     <div class="footer__sources">
       <h2 class="footer__h">참고한 자료</h2>
