@@ -428,6 +428,8 @@ img, svg { max-width: 100%; }
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: start;
 }
 .pcheck__icon { grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--k4) 24%, transparent); color: var(--fg); }
+.pcheck--updated .pcheck__icon { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.pcheck--pending .pcheck__icon { background: color-mix(in srgb, var(--k2) 30%, transparent); }
 .pcheck__title { margin: 6px 0 0; font-size: 17px; font-weight: 600; }
 .pcheck__body { margin: 0; font-size: 14px; line-height: 1.5; color: var(--fg-2); }
 .pcheck__as { color: var(--fg-3); white-space: nowrap; }

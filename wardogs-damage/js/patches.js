@@ -3,6 +3,9 @@
  * cat: balance(밸런스·경제) · gameplay · stability(안정성·버그) · fair(악용 방지·제재) · ui
  * lab: 데미지 탭에서 관련 섹션 id (해당 변경이 사이트 수치·내용과 닿을 때)
  * tables: 이전 → 이후 표. 값이 커질수록 플레이어에게 불리한 항목만 싣는다 (가격·XP·해금 레벨)
+ * check: 패치노트 탭 맨 위 요약. level = ok(사이트 수치 그대로) · updated(바뀐 수치 반영함) · pending(바뀌었지만 아직 반영 전)
+ *
+ * 새 패치 추가 절차와 자동 갱신은 tools/UPDATE_PATCHES.md 참고. 추가 후 node tools/check-patches.js 로 검사.
  */
 (function () {
   var T = function (ko, en, ja, hans, hant) { return { ko: ko, en: en, ja: ja, 'zh-Hans': hans, 'zh-Hant': hant }; };
@@ -12,28 +15,57 @@
   var SUPPORT_L = T('대형 망치 (서포트)', 'Large Hammer (Support)', '大型ハンマー（サポート）', '大锤（支援）', '大錘（支援）');
 
   window.WD_DATA.patches = {
+    check: {
+      level: 'ok',
+      title: T('사이트 수치는 그대로입니다.', 'Site numbers still hold.', 'サイトの数値は変わっていません。', '本站数值保持不变。', '本站數值維持不變。'),
+      body: T(
+        '무기 기본 피해량, 방어구 감소율, 아이템 무게를 바꾼 패치는 없었습니다. Havoc이 기관포에 받는 피해는 0.1.2와 10월 2일 핫픽스에서 바뀌었지만, 데미지 탭에는 그 값이 없어 영향이 없습니다.',
+        'No patch has changed base weapon damage, armor reduction or item weights. The damage the Havoc takes from cannon fire changed in 0.1.2 and the October 2 hotfix, but the Damage tab doesn’t list that value, so nothing here is affected.',
+        '武器の基礎ダメージ・防具の軽減率・アイテム重量を変えたパッチはありません。Havocが機関砲から受けるダメージは0.1.2と10月2日のホットフィックスで変わりましたが、ダメージタブにはその値を載せていないため影響はありません。',
+        '没有补丁改动武器基础伤害、护甲减伤或物品重量。Havoc 受到机炮的伤害在 0.1.2 与 10 月 2 日热修复中有调整，但伤害页没有收录该数值，因此不受影响。',
+        '沒有更新改動武器基礎傷害、護甲減傷或物品重量。Havoc 受到機砲的傷害在 0.1.2 與 10 月 2 日熱修復中有調整，但傷害頁沒有收錄該數值，因此不受影響。')
+    },
+
     next: {
       id: 'next', date: '2026-10-15',
       title: T('시즌 2', 'Season 2', 'シーズン2', '第 2 赛季', '第 2 賽季'),
       summary: T(
-        '9월 22일 36초 길이 티저로 발표됐습니다. 지금까지 확인된 내용은 아래와 같고, 정식 패치노트는 출시 때 나옵니다.',
-        'Announced on September 22 with a 36-second teaser. Here’s what is known so far; full patch notes arrive at launch.',
-        '9月22日に36秒のティザーで発表。現時点でわかっている内容は以下のとおりで、正式なパッチノートはリリース時に公開されます。',
-        '9 月 22 日以 36 秒预告公布。目前已知内容如下，完整更新日志将在上线时发布。',
-        '9 月 22 日以 36 秒預告公布。目前已知內容如下，完整更新日誌將在上線時發布。'),
+        '9월 22일 티저로 발표됐고, 10월 2일 개발자 팟캐스트에서 내용이 더 공개됐습니다. 정식 패치노트는 출시 때 나옵니다.',
+        'Announced with a teaser on September 22, with more shared on a developer podcast on October 2. Full patch notes arrive at launch.',
+        '9月22日のティザーで発表され、10月2日の開発者ポッドキャストでさらに内容が明かされました。正式なパッチノートはリリース時に公開されます。',
+        '9 月 22 日以预告公布，10 月 2 日的开发者播客透露了更多内容。完整更新日志将在上线时发布。',
+        '9 月 22 日以預告公布，10 月 2 日的開發者 Podcast 透露了更多內容。完整更新日誌將在上線時發布。'),
       impact: { some: false, text: T(
-        '시즌 2 패치노트가 나오면 데미지와 무게 수치를 다시 검증합니다.',
-        'Damage and weight numbers will be re-verified once the Season 2 patch notes are out.',
-        'シーズン2のパッチノートが出たら、ダメージと重量の数値を再検証します。',
-        '赛季 2 更新日志发布后，会重新核对伤害与重量数值。',
-        '賽季 2 更新日誌發布後，會重新核對傷害與重量數值。') },
+        '시즌 2 패치노트가 나오면 데미지와 무게 수치를 다시 검증하고, 새 무기와 낙하산 변경을 반영합니다.',
+        'Damage and weight numbers will be re-verified when the Season 2 patch notes are out, and the new weapons and parachute change added.',
+        'シーズン2のパッチノートが出たら、ダメージと重量の数値を再検証し、新武器とパラシュートの変更を反映します。',
+        '第 2 赛季更新日志发布后，会重新核对伤害与重量数值，并加入新武器与降落伞改动。',
+        '第 2 賽季更新日誌發布後，會重新核對傷害與重量數值，並加入新武器與降落傘改動。') },
       items: [
         { cat: 'gameplay', text: T(
-          '비 날씨 추가. 티저는 전장이 폭우와 뇌우로 바뀌는 장면을 보여줍니다.',
-          'Rain weather is coming; the teaser shows the battlefield turning into a heavy thunderstorm.',
-          '雨の天候が追加。ティザーでは戦場が激しい雷雨に変わります。',
-          '新增雨天天气，预告中战场变成了雷雨交加。',
-          '新增雨天天氣，預告中戰場變成了雷雨交加。') },
+          '비와 안개 날씨 추가. 티저는 전장이 폭우와 뇌우로 바뀌는 장면을 보여줍니다.',
+          'Rain and fog weather; the teaser shows the battlefield turning into a heavy thunderstorm.',
+          '雨と霧の天候が追加。ティザーでは戦場が激しい雷雨に変わります。',
+          '新增雨天与雾天，预告中战场变成了雷雨交加。',
+          '新增雨天與霧天，預告中戰場變成了雷雨交加。') },
+        { cat: 'gameplay', lab: 'weapons', text: T(
+          '새 무기 4종: 돌격·의무·지원·정찰 병과에 하나씩.',
+          'Four new weapons, one each for Assault, Medic, Support and Recon.',
+          '新武器4種：アサルト・メディック・サポート・リコンに1つずつ。',
+          '4 把新武器：突击、医疗、支援、侦察各一把。',
+          '4 把新武器：突擊、醫療、支援、偵察各一把。') },
+        { cat: 'gameplay', lab: 'weight', text: T(
+          '낙하산이 바뀝니다. 자세한 내용은 아직 공개되지 않았습니다.',
+          'Parachutes are changing; details aren’t public yet.',
+          'パラシュートが変更されます。詳細はまだ公開されていません。',
+          '降落伞将有改动，细节尚未公开。',
+          '降落傘將有改動，細節尚未公開。') },
+        { cat: 'balance', text: T(
+          'IR 거리 측정기가 배터리를 써야 하는 장비로 돌아옵니다.',
+          'IR Rangefinders return, now needing batteries.',
+          'IRレンジファインダーがバッテリー式で復活します。',
+          'IR 测距仪回归，需要电池才能使用。',
+          'IR 測距儀回歸，需要電池才能使用。') },
         { cat: 'balance', text: T(
           '진행도 초기화: 레벨과 현금이 리셋됩니다. 남은 현금은 골드바로 바뀌고, 골드바와 치장 아이템은 계정에 남습니다.',
           'Progress wipe: levels and cash reset. Leftover cash converts to Gold Bars, and Gold Bars and cosmetics stay on your account.',
@@ -44,11 +76,50 @@
       sources: [
         { site: 'Steam', url: 'https://steamcommunity.com/app/1867240/eventcomments/571549822592758637/' },
         { site: '1vX.gg', url: 'https://1vx.gg/news/wardogs-season-2-arrives-october-15-with-weather-and-a-progress-wipe' },
-        { site: 'TechWiser', url: 'https://techwiser.com/wardogs-season-2-teaser-breakdown/' }
+        { site: 'TechWiser', url: 'https://techwiser.com/wardogs-season-2-teaser-breakdown/' },
+        { site: 'WARDOGS Hub', url: 'https://wardogshub.gg/news/bulkhead-devs-season-2-podcast/' }
       ]
     },
 
     list: [
+      {
+        id: 'balance-2026-10-02', date: '2026-10-02', type: 'hotfix', version: null,
+        title: T('IR 고글·CWIS 밸런스 핫픽스', 'IR goggles & CWIS balance hotfix', 'IRゴーグル・CWISバランスホットフィックス', 'IR 护目镜与 CWIS 平衡热修复', 'IR 護目鏡與 CWIS 平衡熱修復'),
+        summary: T(
+          '보안 핫픽스와 같은 날 나온 서버 쪽 밸런스 조정. 클라이언트 다운로드와 점검 없이 지역 서버가 재시작할 때 12시간에 걸쳐 적용됐습니다.',
+          'A server-side balance change released the same day as the security hotfix. No client download or downtime; it rolled out over 12 hours as regional servers restarted.',
+          'セキュリティのホットフィックスと同じ日に出たサーバー側のバランス調整。クライアントのダウンロードやメンテナンスはなく、地域サーバーの再起動に合わせて12時間かけて適用されました。',
+          '与安全热修复同日推出的服务器端平衡调整。无需下载客户端，也没有停机，随各地区服务器重启在 12 小时内生效。',
+          '與安全熱修復同日推出的伺服器端平衡調整。不需下載用戶端，也沒有停機，隨各地區伺服器重啟在 12 小時內生效。'),
+        downtime: T('없음 · 서버 재시작 때 12시간에 걸쳐 적용', 'None · applied over 12 hours as servers restarted', 'なし・サーバー再起動に合わせ12時間かけて適用', '无 · 服务器重启时 12 小时内生效', '無 · 伺服器重啟時 12 小時內生效'),
+        impact: { some: true, text: T(
+          'Havoc이 CWIS에 다시 빨리 격추됩니다(약 6초). 데미지 탭에는 이 값이 없어 사이트 수치는 그대로입니다.',
+          'The Havoc goes down to the CWIS quickly again (about 6 s). The Damage tab doesn’t list this value, so site numbers are unchanged.',
+          'HavocはCWISで再び素早く撃墜されます（約6秒）。ダメージタブにはこの値を載せていないため、サイトの数値は変わりません。',
+          'Havoc 又会被 CWIS 快速击落（约 6 秒）。伤害页未收录该数值，本站数值不变。',
+          'Havoc 又會被 CWIS 快速擊落（約 6 秒）。傷害頁未收錄該數值，本站數值不變。') },
+        items: [
+          { cat: 'balance', lab: 'vehicles', text: T(
+            'CWIS가 Havoc을 파괴하는 시간이 약 12초에서 약 6초로 줄었습니다. 직전 패치(0.1.2)의 조정이 지나쳤다고 보고 되돌린 것입니다.',
+            'The CWIS now destroys the Havoc in about 6 seconds instead of 12, walking back an over-correction in the previous patch (0.1.2).',
+            'CWISがHavocを破壊するまでの時間が約12秒から約6秒に短縮。直前のパッチ（0.1.2）の調整が行き過ぎだったとして戻しました。',
+            'CWIS 摧毁 Havoc 的时间从约 12 秒缩短到约 6 秒，修正上一个补丁（0.1.2）的过度调整。',
+            'CWIS 摧毀 Havoc 的時間從約 12 秒縮短到約 6 秒，修正上一個更新（0.1.2）的過度調整。') },
+          { cat: 'balance', text: T(
+            'IR 거리 측정기(열화상 고글·쌍안경)를 시즌 2까지 경기 내 판매상에서 뺐습니다. 너무 강하다는 의견에 개발사도 동의했고, 시즌 2부터는 배터리가 있어야 쓸 수 있습니다.',
+            'IR Rangefinders (thermal goggles and binoculars) are pulled from the in-match vendor until Season 2. The developers agreed they were overpowered; from Season 2 they need batteries.',
+            'IRレンジファインダー（サーマルゴーグル・双眼鏡）をシーズン2まで試合内の販売所から外しました。強すぎるという意見に開発も同意し、シーズン2からはバッテリーが必要になります。',
+            'IR 测距仪（热成像护目镜与望远镜）在第 2 赛季前从局内商店下架。开发者认同其过强，第 2 赛季起需要电池才能使用。',
+            'IR 測距儀（熱成像護目鏡與望遠鏡）在第 2 賽季前從局內商店下架。開發者認同其過強，第 2 賽季起需要電池才能使用。') }
+        ],
+        sources: [
+          { site: 'Steam', url: 'https://store.steampowered.com/news/app/1867240/view/670629928317748295' },
+          { site: 'X @WARDOGSUpdates', url: 'https://x.com/WARDOGSUpdates/status/2106044339587563585' },
+          { site: 'PatchBot', url: 'https://patchbot.io/games/wardogs/articles/1654-ir-goggles-cwis-balance-hotfix' },
+          { site: 'timesaver.gg', url: 'https://timesaver.gg/blog/wardogs-ir-goggles-cwis-hotfix' }
+        ]
+      },
+
       {
         id: 'hotfix-2026-10-02', date: '2026-10-02', type: 'hotfix', version: null,
         title: T('보안·안정성 핫픽스', 'Security & stability hotfix', 'セキュリティ・安定性ホットフィックス', '安全与稳定性热修复', '安全與穩定性熱修復'),
@@ -86,11 +157,11 @@
           '封堵經驗與刷錢漏洞，並修正 Windows 11 當機。對漏洞濫用不再寬容。'),
         downtime: DOWN_1H,
         impact: { some: true, text: T(
-          '피해량 변경은 없습니다. 건축물 약점 위치와 차량 안 투척물 사용 규칙이 바뀌었습니다.',
-          'No damage changes. Buildable weak-spot placement and throwable use inside vehicles changed.',
-          'ダメージの変更はありません。建築物の弱点の位置と、車両内での投擲物の扱いが変わりました。',
-          '伤害没有改动。建筑弱点位置和车内投掷物规则有调整。',
-          '傷害沒有改動。建築弱點位置與車內投擲物規則有調整。') },
+          '무기 기본 피해량은 그대로입니다. Havoc이 기관포에 받는 피해, 건축물 약점 위치, 차량 안 투척물 사용 규칙이 바뀌었습니다.',
+          'Base weapon damage is unchanged. The damage the Havoc takes from cannon fire, buildable weak-spot placement and throwable use inside vehicles changed.',
+          '武器の基礎ダメージは変わりません。Havocが機関砲から受けるダメージ、建築物の弱点の位置、車両内での投擲物の扱いが変わりました。',
+          '武器基础伤害不变。Havoc 受到的机炮伤害、建筑弱点位置和车内投掷物规则有调整。',
+          '武器基礎傷害不變。Havoc 受到的機砲傷害、建築弱點位置與車內投擲物規則有調整。') },
         items: [
           { cat: 'stability', text: T(
             'WD-L020 크래시 수정: Windows 11 업데이트 KB5124010 때문에 생기던 문제로, 이제 Windows 업데이트를 지우지 않아도 됩니다.',
@@ -98,6 +169,12 @@
             'WD-L020を修正。Windows 11の更新プログラムKB5124010が原因のクラッシュで、更新をアンインストールする必要はなくなりました。',
             '修复 WD-L020：由 Windows 11 更新 KB5124010 引起的崩溃已修复，无需再卸载该更新。',
             '修正 WD-L020：由 Windows 11 更新 KB5124010 引起的當機已修正，不必再解除安裝該更新。') },
+          { cat: 'gameplay', lab: 'vehicles', text: T(
+            'Havoc이 20mm·30mm 기관포에 피해를 더 받던 버그를 고쳤습니다. 이 때문에 CWIS로 Havoc을 잡기가 너무 어려워져 10월 2일 핫픽스에서 다시 조정됐습니다.',
+            'Fixed a Havoc bug that made it take extra damage from 20 mm and 30 mm cannon fire. That left the Havoc too hard to kill with the CWIS, which the October 2 hotfix adjusted again.',
+            'Havocが20mm・30mm機関砲からのダメージを多く受けていた不具合を修正。これでCWISでHavocを落とすのが難しくなりすぎ、10月2日のホットフィックスで再調整されました。',
+            '修复 Havoc 受到 20mm 与 30mm 机炮额外伤害的漏洞。此后 CWIS 很难击落 Havoc，10 月 2 日热修复再次调整。',
+            '修正 Havoc 受到 20mm 與 30mm 機砲額外傷害的漏洞。此後 CWIS 很難擊落 Havoc，10 月 2 日熱修復再次調整。') },
           { cat: 'gameplay', lab: 'structures', text: T(
             '건축물 약점이 방금 맞힌 자리에 다시 생기거나, 구석으로 밀리거나, 반대편으로 튀던 문제를 고쳤습니다. 이제 서 있는 자리에서 닿는 곳을 우선합니다.',
             'Buildable crit spots no longer reappear where you just hit, get pushed into corners or jump to the far side. They now favor a spot you can reach from where you’re standing.',

@@ -383,6 +383,7 @@
   }
   var catOn = function (c) { return patchState.cat === 'all' || patchState.cat === c; };
   var shown = function (p) {
+    if (!p) return false;
     return p.items.some(function (it) { return catOn(it.cat); }) || (p.tables || []).some(function (tb) { return catOn(tb.cat); });
   };
 
@@ -436,10 +437,18 @@
   function renderPatches() {
     var nx = PT.next;
     var latest = PT.list[0];
+    // 맨 위 요약: ok(그대로) · updated(반영함) · pending(반영 전)
+    var ck = PT.check;
+    var icons = {
+      ok: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+      updated: '<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v4h-4"/>',
+      pending: '<path d="M12 6.5v7M12 17.5v.01"/>'
+    };
+    $('#patch-check').className = 'pcheck pcheck--' + ck.level;
     $('#patch-check').innerHTML =
-      '<span class="pcheck__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
-      '<p class="pcheck__title">' + esc(t('patch.check.title')) + '</p>' +
-      '<p class="pcheck__body">' + esc(t('patch.check.body')) + ' <span class="pcheck__as">' + esc(t('patch.check.as', { date: fmtDate(latest.date) })) + '</span></p>';
+      '<span class="pcheck__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + icons[ck.level] + '</svg></span>' +
+      '<p class="pcheck__title">' + esc(tx(ck.title)) + '</p>' +
+      '<p class="pcheck__body">' + esc(tx(ck.body)) + ' <span class="pcheck__as">' + esc(t('patch.check.as', { date: fmtDate(latest.date) })) + '</span></p>';
 
     $('#patch-filter').innerHTML = ['all'].concat(CATS).map(function (c) {
       return '<button type="button" data-cat="' + c + '" class="' + (patchState.cat === c ? 'is-on' : '') + '" aria-pressed="' + (patchState.cat === c) + '">' +
@@ -447,8 +456,9 @@
     }).join('');
 
     var short = { month: 'short', day: 'numeric' };
-    $('#patch-index').innerHTML =
-      '<li class="pindex__next' + (shown(nx) ? '' : ' is-off') + '"><a href="#patch-next"><time datetime="' + nx.date + '">' + esc(t('patch.upcoming')) + ' · ' + esc(fmtDate(nx.date, short)) + '</time>' + esc(tx(nx.title)) + '</a></li>' +
+    // 다음 업데이트(next)는 예고가 없으면 null
+    $('#patch-index').innerHTML = (!nx ? '' :
+      '<li class="pindex__next' + (shown(nx) ? '' : ' is-off') + '"><a href="#patch-next"><time datetime="' + nx.date + '">' + esc(t('patch.upcoming')) + ' · ' + esc(fmtDate(nx.date, short)) + '</time>' + esc(tx(nx.title)) + '</a></li>') +
       PT.list.map(function (p) {
         return '<li class="' + (shown(p) ? '' : 'is-off') + '"><a href="#patch-' + p.id + '"><time datetime="' + p.date + '">' + esc(fmtDate(p.date, short)) + ' · ' + esc(t('type.' + p.type)) + (p.version ? ' ' + esc(p.version) : '') + '</time>' + esc(tx(p.title)) + '</a></li>';
       }).join('');
