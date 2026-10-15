@@ -131,6 +131,12 @@
             'パラシュートは開くまでに時間がかかり、約10 m以下では開きません。',
             '降落伞开伞时间变长，约 10 米以下无法打开。',
             '降落傘開傘時間變長，約 10 公尺以下無法打開。') },
+          { cat: 'fair', text: T(
+            '팀킬 신고: 아군에게 죽으면 용서 또는 처벌을 고릅니다. 처벌이 쌓이면 강퇴되고, 반복하면 점점 긴 정지를 받습니다. 고르지 않고 부활해 안전 구역을 벗어나면 용서한 것으로 처리됩니다.',
+            'Teamkill reports: when a teammate kills you, you choose Forgive or Punish. Punishments add up to kicks and then longer and longer bans for repeat offenders. If you respawn and leave the safe zone without choosing, the teamkill is forgiven.',
+            'チームキルの報告：味方に倒されると「許す」か「罰する」を選びます。罰が積み重なるとキックされ、繰り返すと次第に長い停止処分を受けます。選ばずにリスポーンして安全地帯を出ると、許したものとして扱われます。',
+            '误杀举报：被队友击杀后可选择原谅或惩罚。惩罚累积会被踢出，屡犯者将受到越来越长的封禁。若未选择就重生并离开安全区，则视为原谅。',
+            '誤殺檢舉：被隊友擊殺後可選擇原諒或懲罰。懲罰累積會被踢出，屢犯者將受到越來越長的停權。若未選擇就重生並離開安全區，則視為原諒。') },
           { cat: 'ui', text: T(
             '공식 서버에 지역별 최대 핑 제한이 생겼습니다. 높은 핑이 계속될 때만 퇴장됩니다.',
             'Official servers now have region-based ping limits; you’re only kicked after sustained high ping.',
@@ -186,7 +192,8 @@
           { site: 'guided.news', url: 'https://guided.news/en/news/wardogs-season-2-update-grind-new-weapons-vehicles/' },
           { site: 'Screen Rant', url: 'https://screenrant.com/wardogs-season-2-new-weapons-vehicles-patch-notes/' },
           { site: 'theclick.gg', url: 'https://www.theclick.gg/wardogs-season-2-new-weapons/' },
-          { site: 'WARDOGS Hub', url: 'https://wardogshub.gg/patch-notes/' }
+          { site: 'WARDOGS Hub', url: 'https://wardogshub.gg/patch-notes/' },
+          { site: 'Gfinity Esports', url: 'https://www.gfinityesports.com/article/wardogs-season-2-patch-notes' }
         ]
       },
 
