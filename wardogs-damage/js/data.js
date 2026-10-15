@@ -28,6 +28,7 @@
   var AT_84 = T('84mm 대전차탄', '84mm anti-tank round', '84mm対戦車弾', '84mm 反坦克弹', '84mm 反坦克彈');
   var TANK_FRONT_2 = T('전차 전면 2발', '2 hits on a tank\'s front', '戦車正面に2発', '坦克正面 2 发', '坦克正面 2 發');
   var BUCKSHOT = T('12g 7mm 벅샷', '12g 7mm buckshot', '12g 7mmバックショット', '12g 7mm 鹿弹', '12g 7mm 鹿彈');
+  var NEW_S2 = T('시즌 2 신규. 피해는 같은 탄을 쓰는 무기의 값으로 추정했고, 연사 속도와 무게는 아직 공개되지 않았습니다.', 'New in Season 2. Damage is estimated from other weapons using the same round; fire rate and weight aren’t published yet.', 'シーズン2の新武器。ダメージは同じ弾を使う武器の値から推定し、連射速度と重量はまだ公開されていません。', '第 2 赛季新武器。伤害按使用相同弹药的武器推算，射速与重量尚未公开。', '第 2 賽季新武器。傷害依使用相同彈藥的武器推算，射速與重量尚未公開。');
   var SHOTGUN_NOTE = T(
     '전탄 명중 기준. 슬러그탄 105 (WARDOG Lv41)',
     'All pellets hitting. Slug: 105 (WARDOG Lv41)',
@@ -38,7 +39,7 @@
   var L81 = T('L81 박격포', 'L81 Mortar', 'L81迫撃砲', 'L81 迫击炮', 'L81 迫擊砲');
 
   window.WD_DATA = {
-    version: T('2026.10 · 시즌 1', '2026.10 · Season 1', '2026.10 · シーズン1', '2026.10 · 第 1 赛季', '2026.10 · 第 1 賽季'),
+    version: T('2026.10 · 시즌 2', '2026.10 · Season 2', '2026.10 · シーズン2', '2026.10 · 第 2 赛季', '2026.10 · 第 2 賽季'),
     hp: 100,
 
     /*
@@ -107,8 +108,8 @@
       { lvl: 0, short: '', price: 0, weight: 0, durability: null, reduction: 0, covers: [] },
       { lvl: 1, short: 'L1', price: 400, weight: 3.0, durability: 200, reduction: 0.3, covers: ['upperTorso', 'torso', 'lowerTorso'], unlock: 'WARDOG Lv3 · $10,000' },
       { lvl: 2, short: 'L2', price: 1000, weight: 4.5, durability: 220, reduction: 0.4, covers: ['upperTorso', 'torso', 'lowerTorso'], unlock: 'WARDOG Lv30 · $50,000' },
-      { lvl: 3, short: 'L3', price: 2000, weight: 10.5, durability: 250, reduction: 0.55, covers: ['upperTorso', 'torso', 'lowerTorso'], unlock: 'WARDOG Lv60 · $100,000' },
-      { lvl: 4, short: 'L4', price: 4000, weight: 18.0, durability: 300, reduction: 0.65, covers: ['upperTorso', 'torso', 'lowerTorso', 'pelvis', 'shoulder'], unlock: 'WARDOG Lv100 · $200,000' }
+      { lvl: 3, short: 'L3', price: 2000, weight: 10.5, durability: 250, reduction: 0.5, covers: ['upperTorso', 'torso', 'lowerTorso'], unlock: 'WARDOG Lv60 · $100,000' },
+      { lvl: 4, short: 'L4', price: 4000, weight: 18.0, durability: 300, reduction: 0.6, covers: ['upperTorso', 'torso', 'lowerTorso', 'pelvis', 'shoulder'], unlock: 'WARDOG Lv100 · $200,000' }
     ],
 
     /* 헬멧 (이름은 i18n의 helmetName·noHelmet로 만듭니다) */
@@ -116,16 +117,16 @@
       { lvl: 0, short: '', price: 0, weight: 0, durability: null, reduction: 0, covers: [] },
       { lvl: 1, short: 'L1', price: 200, weight: 1.0, durability: 80, reduction: 0.3, covers: ['head'], unlock: 'WARDOG Lv3' },
       { lvl: 2, short: 'L2', price: 500, weight: 1.6, durability: 100, reduction: 0.4, covers: ['head'], unlock: 'WARDOG Lv30' },
-      { lvl: 3, short: 'L3', price: 1500, weight: 3.0, durability: 180, reduction: 0.55, covers: ['head', 'neck'], unlock: 'WARDOG Lv60 · $75,000' },
-      { lvl: 4, short: 'L4', price: 3000, weight: 4.5, durability: 200, reduction: 0.65, covers: ['head', 'neck'], unlock: 'WARDOG Lv100 · $150,000' }
+      { lvl: 3, short: 'L3', price: 1500, weight: 3.0, durability: 180, reduction: 0.5, covers: ['head', 'neck'], unlock: 'WARDOG Lv60 · $75,000' },
+      { lvl: 4, short: 'L4', price: 4500, weight: 4.5, durability: 200, reduction: 0.6, covers: ['head', 'neck'], unlock: 'WARDOG Lv100 · $150,000' }
     ],
 
     /* 무기 분류 */
     classes: [
-      { id: 'ar', total: 8, name: T('돌격소총', 'Assault rifles', 'アサルトライフル', '突击步枪', '突擊步槍') },
-      { id: 'smg', total: 4, name: T('기관단총', 'SMGs', 'サブマシンガン', '冲锋枪', '衝鋒槍') },
-      { id: 'lmg', total: 2, name: T('경기관총', 'LMGs', '軽機関銃', '轻机枪', '輕機槍') },
-      { id: 'dmr', total: 3, name: T('지정사수소총', 'Marksman rifles', 'マークスマンライフル', '精确射手步枪', '精確射手步槍') },
+      { id: 'ar', total: 9, name: T('돌격소총', 'Assault rifles', 'アサルトライフル', '突击步枪', '突擊步槍') },
+      { id: 'smg', total: 5, name: T('기관단총', 'SMGs', 'サブマシンガン', '冲锋枪', '衝鋒槍') },
+      { id: 'lmg', total: 3, name: T('경기관총', 'LMGs', '軽機関銃', '轻机枪', '輕機槍') },
+      { id: 'dmr', total: 4, name: T('지정사수소총', 'Marksman rifles', 'マークスマンライフル', '精确射手步枪', '精確射手步槍') },
       { id: 'sniper', total: 5, name: T('저격소총', 'Sniper rifles', 'スナイパーライフル', '狙击步枪', '狙擊步槍') },
       { id: 'shotgun', total: 2, name: T('산탄총', 'Shotguns', 'ショットガン', '霰弹枪', '霰彈槍') },
       { id: 'pistol', total: 5, name: T('권총', 'Pistols', 'ハンドガン', '手枪', '手槍') },
@@ -142,27 +143,31 @@
       { id: 'm17s', kg: 3.17, cls: 'ar', name: 'Bushmaster M17S', caliber: '5.56×45mm', dmg: 28, rpm: 700, rpmM: 578, fire: 'semiBurst', price: 0, range: 300, vel: 715, measured: { upperTorso: 30.81, head: 65.81 } },
       { id: 't21', kg: 3.27, cls: 'ar', name: 'T-21', caliber: '5.56×45mm', dmg: 28, rpm: 750, fire: 'auto', price: 600, range: 550, vel: 910 },
       { id: 'galil', kg: 3.95, cls: 'ar', name: 'Galil', caliber: '5.56×45mm', dmg: 28, rpm: 650, fire: 'auto', price: 2200, range: 400, vel: 950 },
-      { id: 'ak74', kg: 3.0, cls: 'ar', name: 'AK74', caliber: '5.45×39mm', dmg: 26, rpm: 650, fire: 'auto', price: 1600, range: 500, vel: 880, measured: { neck: 45.8 } },
+      { id: 'ak74', kg: 3.0, cls: 'ar', name: 'AK74', caliber: '5.45×39mm', dmg: 26, rpm: 650, fire: 'auto', price: 800, range: 500, vel: 880, measured: { neck: 45.8 } },
       { id: 'm4', kg: 2.92, cls: 'ar', name: 'M4', caliber: '5.56×45mm', dmg: 28, rpm: 800, rpmM: 786, fire: 'auto', price: 2800, range: 500, vel: 910, unlock: 'Assault Lv20 · $100,000', measured: { upperTorso: 30.8, head: 65.8 } },
       { id: 'fal', kg: 4.25, cls: 'ar', name: 'FAL', caliber: '7.62×51mm', dmg: 60, rpm: 650, fire: 'auto', price: 6500, range: 800, vel: 840, unlock: 'Assault Lv35 · $200,000', measured: { upperTorso: 66 } },
+      { id: 'tcxspr', kg: null, cls: 'ar', name: 'TCX-SPR', caliber: '7.62×39mm', dmg: 34, rpm: null, fire: 'auto', price: 3200, range: null, unlock: 'Assault Lv20', note: NEW_S2 },
 
       { id: 'amp9', kg: 1.4, cls: 'smg', name: 'AMP-9', caliber: '9×19mm', dmg: 22, rpm: 900, rpmM: 868, fire: 'auto', price: 900, range: null, measured: { upperTorso: 25.4, head: 46.2 } },
       { id: 'pp19', kg: 2.9, cls: 'smg', name: 'PP-19 Vityaz', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 770, fire: 'auto', price: 1200, range: 200, measured: { upperTorso: 25.43, head: 46.21 } },
       { id: 'mp5', kg: 2.54, cls: 'smg', name: 'MP5', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 786, fire: 'auto', price: 1500, range: null, measured: { upperTorso: 25.43, head: 46.21 } },
       { id: 'super45', kg: 3.0, cls: 'smg', name: 'Super-45', caliber: '.45 ACP', dmg: 30, rpm: 1200, rpmM: 1137, fire: 'auto', price: 2600, range: null, unlock: 'Medic Lv35', measured: { upperTorso: 34.7, head: 63 } },
+      { id: 'bizon', kg: null, cls: 'smg', name: 'PP-19 Bizon', caliber: '9×19mm', dmg: 22, rpm: null, fire: 'auto', price: 1000, range: null, unlock: 'Medic Lv1', note: NEW_S2 },
 
       { id: 'm249', kg: 7.5, cls: 'lmg', name: 'M249 SAW', caliber: '5.56×45mm', dmg: 28, rpm: 850, rpmM: 824, fire: 'auto', price: 3200, range: null, measured: { upperTorso: 32.36, head: 64.4 } },
-      { id: 'pkm', kg: 7.5, cls: 'lmg', name: 'PKM', caliber: '7.62×54mmR', dmg: 55, rpm: null, rpmM: 865, fire: 'auto', price: 4500, range: 1000, unlock: 'Support Lv30', measured: { upperTorso: 63.54, head: 126.5 } },
+      { id: 'pkm', kg: 7.5, cls: 'lmg', name: 'PKM', caliber: '7.62×54mmR', dmg: 44, rpm: null, rpmM: 865, fire: 'auto', price: 4500, range: 1000, unlock: 'Support Lv15' },
+      { id: 'evo3', kg: null, cls: 'lmg', name: 'Evo-3 Ultra', caliber: '.308 Win', dmg: 45, rpm: null, fire: 'auto', price: 7250, range: null, unlock: 'Support Lv30', note: NEW_S2 },
 
-      { id: 'sks', kg: 3.85, cls: 'dmr', name: 'SKS', caliber: '7.62×39mm', dmg: 42, rpm: null, rpmM: 360, fire: 'semi', price: 2400, range: null, measured: { upperTorso: 60.08 } },
-      { id: 'svd', kg: 5.3, cls: 'dmr', name: 'SVD', caliber: '7.62×54mmR', dmg: 55, rpm: null, rpmM: 341, fire: 'semi', price: 4800, range: null, measured: { upperTorso: 78.7, head: 137.5 } },
-      { id: 'bmr308', kg: 3.9, cls: 'dmr', name: 'BMR-308', caliber: '.308 Win', dmg: 60, rpm: null, rpmM: 381, fire: 'semi', price: 6000, range: null, measured: { upperTorso: 85.8, head: 150 } },
+      { id: 'sks', kg: 3.85, cls: 'dmr', name: 'SKS', caliber: '7.62×39mm', dmg: 34, rpm: null, rpmM: 360, fire: 'semi', price: 2400, range: null },
+      { id: 'svd', kg: 5.3, cls: 'dmr', name: 'SVD', caliber: '7.62×54mmR', dmg: 44, rpm: null, rpmM: 341, fire: 'semi', price: 4800, range: null },
+      { id: 'bmr308', kg: 3.9, cls: 'dmr', name: 'BMR-308', caliber: '.308 Win', dmg: 45, rpm: null, rpmM: 381, fire: 'semi', price: 6000, range: null },
+      { id: 'm14', kg: null, cls: 'dmr', name: 'M14', caliber: '.308 Win', dmg: 45, rpm: null, fire: 'semi', price: 7400, range: null, unlock: 'Recon Lv25', note: NEW_S2 },
 
       { id: 'scout', kg: 2.95, cls: 'sniper', name: 'Scout Rifle TD', caliber: '5.56×45mm', dmg: 28, rpm: 46, fire: 'bolt', price: 1100, range: null, measured: { upperTorso: 55.4, head: 89.6 } },
-      { id: 'mosin', kg: 4.1, cls: 'sniper', name: 'Mosin Nagant', caliber: '7.62×54mmR', dmg: 55, rpm: 46, fire: 'bolt', price: 4500, range: 500, vel: 865, measured: { upperTorso: 108.92, head: 176 } },
-      { id: 'sv98', kg: 5.8, cls: 'sniper', name: 'SV98', caliber: '7.62×54mmR', dmg: 55, rpm: 46, fire: 'bolt', price: 5200, range: null, measured: { upperTorso: 108.9, head: 176 } },
-      { id: 'mk22', kg: 6.3, cls: 'sniper', name: 'MK22', caliber: '.308 Win', dmg: 60, rpm: 46, fire: 'bolt', price: 6400, range: 1000, measured: { upperTorso: 118.8, head: 192 } },
-      { id: 'amr50', kg: 12.5, cls: 'sniper', name: 'AMR 50', caliber: '.50 Cal', dmg: 107, rpm: 41.5, fire: 'bolt', price: 8800, range: null, unlock: 'Recon Lv35 · $200,000', measured: { upperTorso: 211.9, head: 342.4 } },
+      { id: 'mosin', kg: 4.1, cls: 'sniper', name: 'Mosin Nagant', caliber: '7.62×54mmR', dmg: 44, rpm: 46, fire: 'bolt', price: 4500, range: 500, vel: 865 },
+      { id: 'sv98', kg: 5.8, cls: 'sniper', name: 'SV98', caliber: '7.62×54mmR', dmg: 44, rpm: 46, fire: 'bolt', price: 5200, range: null },
+      { id: 'mk22', kg: 6.3, cls: 'sniper', name: 'MK22', caliber: '.308 Win', dmg: 45, rpm: 46, fire: 'bolt', price: 6400, range: 1000 },
+      { id: 'amr50', kg: 12.5, cls: 'sniper', name: 'AMR 50', caliber: '.50 Cal', dmg: 90, rpm: 41.5, fire: 'bolt', price: 8800, range: null, unlock: 'Recon Lv35 · $200,000' },
 
       { id: 'mp43', kg: 3.2, cls: 'shotgun', name: 'MP43', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 900, fire: 'break2', price: 400, range: null, vel: 391, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
       { id: 'm500', kg: 3.52, cls: 'shotgun', name: 'M500', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 120, fire: 'pump6', price: 1200, range: 70, vel: 480, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
@@ -321,7 +326,7 @@
         stats: [
           ['blastRadius', '10 m'], ['killRadius', '5 m'], ['range', '50–700 m'],
           ['reload', T('6.5초', '6.5 s', '6.5秒', '6.5 秒', '6.5 秒')], ['durability', '3,000'],
-          ['build', T('보급 150', '150 supplies', '補給 150', '补给 150', '補給 150')]
+          ['build', T('보급 600', '600 supplies', '補給 600', '补给 600', '補給 600')]
         ],
         note: T('포탄 1발에 탄약 보급 약 30을 씁니다. 차량과 건축물은 대개 2발이면 무너집니다.', 'Each shell uses about 30 ammo supplies. Vehicles and structures usually fall in 2 hits.', '砲弾1発で弾薬補給を約30消費します。車両や建築物はたいてい2発で倒れます。', '每发炮弹消耗约 30 弹药补给。载具与建筑通常 2 发即毁。', '每發砲彈消耗約 30 彈藥補給。載具與建築通常 2 發即毀。')
       },
@@ -446,7 +451,7 @@
         kind: T('주력 전차', 'Main battle tank', '主力戦車', '主战坦克', '主戰坦克'),
         weapons: [
           { dmg: 150, ammo: '120mm HEAT-MP', name: T('L55A1 120mm 주포', 'L55A1 120mm main gun', 'L55A1 120mm主砲', 'L55A1 120mm 主炮', 'L55A1 120mm 主砲') },
-          { dmg: 60, perRound: true, ammo: '.308 Win', name: T('MG3A1 공축기관총', 'MG3A1 coaxial MG', 'MG3A1同軸機銃', 'MG3A1 并列机枪', 'MG3A1 並列機槍') },
+          { dmg: 45, perRound: true, ammo: '.308 Win', name: T('MG3A1 공축기관총', 'MG3A1 coaxial MG', 'MG3A1同軸機銃', 'MG3A1 并列机枪', 'MG3A1 並列機槍') },
           { dmg: 28, perRound: true, ammo: '5.56×45mm', name: T('M249 기관총', 'M249 machine gun', 'M249機関銃', 'M249 机枪', 'M249 機槍') }
         ]
       },

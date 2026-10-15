@@ -16,136 +16,173 @@
 
   window.WD_DATA.patches = {
     check: {
-      level: 'ok',
-      title: T('사이트 수치는 그대로입니다.', 'Site numbers still hold.', 'サイトの数値は変わっていません。', '本站数值保持不变。', '本站數值維持不變。'),
+      level: 'updated',
+      title: T('시즌 2 수치를 반영했습니다.', 'Season 2 numbers are in.', 'シーズン2の数値を反映しました。', '已更新为第 2 赛季数值。', '已更新為第 2 賽季數值。'),
       body: T(
-        '지금까지 적용된 패치 중 무기 기본 피해량, 방어구 감소율, 아이템 무게를 바꾼 것은 없습니다. Havoc이 기관포에 받는 피해는 바뀌었지만 데미지 탭에는 그 값이 없습니다. 10월 15일 시즌 2에서 고구경 탄 피해 감소와 Level 4 방어구 하향이 예고돼 있어, 정식 패치노트가 나오는 대로 반영합니다.',
-        'No patch applied so far has changed base weapon damage, armor reduction or item weights. The damage the Havoc takes from cannon fire changed, but the Damage tab doesn’t list that value. Season 2 on October 15 is set to cut high-caliber damage and weaken Level 4 armor, and that will be applied once the full patch notes are out.',
-        'これまでに適用されたパッチで、武器の基礎ダメージ・防具の軽減率・アイテム重量を変えたものはありません。Havocが機関砲から受けるダメージは変わりましたが、ダメージタブにはその値がありません。10月15日のシーズン2では高口径弾のダメージ減少とLevel 4防具の弱体化が予告されており、正式なパッチノートが出しだい反映します。',
-        '目前已上线的补丁都没有改动武器基础伤害、护甲减伤或物品重量。Havoc 受到的机炮伤害有调整，但伤害页没有收录该数值。10 月 15 日第 2 赛季预告削减高口径弹药伤害并削弱 Level 4 护甲，完整更新日志发布后会立即更新。',
-        '目前已上線的更新都沒有改動武器基礎傷害、護甲減傷或物品重量。Havoc 受到的機砲傷害有調整，但傷害頁沒有收錄該數值。10 月 15 日第 2 賽季預告削減高口徑彈藥傷害並削弱 Level 4 護甲，完整更新日誌發布後會立即更新。')
+        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소와 Level 3·4 방어구 감소율 하향을 데미지 탭에 적용했고, 새 무기 4종은 같은 탄 기준 추정 피해로 넣었습니다. 저격소총 부위 배율 상향은 수치가 공개되지 않아 아직 시즌 1 배율이고, 바뀐 무기의 이전 실측값은 검증표에서 뺐습니다.',
+        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts and the lower Level 3 and 4 armor reduction are applied in the Damage tab, and the four new weapons use damage estimated from the same round. The sniper hit-location buff hasn’t been published, so snipers still use Season 1 multipliers, and old measurements for changed weapons were dropped from the check table.',
+        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少とLevel 3・4防具の軽減率引き下げをダメージタブに適用し、新武器4種は同じ弾からの推定ダメージで追加しました。スナイパーライフルの部位倍率の引き上げは数値が未公開のためシーズン1の倍率のままで、変更された武器の以前の実測値は検証表から外しました。',
+        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减与 Level 3、4 护甲减伤下调，4 把新武器按相同弹药推算伤害。狙击步枪部位倍率上调的数值尚未公开，暂沿用第 1 赛季倍率；受影响武器的旧实测值已从核对表移除。',
+        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減與 Level 3、4 護甲減傷下調，4 把新武器依相同彈藥推算傷害。狙擊步槍部位倍率上調的數值尚未公開，暫沿用第 1 賽季倍率；受影響武器的舊實測值已從核對表移除。')
     },
 
-    next: {
-      id: 'next', date: '2026-10-15',
-      title: T('시즌 2 · 업데이트 0.2', 'Season 2 · Update 0.2', 'シーズン2・アップデート0.2', '第 2 赛季 · 更新 0.2', '第 2 賽季 · 更新 0.2'),
-      summary: T(
-        '10월 9일 Steam 패치노트 미리보기와 개발 영상 「The Road to Season 2」에서 공개된 내용입니다. 모든 밸런스 변경과 점검 시간이 담긴 정식 패치노트는 이번 주 초에 나오며, 세부 내용은 그때까지 바뀔 수 있습니다.',
-        'What the October 9 Steam patch notes preview and the “The Road to Season 2” dev video have revealed. Full patch notes with every balance change and the maintenance window are due early this week, and details may still change until then.',
-        '10月9日のSteamパッチノートプレビューと開発動画「The Road to Season 2」で公開された内容です。すべてのバランス変更とメンテナンス時間を含む正式なパッチノートは今週前半に出る予定で、それまでに内容が変わる可能性があります。',
-        '以下为 10 月 9 日 Steam 更新日志预览与开发视频《The Road to Season 2》公布的内容。包含全部平衡调整与维护时间的完整更新日志将于本周初公布，细节在此之前仍可能变动。',
-        '以下為 10 月 9 日 Steam 更新日誌預覽與開發影片《The Road to Season 2》公布的內容。包含全部平衡調整與維護時間的完整更新日誌將於本週初公布，細節在此之前仍可能變動。'),
-      impact: { some: true, text: T(
-        '고구경 탄 피해 감소와 Level 4 방어구 감소율 하향이 예고돼, 시즌 2가 시작되면 데미지 탭의 무기·방어구 수치가 바뀝니다. 정식 패치노트가 나오면 새 무기·차량·건축물과 함께 반영합니다.',
-        'High-caliber damage cuts and a lower Level 4 armor reduction are planned, so weapon and armor numbers in the Damage tab will change when Season 2 starts. They’ll be updated together with the new weapons, vehicles and buildables once the full patch notes are out.',
-        '高口径弾のダメージ減少とLevel 4防具の軽減率引き下げが予告されており、シーズン2開始時にダメージタブの武器・防具の数値が変わります。正式なパッチノートが出たら、新しい武器・車両・建築物とあわせて反映します。',
-        '已预告削减高口径弹药伤害并下调 Level 4 护甲减伤，第 2 赛季开始后伤害页的武器与护甲数值会改变。完整更新日志发布后，会连同新武器、载具与建筑一起更新。',
-        '已預告削減高口徑彈藥傷害並下調 Level 4 護甲減傷，第 2 賽季開始後傷害頁的武器與護甲數值會改變。完整更新日誌發布後，會連同新武器、載具與建築一起更新。') },
-      items: [
-        { cat: 'balance', lab: 'matrix', text: T(
-          '고구경 탄 기본 피해 감소: .308 −25%, 7.62×54R −20%, 7.62×39 −19%, .50 −16%. 지금 수치에 대입하면 .308은 60→45, 7.62×54R은 55→44, 7.62×39는 42→약 34, .50은 107→약 90입니다(예상치). 저격소총은 부위별 피해를 올려 보완하고, 반동과 제압 효과도 다시 조정합니다.',
-          'High-caliber base damage cuts: .308 −25%, 7.62×54R −20%, 7.62×39 −19%, .50 −16%. Applied to current values that is .308 60→45, 7.62×54R 55→44, 7.62×39 42→about 34 and .50 107→about 90 (projections). Sniper rifles get higher hit-location damage to compensate, and recoil and suppression are retuned.',
-          '高口径弾の基礎ダメージ減少：.308 −25%、7.62×54R −20%、7.62×39 −19%、.50 −16%。現在の数値に当てはめると、.308は60→45、7.62×54Rは55→44、7.62×39は42→約34、.50は107→約90です（予想値）。スナイパーライフルは部位ダメージを上げて補い、反動と制圧効果も再調整されます。',
-          '高口径弹药基础伤害削减：.308 −25%、7.62×54R −20%、7.62×39 −19%、.50 −16%。套用当前数值约为 .308 60→45、7.62×54R 55→44、7.62×39 42→约 34、.50 107→约 90（预估）。狙击步枪提高部位伤害作为补偿，后坐力与压制效果也会重新调整。',
-          '高口徑彈藥基礎傷害削減：.308 −25%、7.62×54R −20%、7.62×39 −19%、.50 −16%。套用目前數值約為 .308 60→45、7.62×54R 55→44、7.62×39 42→約 34、.50 107→約 90（預估）。狙擊步槍提高部位傷害作為補償，後座力與壓制效果也會重新調整。') },
-        { cat: 'balance', lab: 'armor', text: T(
-          'Level 4 방어구 재조정: 갑옷·헬멧 피해 감소율이 65%에서 60%로 내려간다고 보도됐습니다(공식 수치 확인 전). Level 4 헬멧은 시야가 좁아지고 소리가 먹먹해지며 질주할 때 바이저에 김이 서리는 대신, 새 제압 시스템에서 이점을 얻습니다.',
-          'Level 4 armor rework: armor and helmet damage reduction is reported to drop from 65% to 60% (not yet in an official post). The Level 4 helmet also gets a restricted view, muffled sound and a visor that fogs while sprinting, in exchange for benefits under the new suppression system.',
-          'Level 4防具の再調整：アーマーとヘルメットのダメージ軽減率が65%から60%に下がると報じられています（公式の数値は未確認）。Level 4ヘルメットは視界が狭まり、音がこもり、ダッシュ中にバイザーが曇る代わりに、新しい制圧システムで有利になります。',
-          'Level 4 护甲重做：据报道护甲与头盔减伤将从 65% 降至 60%（尚无官方数值）。Level 4 头盔还会限制视野、使声音发闷、冲刺时面罩起雾，但在新的压制系统中获得优势。',
-          'Level 4 護甲重做：據報導護甲與頭盔減傷將從 65% 降至 60%（尚無官方數值）。Level 4 頭盔還會限制視野、使聲音發悶、衝刺時面罩起霧，但在新的壓制系統中獲得優勢。') },
-        { cat: 'balance', text: T(
-          '첫 진행도 초기화: 레벨, 병과 진행도, 해금이 처음으로 돌아갑니다. 남은 현금은 영구 화폐인 골드바로 바뀌고, 골드바로 산 치장 아이템은 계정에 남습니다.',
-          'The first progression wipe: levels, role progression and unlocks reset. Leftover cash converts into Gold Bars, a permanent account currency, and cosmetics bought with Gold Bars stay on your account.',
-          '初の進行度リセット：レベル、兵科の進行度、解放状況が最初に戻ります。残ったお金は永続通貨のゴールドバーに変わり、ゴールドバーで買った見た目アイテムはアカウントに残ります。',
-          '首次进度重置：等级、兵种进度与解锁全部归零。剩余现金会转换为永久货币金条，用金条购买的外观物品保留在账号中。',
-          '首次進度重置：等級、兵種進度與解鎖全部歸零。剩餘現金會轉換為永久貨幣金條，用金條購買的外觀物品保留在帳號中。') },
-        { cat: 'balance', text: T(
-          '새 자원 「인텔」: 총기 개조 화면에서 부착물을 여는 데 쓰일 예정입니다. 얻는 방법과 수치는 아직 공개되지 않았습니다.',
-          'A new resource, Intel, is planned for unlocking attachments in the Gunsmith. How it’s earned and the numbers aren’t public yet.',
-          '新しいリソース「インテル」：ガンスミス画面でアタッチメントを解放するのに使われる予定です。入手方法と数値はまだ公開されていません。',
-          '新资源「情报」：将用于在改枪界面解锁配件。获取方式与数值尚未公开。',
-          '新資源「情報」：將用於在改槍介面解鎖配件。取得方式與數值尚未公開。') },
-        { cat: 'balance', text: T(
-          'Lonestar(청팀) 보정: 시즌 1 승률이 청팀 약 10%, 적팀 40%, 녹팀 50%로 크게 벌어져, 청팀은 승리 시 현금·XP 보너스와 팀플레이 배율을 받고 스폰 위치(Bakurani 포함)와 복장이 바뀝니다.',
-          'Lonestar (Blue) support: Season 1 win rates were about 10% for Blue against 40% for Red and 50% for Green, so Blue gets cash and XP win bonuses, teamplay multipliers, new spawn positions (including on Bakurani) and new uniforms.',
-          'Lonestar（青チーム）の補正：シーズン1の勝率は青チーム約10%、赤40%、緑50%と大きく開いたため、青チームは勝利時のお金・XPボーナスとチームプレイ倍率を得て、スポーン位置（Bakurani含む）と服装が変わります。',
-          'Lonestar（蓝队）补强：第 1 赛季胜率蓝队约 10%、红队 40%、绿队 50%，差距悬殊。蓝队获胜可获得现金与 XP 奖励及团队配合倍率，出生点（含 Bakurani）与服装也会调整。',
-          'Lonestar（藍隊）補強：第 1 賽季勝率藍隊約 10%、紅隊 40%、綠隊 50%，差距懸殊。藍隊獲勝可獲得現金與 XP 獎勵及團隊配合倍率，出生點（含 Bakurani）與服裝也會調整。') },
-        { cat: 'balance', text: T(
-          '팀 이동 제한과 꼴찌 할인: 한 팀이 10점 넘게 앞서면 합류 후 15분 동안 팀을 바꿀 수 없습니다. 2위에 40점 이상 뒤진 꼴찌 팀은 판매상에서 20% 할인을 받습니다.',
-          'Team-switch limits and a last-place discount: once a team leads by more than 10 points, you can’t switch teams for 15 minutes after joining. A last-place team 40+ points behind second gets 20% off at vendors.',
-          'チーム移動の制限と最下位割引：あるチームが10点を超えてリードすると、参加後15分間はチームを変えられません。2位に40点以上離された最下位チームは販売所で20%割引になります。',
-          '换队限制与垫底折扣：某队领先超过 10 分时，加入后 15 分钟内无法换队。落后第二名 40 分以上的垫底队伍在商人处享 8 折。',
-          '換隊限制與墊底折扣：某隊領先超過 10 分時，加入後 15 分鐘內無法換隊。落後第二名 40 分以上的墊底隊伍在商人處享 8 折。') },
-        { cat: 'balance', text: T(
-          '실험적인 내기 판매상: 조건이 붙은 목표에 현금을 걸어 더 큰 보상을 노립니다. 미니맵 위에 걸린 금액과 진행 상황이 표시되며, 악용되면 시즌 중에 바뀌거나 빠질 수 있습니다.',
-          'An experimental Wager Vendor lets you stake cash on objectives with extra conditions for bigger payouts. A tracker above the minimap shows your stake and progress, and it may change or be removed mid-season if it proves exploitable.',
-          '実験的な賭けの販売所：条件付きの目標にお金を賭けて、より大きな報酬を狙えます。ミニマップの上に賭け金と進行状況が表示され、悪用されればシーズン中に変更・削除される可能性があります。',
-          '实验性的下注商人：可在附加条件的目标上押注现金换取更高回报。小地图上方会显示押注金额与进度，若被滥用可能在赛季中调整或移除。',
-          '實驗性的下注商人：可在附加條件的目標上押注現金換取更高回報。小地圖上方會顯示押注金額與進度，若被濫用可能在賽季中調整或移除。') },
-        { cat: 'balance', text: T(
-          'IR 거리 측정기가 배터리를 써야 하는 장비로 돌아옵니다.',
-          'IR Rangefinders return, now needing batteries.',
-          'IRレンジファインダーがバッテリー式で復活します。',
-          'IR 测距仪回归，需要电池才能使用。',
-          'IR 測距儀回歸，需要電池才能使用。') },
-        { cat: 'gameplay', lab: 'weapons', text: T(
-          '새 무기 4종: TCX-SPR(Spear) 돌격소총, M14 지정사수소총, PP-19 Bizon 기관단총, Evo-3 Ultra 경기관총. 새 부착물도 들어옵니다.',
-          'Four new weapons: the TCX-SPR (Spear) assault rifle, M14 DMR, PP-19 Bizon SMG and Evo-3 Ultra LMG, plus new attachments.',
-          '新武器4種：TCX-SPR（Spear）アサルトライフル、M14マークスマンライフル、PP-19 Bizonサブマシンガン、Evo-3 Ultra軽機関銃。新しいアタッチメントも追加されます。',
-          '4 把新武器：TCX-SPR（Spear）突击步枪、M14 精确射手步枪、PP-19 Bizon 冲锋枪、Evo-3 Ultra 轻机枪，并加入新配件。',
-          '4 把新武器：TCX-SPR（Spear）突擊步槍、M14 精確射手步槍、PP-19 Bizon 衝鋒槍、Evo-3 Ultra 輕機槍，並加入新配件。') },
-        { cat: 'gameplay', lab: 'explosives', text: T(
-          '화염병 추가: 불로 지역을 막아 적 보병의 진입을 막습니다.',
-          'Molotov cocktails, for denying areas to enemy infantry.',
-          '火炎瓶が追加。炎でエリアを封じ、敵歩兵の侵入を防ぎます。',
-          '新增燃烧瓶，用火封锁区域，阻止敌方步兵进入。',
-          '新增燃燒瓶，用火封鎖區域，阻止敵方步兵進入。') },
-        { cat: 'gameplay', lab: 'vehicles', text: T(
-          '새 차량 4종: Wolf-110, 무장형 Wolf-110 Assault, T-72B3 전차(레오파드보다 느리지만 싸고 연료를 덜 씀), Flakpanzer Gepard 대공 차량.',
-          'Four new vehicles: the Wolf-110, the armed Wolf-110 Assault, the T-72B3 tank (slower than the Leopard but cheaper and more fuel-efficient) and the Flakpanzer Gepard anti-air vehicle.',
-          '新車両4種：Wolf-110、武装型Wolf-110 Assault、T-72B3戦車（レオパルトより遅いが安く燃費が良い）、Flakpanzer Gepard対空車両。',
-          '4 款新载具：Wolf-110、武装型 Wolf-110 Assault、T-72B3 坦克（比豹式慢，但更便宜、更省油）、Flakpanzer Gepard 防空车。',
-          '4 款新載具：Wolf-110、武裝型 Wolf-110 Assault、T-72B3 坦克（比豹式慢，但更便宜、更省油）、Flakpanzer Gepard 防空車。') },
-        { cat: 'gameplay', lab: 'structures', text: T(
-          '새 건축물 3종: MG 진지(M2), 대형 대피소, 나무 발판. 건설 비용이 오르고 건설 속도는 느려지며, 박격포·Talon·드릴 장비도 조정됩니다.',
-          'Three new buildables: an MG nest (M2), a large shelter and a wooden step. Construction costs more and builds slower, and mortars, Talons and drill rigs are adjusted.',
-          '新建築物3種：MG陣地（M2）、大型シェルター、木製の足場。建設コストが上がって建設速度は遅くなり、迫撃砲・Talon・ドリルも調整されます。',
-          '3 种新建筑：机枪阵地（M2）、大型掩体、木制踏板。建造成本提高、速度变慢，迫击炮、Talon 与钻机也会调整。',
-          '3 種新建築：機槍陣地（M2）、大型掩體、木製踏板。建造成本提高、速度變慢，迫擊砲、Talon 與鑽機也會調整。') },
-        { cat: 'gameplay', text: T(
-          '비와 안개 날씨 추가. 시야, 교전 거리, 소리에 영향을 줍니다.',
-          'Rain and fog weather that affects visibility, engagement ranges and sound.',
-          '雨と霧の天候が追加。視界、交戦距離、音に影響します。',
-          '新增雨天与雾天，会影响视野、交战距离与声音。',
-          '新增雨天與霧天，會影響視野、交戰距離與聲音。') },
-        { cat: 'gameplay', lab: 'weight', text: T(
-          '낙하산의 최소 개방 높이가 높아집니다.',
-          'Parachutes get a higher minimum deployment height.',
-          'パラシュートの最低展開高度が上がります。',
-          '降落伞的最低开伞高度提高。',
-          '降落傘的最低開傘高度提高。') },
-        { cat: 'stability', text: T(
-          '성능 최적화, 버그 수정, 서버 안정성 개선이 함께 들어갑니다.',
-          'Further performance optimisation, bug fixes and server stability improvements.',
-          'パフォーマンス最適化、不具合修正、サーバー安定性の改善も含まれます。',
-          '同时包含性能优化、错误修复与服务器稳定性改进。',
-          '同時包含效能最佳化、錯誤修正與伺服器穩定性改善。') }
-      ],
-      sources: [
-        { site: 'Steam', url: 'https://steamcommunity.com/app/1867240/announcements/' },
-        { site: 'Steam Discussions', url: 'https://steamcommunity.com/app/1867240/discussions/0/585062414363418160/' },
-        { site: 'Shacknews', url: 'https://www.shacknews.com/article/150958/wardogs-season-2-new-content' },
-        { site: 'Screen Rant', url: 'https://screenrant.com/wardogs-season-2-new-weapons-vehicles-patch-notes/' },
-        { site: 'Screen Rant (Blue Team)', url: 'https://screenrant.com/wardogs-season-2-has-an-experimental-plan-to-save-blue-team/' },
-        { site: 'GamesRadar+', url: 'https://www.gamesradar.com/games/fps/wardogs-season-2-will-pay-people-to-join-blue-team-to-fix-its-notoriously-lower-win-rate-lonestar-gets-cash-and-xp-win-bonus-plus-multipliers/' },
-        { site: 'OpenCritic', url: 'https://opencritic.com/news/37465/wardogs-season-2-revealed-new-weapons-vehicles-weather-major-gameplay-changes' },
-        { site: 'IGGM', url: 'https://www.iggm.com/news/wardogs-season-2-developer-balance-changes-wipe-changes-gear-adjustments-intel-progression' }
-      ]
-    },
+    // 다음 예고가 나오면 여기에 넣는다
+    next: null,
 
     list: [
+      {
+        id: 'season-2', date: '2026-10-15', type: 'season', version: '0.2',
+        title: T('시즌 2 · 업데이트 0.2', 'Season 2 · Update 0.2', 'シーズン2・アップデート0.2', '第 2 赛季 · 更新 0.2', '第 2 賽季 · 更新 0.2'),
+        summary: T(
+          '10월 14일 Steam에 정식 패치노트가 올라왔고, 10월 15일 점검이 끝나면 시작됩니다. 첫 진행도 초기화와 함께 무기·방어구 밸런스, 새 무기·차량·건축물, 비 날씨가 들어옵니다.',
+          'Full patch notes went up on Steam on October 14, and the season starts after maintenance on October 15. Alongside the first progression wipe come weapon and armor balance, new weapons, vehicles and buildables, and rain.',
+          '10月14日にSteamで正式なパッチノートが公開され、10月15日のメンテナンス後に開始します。初の進行度リセットとともに、武器・防具のバランス調整、新しい武器・車両・建築物、雨の天候が追加されます。',
+          '10 月 14 日 Steam 发布了完整更新日志，10 月 15 日维护结束后开始。随首次进度重置一同到来的有武器与护甲平衡调整、新武器、载具与建筑，以及雨天天气。',
+          '10 月 14 日 Steam 發布了完整更新日誌，10 月 15 日維護結束後開始。隨首次進度重置一同到來的有武器與護甲平衡調整、新武器、載具與建築，以及雨天天氣。'),
+        downtime: T('10월 15일 08:00–09:30 UTC (약 90분)', 'Oct 15, 08:00–09:30 UTC (about 90 min)', '10月15日 08:00〜09:30 UTC（約90分）', '10 月 15 日 08:00–09:30 UTC（约 90 分钟）', '10 月 15 日 08:00–09:30 UTC（約 90 分鐘）'),
+        impact: { some: true, text: T(
+          '데미지 탭에 시즌 2 수치를 반영했습니다: 고구경 탄 피해 감소, Level 3·4 방어구 감소율 하향, 새 무기 4종(피해는 추정). 저격소총 부위 배율 상향은 수치가 공개되지 않아 아직 반영하지 못했습니다.',
+          'Season 2 numbers are now in the Damage tab: high-caliber damage cuts, lower Level 3 and 4 armor reduction, and four new weapons (estimated damage). The sniper hit-location buff isn’t in yet because its values weren’t published.',
+          'ダメージタブにシーズン2の数値を反映しました：高口径弾のダメージ減少、Level 3・4防具の軽減率引き下げ、新武器4種（ダメージは推定）。スナイパーライフルの部位倍率の引き上げは数値が公開されていないため、まだ反映していません。',
+          '伤害页已更新为第 2 赛季数值：高口径弹药伤害削减、Level 3 与 4 护甲减伤下调、4 把新武器（伤害为推算）。狙击步枪部位倍率上调因数值未公开，暂未反映。',
+          '傷害頁已更新為第 2 賽季數值：高口徑彈藥傷害削減、Level 3 與 4 護甲減傷下調、4 把新武器（傷害為推算）。狙擊步槍部位倍率上調因數值未公開，暫未反映。') },
+        items: [
+          { cat: 'balance', lab: 'matrix', text: T(
+            '고구경 탄 기본 피해 감소: .308 −25%(60→45), 7.62×54R −20%(55→44), 7.62×39 −19%(42→34), .50 −16%(107→90). 저격소총은 부위별 피해 배율을 올려 보완하며, 정찰 소총은 헬멧 없는 머리를 한 발에, Level 1 헬멧을 쓴 머리는 두 발에 처치합니다.',
+            'High-caliber base damage cuts: .308 −25% (60→45), 7.62×54R −20% (55→44), 7.62×39 −19% (42→34), .50 −16% (107→90). Sniper rifles get higher hit-location multipliers to compensate; the Scout Rifle now one-shots an unhelmeted head and kills through a Level 1 helmet in two.',
+            '高口径弾の基礎ダメージ減少：.308 −25%（60→45）、7.62×54R −20%（55→44）、7.62×39 −19%（42→34）、.50 −16%（107→90）。スナイパーライフルは部位倍率を上げて補い、スカウトライフルはヘルメットなしの頭を1発、Level 1ヘルメットなら2発で倒します。',
+            '高口径弹药基础伤害削减：.308 −25%（60→45）、7.62×54R −20%（55→44）、7.62×39 −19%（42→34）、.50 −16%（107→90）。狙击步枪提高部位倍率作为补偿，侦察步枪可一枪击杀无头盔目标的头部，戴 Level 1 头盔则需两枪。',
+            '高口徑彈藥基礎傷害削減：.308 −25%（60→45）、7.62×54R −20%（55→44）、7.62×39 −19%（42→34）、.50 −16%（107→90）。狙擊步槍提高部位倍率作為補償，偵察步槍可一槍擊殺無頭盔目標的頭部，戴 Level 1 頭盔則需兩槍。') },
+          { cat: 'balance', lab: 'armor', text: T(
+            '방어구 감소율 하향: Level 3 갑옷·헬멧 55%→50%, Level 4 65%→60%. Level 3·4 헬멧은 제압 저항이 높아지고, Level 4 헬멧은 소리와 근접 음성 채팅이 먹먹해지며 시야가 좁아지고 질주할 때 김이 서립니다.',
+            'Lower armor reduction: Level 3 armor and helmets 55%→50%, Level 4 65%→60%. Level 3 and 4 helmets get more suppression resistance, while the Level 4 helmet muffles audio and proximity chat, narrows your view and fogs up while sprinting.',
+            '防具の軽減率引き下げ：Level 3のアーマー・ヘルメット55%→50%、Level 4は65%→60%。Level 3・4ヘルメットは制圧耐性が上がり、Level 4ヘルメットは音と近接ボイスチャットがこもり、視界が狭まり、ダッシュ中に曇ります。',
+            '护甲减伤下调：Level 3 护甲与头盔 55%→50%，Level 4 65%→60%。Level 3 与 4 头盔的抗压制能力提高，Level 4 头盔会使声音与近距离语音发闷、视野变窄，冲刺时起雾。',
+            '護甲減傷下調：Level 3 護甲與頭盔 55%→50%，Level 4 65%→60%。Level 3 與 4 頭盔的抗壓制能力提高，Level 4 頭盔會使聲音與近距離語音發悶、視野變窄，衝刺時起霧。') },
+          { cat: 'balance', text: T(
+            '첫 진행도 초기화: 시즌 레벨·진행도·현금이 리셋되고, 남은 현금은 골드바로 바뀝니다. 지금까지 쌓은 XP는 앞으로 나올 시스템을 위해 따로 보관됩니다.',
+            'The first progression wipe: seasonal levels, progression and cash reset, and leftover cash converts to Gold Bars. All XP earned so far is banked for future systems.',
+            '初の進行度リセット：シーズンのレベル・進行度・お金がリセットされ、残ったお金はゴールドバーに変わります。これまでに得たXPは今後のシステムのために保管されます。',
+            '首次进度重置：赛季等级、进度与现金清零，剩余现金转换为金条。至今累积的 XP 会保留给日后的系统使用。',
+            '首次進度重置：賽季等級、進度與現金歸零，剩餘現金轉換為金條。至今累積的 XP 會保留給日後的系統使用。') },
+          { cat: 'balance', text: T(
+            '레벨업이 크게 빨라지고 주요 장비가 더 일찍 열립니다. 대신 강한 장비와 차량은 비싸졌습니다(아래 표).',
+            'Leveling is much faster and key gear unlocks earlier, while stronger gear and vehicles cost more (tables below).',
+            'レベルアップが大幅に速くなり、主要装備が早く解放されます。その代わり強力な装備や車両は高くなりました（下の表）。',
+            '升级大幅加快，主要装备更早解锁；相对地，强力装备与载具变贵了（见下表）。',
+            '升級大幅加快，主要裝備更早解鎖；相對地，強力裝備與載具變貴了（見下表）。') },
+          { cat: 'balance', text: T(
+            'Lonestar 진영 실험: 시즌 2 동안 Lonestar는 승리 현금·XP 보너스와 팀플레이 배율을 받습니다. 한 팀이 10점 넘게 앞서면 합류 후 15분 동안 팀을 바꿀 수 없고, 2위에 40점 이상 뒤진 꼴찌 팀은 판매상 20% 할인을 받습니다.',
+            'Faction balance experiment: Lonestar gets cash and XP win bonuses and teamplay multipliers for Season 2. Once a team leads by more than 10 points you can’t switch for 15 minutes after joining, and a last-place team 40+ points behind second gets 20% off at vendors.',
+            '陣営バランスの実験：シーズン2の間、Lonestarは勝利時のお金・XPボーナスとチームプレイ倍率を得ます。あるチームが10点を超えてリードすると参加後15分間はチームを変えられず、2位に40点以上離された最下位チームは販売所で20%割引になります。',
+            '阵营平衡实验：第 2 赛季期间 Lonestar 获胜可获得现金与 XP 奖励及团队配合倍率。某队领先超过 10 分时，加入后 15 分钟内无法换队；落后第二名 40 分以上的垫底队伍在商人处享 8 折。',
+            '陣營平衡實驗：第 2 賽季期間 Lonestar 獲勝可獲得現金與 XP 獎勵及團隊配合倍率。某隊領先超過 10 分時，加入後 15 分鐘內無法換隊；落後第二名 40 分以上的墊底隊伍在商人處享 8 折。') },
+          { cat: 'balance', text: T(
+            '내기 판매상은 시즌 2 시작 때는 열리지 않고 시즌 중에 추가됩니다.',
+            'The Wager Vendor won’t be there at launch; it opens later in Season 2.',
+            '賭けの販売所はシーズン2開始時にはなく、シーズン中に追加されます。',
+            '下注商人不会在第 2 赛季上线时开放，会在赛季中加入。',
+            '下注商人不會在第 2 賽季上線時開放，會在賽季中加入。') },
+          { cat: 'balance', text: T(
+            'IR 거리 측정기가 배터리 방식으로 돌아옵니다. 배터리 하나로 약 80초 쓸 수 있습니다. Havoc 파괴 보상은 $18,000에서 $14,000으로 줄었습니다.',
+            'The IR Rangefinder returns on batteries, about 80 s of use per battery. The reward for destroying a Havoc drops from $18,000 to $14,000.',
+            'IRレンジファインダーがバッテリー式で復活し、1個で約80秒使えます。Havoc撃破の報酬は$18,000から$14,000に下がりました。',
+            'IR 测距仪改为电池供电回归，每块电池约可使用 80 秒。击毁 Havoc 的奖励从 $18,000 降至 $14,000。',
+            'IR 測距儀改為電池供電回歸，每顆電池約可使用 80 秒。擊毀 Havoc 的獎勵從 $18,000 降至 $14,000。') },
+          { cat: 'gameplay', lab: 'weapons', text: T(
+            '새 무기 4종: TCX-SPR 돌격소총(7.62×39, $3,200, Assault Lv20), PP-19 Bizon 기관단총(9×19, $1,000, Medic 기본), Evo-3 Ultra 경기관총(.308, $7,250, Support Lv30), M14 지정사수소총(.308, $7,400, Recon Lv25). 데미지 탭에는 같은 탄 기준 추정 피해로 넣었습니다.',
+            'Four new weapons: the TCX-SPR assault rifle (7.62×39, $3,200, Assault 20), PP-19 Bizon SMG (9×19, $1,000, Medic default), Evo-3 Ultra LMG (.308, $7,250, Support 30) and M14 DMR (.308, $7,400, Recon 25). They’re in the Damage tab with damage estimated from the same round.',
+            '新武器4種：TCX-SPRアサルトライフル（7.62×39、$3,200、Assault Lv20）、PP-19 Bizonサブマシンガン（9×19、$1,000、Medic初期）、Evo-3 Ultra軽機関銃（.308、$7,250、Support Lv30）、M14マークスマンライフル（.308、$7,400、Recon Lv25）。ダメージタブには同じ弾からの推定ダメージで追加しました。',
+            '4 把新武器：TCX-SPR 突击步枪（7.62×39，$3,200，突击 20 级）、PP-19 Bizon 冲锋枪（9×19，$1,000，医疗兵默认）、Evo-3 Ultra 轻机枪（.308，$7,250，支援 30 级）、M14 精确射手步枪（.308，$7,400，侦察 25 级）。伤害页已按相同弹药推算伤害加入。',
+            '4 把新武器：TCX-SPR 突擊步槍（7.62×39，$3,200，突擊 20 級）、PP-19 Bizon 衝鋒槍（9×19，$1,000，醫療兵預設）、Evo-3 Ultra 輕機槍（.308，$7,250，支援 30 級）、M14 精確射手步槍（.308，$7,400，偵察 25 級）。傷害頁已依相同彈藥推算傷害加入。') },
+          { cat: 'gameplay', lab: 'explosives', text: T(
+            '화염병 추가: 불로 지역을 막아 적 보병의 진입을 막습니다.',
+            'Molotov cocktails, for denying areas to enemy infantry.',
+            '火炎瓶が追加。炎でエリアを封じ、敵歩兵の侵入を防ぎます。',
+            '新增燃烧瓶，用火封锁区域，阻止敌方步兵进入。',
+            '新增燃燒瓶，用火封鎖區域，阻止敵方步兵進入。') },
+          { cat: 'gameplay', lab: 'vehicles', text: T(
+            '새 차량 4종: Wolf-110($2,200), M2 브라우닝을 단 Wolf-110($7,800), T-72B3 전차($16,000), Flakpanzer Gepard 대공 차량($14,000).',
+            'Four new vehicles: the Wolf-110 ($2,200), the Wolf-110 with an M2 Browning ($7,800), the T-72B3 tank ($16,000) and the Flakpanzer Gepard anti-air vehicle ($14,000).',
+            '新車両4種：Wolf-110（$2,200）、M2ブローニング搭載のWolf-110（$7,800）、T-72B3戦車（$16,000）、Flakpanzer Gepard対空車両（$14,000）。',
+            '4 款新载具：Wolf-110（$2,200）、装 M2 勃朗宁的 Wolf-110（$7,800）、T-72B3 坦克（$16,000）、Flakpanzer Gepard 防空车（$14,000）。',
+            '4 款新載具：Wolf-110（$2,200）、裝 M2 白朗寧的 Wolf-110（$7,800）、T-72B3 坦克（$16,000）、Flakpanzer Gepard 防空車（$14,000）。') },
+          { cat: 'gameplay', lab: 'structures', text: T(
+            '새 건축물 3종: MG 진지(M2), 대형 대피소, 나무 발판. L81 박격포 건설 비용이 보급 150에서 600으로 오르고, 박격포와 Talon도 조정됐습니다.',
+            'Three new buildables: an MG nest (M2), a large shelter and a wooden step. The L81 mortar now costs 600 supplies instead of 150, and mortars and Talons are adjusted.',
+            '新建築物3種：MG陣地（M2）、大型シェルター、木製の足場。L81迫撃砲の建設コストは補給150から600に上がり、迫撃砲とTalonも調整されました。',
+            '3 种新建筑：机枪阵地（M2）、大型掩体、木制踏板。L81 迫击炮建造成本从补给 150 提高到 600，迫击炮与 Talon 也有调整。',
+            '3 種新建築：機槍陣地（M2）、大型掩體、木製踏板。L81 迫擊砲建造成本從補給 150 提高到 600，迫擊砲與 Talon 也有調整。') },
+          { cat: 'gameplay', text: T(
+            '비 날씨 추가: 천둥이 발소리를 가리고 시야와 교전 거리에 영향을 줍니다.',
+            'A rain weather preset whose thunder masks footsteps and affects visibility and engagement range.',
+            '雨の天候が追加。雷鳴が足音をかき消し、視界と交戦距離に影響します。',
+            '新增雨天天气，雷声会掩盖脚步声，并影响视野与交战距离。',
+            '新增雨天天氣，雷聲會掩蓋腳步聲，並影響視野與交戰距離。') },
+          { cat: 'gameplay', lab: 'weight', text: T(
+            '낙하산이 펴지는 데 더 오래 걸리고, 약 10 m 아래에서는 펴지지 않습니다.',
+            'Parachutes take longer to open and won’t open below about 10 m.',
+            'パラシュートは開くまでに時間がかかり、約10 m以下では開きません。',
+            '降落伞开伞时间变长，约 10 米以下无法打开。',
+            '降落傘開傘時間變長，約 10 公尺以下無法打開。') },
+          { cat: 'ui', text: T(
+            '공식 서버에 지역별 최대 핑 제한이 생겼습니다. 높은 핑이 계속될 때만 퇴장됩니다.',
+            'Official servers now have region-based ping limits; you’re only kicked after sustained high ping.',
+            '公式サーバーに地域別の最大ping制限が入りました。高いpingが続いた場合のみキックされます。',
+            '官方服务器新增按地区的最高延迟限制，只有持续高延迟才会被踢出。',
+            '官方伺服器新增依地區的最高延遲限制，只有持續高延遲才會被踢出。') },
+          { cat: 'stability', text: T(
+            '성능 최적화, 버그 수정, 서버 안정성 개선이 함께 들어갑니다.',
+            'Further performance optimisation, bug fixes and server stability improvements.',
+            'パフォーマンス最適化、不具合修正、サーバー安定性の改善も含まれます。',
+            '同时包含性能优化、错误修复与服务器稳定性改进。',
+            '同時包含效能最佳化、錯誤修正與伺服器穩定性改善。') }
+        ],
+        tables: [
+          {
+            cat: 'balance', title: T('레벨별 누적 XP', 'Cumulative XP by level', 'レベル別累計XP', '各等级累计 XP', '各等級累計 XP'),
+            rows: [
+              [T('레벨 10', 'Level 10', 'レベル10', '10 级', '10 級'), '35,000', '25,000'],
+              [T('레벨 15', 'Level 15', 'レベル15', '15 级', '15 級'), '110,000', '54,750'],
+              [T('레벨 20', 'Level 20', 'レベル20', '20 级', '20 級'), '250,000', '111,500'],
+              [T('레벨 50', 'Level 50', 'レベル50', '50 级', '50 級'), '1,500,000', '1,150,000']
+            ]
+          },
+          {
+            cat: 'balance', title: T('해금 레벨', 'Unlock levels', '解放レベル', '解锁等级', '解鎖等級'),
+            rows: [
+              [T('의료 가방 (메딕)', 'Medical Bag (Medic)', 'メディカルバッグ（メディック）', '医疗包（医疗兵）', '醫療包（醫療兵）'), 'Lv24', 'Lv14'],
+              [T('PKM (서포트)', 'PKM (Support)', 'PKM（サポート）', 'PKM（支援）', 'PKM（支援）'), 'Lv30', 'Lv15'],
+              [T('CQB 74 브레이크', 'CQB 74 Brake', 'CQB 74ブレーキ', 'CQB 74 制退器', 'CQB 74 制退器'), 'Lv8', 'Lv16']
+            ]
+          },
+          {
+            cat: 'balance', title: T('가격', 'Prices', '価格', '价格', '價格'),
+            rows: [
+              [T('Level 4 헬멧', 'Level 4 helmet', 'Level 4ヘルメット', 'Level 4 头盔', 'Level 4 頭盔'), '$3,000', '$4,500'],
+              [T('쌍안경', 'Binoculars', '双眼鏡', '望远镜', '望遠鏡'), '$75', '$180'],
+              ['AK74', '$1,600', '$800'],
+              [T('기본 낙하산', 'Basic Parachute', 'ベーシックパラシュート', '基础降落伞', '基礎降落傘'), '$100', '$500'],
+              [T('스포츠 낙하산', 'Sport Parachute', 'スポーツパラシュート', '运动降落伞', '運動降落傘'), '$1,000', '$700'],
+              [T('CQB 74 브레이크', 'CQB 74 Brake', 'CQB 74ブレーキ', 'CQB 74 制退器', 'CQB 74 制退器'), '$12,500', '$15,000'],
+              ['L2A6', '$14,000', '$22,000'],
+              [T('리틀버드 AH-6M (미니건)', 'Little Bird AH-6M (miniguns)', 'リトルバード AH-6M（ミニガン）', '小鸟 AH-6M（转管机枪）', '小鳥 AH-6M（轉管機槍）'), '$7,000', '$12,000'],
+              [T('리틀버드 AH-6R (로켓)', 'Little Bird AH-6R (rockets)', 'リトルバード AH-6R（ロケット）', '小鸟 AH-6R（火箭）', '小鳥 AH-6R（火箭）'), '$12,500', '$18,800'],
+              ['Ural Defender', '$6,000', '$7,200'],
+              [T('L81 박격포 (보급)', 'L81 mortar (supplies)', 'L81迫撃砲（補給）', 'L81 迫击炮（补给）', 'L81 迫擊砲（補給）'), '150', '600']
+            ]
+          }
+        ],
+        sources: [
+          { site: 'Steam', url: 'https://steamcommunity.com/games/1867240/announcements/detail/670630562731396446' },
+          { site: 'Insider Gaming', url: 'https://insider-gaming.com/wardogs-patch-notes/' },
+          { site: 'low.ms', url: 'https://low.ms/blog/wardogs-season-2-patch-notes' },
+          { site: 'guided.news', url: 'https://guided.news/en/news/wardogs-season-2-update-grind-new-weapons-vehicles/' },
+          { site: 'Screen Rant', url: 'https://screenrant.com/wardogs-season-2-new-weapons-vehicles-patch-notes/' },
+          { site: 'theclick.gg', url: 'https://www.theclick.gg/wardogs-season-2-new-weapons/' }
+        ]
+      },
+
       {
         id: 'balance-2026-10-02', date: '2026-10-02', type: 'hotfix', version: null,
         title: T('IR 고글·CWIS 밸런스 핫픽스', 'IR goggles & CWIS balance hotfix', 'IRゴーグル・CWISバランスホットフィックス', 'IR 护目镜与 CWIS 平衡热修复', 'IR 護目鏡與 CWIS 平衡熱修復'),

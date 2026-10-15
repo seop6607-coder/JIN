@@ -544,7 +544,7 @@
     var p = wPicked(), mags = wMags(p);
     var counted = function (list) { return list.reduce(function (sum, it) { return sum + it.kg * (wState.counts[it.id] || 0); }, 0); };
     var groups = [
-      { key: 'nav.weapons', kg: [p.primary, p.secondary, p.launcher].reduce(function (sum, w) { return sum + (w ? w.kg : 0); }, 0) },
+      { key: 'nav.weapons', kg: [p.primary, p.secondary, p.launcher].reduce(function (sum, w) { return sum + (w && w.kg ? w.kg : 0); }, 0) },
       { key: 'nav.armor', kg: (p.armor.weight || 0) + (p.helmet.weight || 0) },
       { key: 'wt.carry', kg: (p.backpack ? p.backpack.kg : 0) + (p.vest ? p.vest.kg : 0) + (p.parachute ? p.parachute.kg : 0) },
       { key: 'wt.mags', kg: counted(mags.items) },
@@ -568,7 +568,8 @@
     var opt = function (value, label, on) { return '<option value="' + esc(value) + '"' + (on ? ' selected' : '') + '>' + esc(label) + '</option>'; };
     var kgLabel = function (name, kg) { return name + ' · ' + kgStr(kg) + ' kg'; };
     var weaponOpts = function (cls, cur) {
-      return D.weapons.filter(function (w) { return w.cls === cls; }).map(function (w) { return opt(w.id, kgLabel(w.name, w.kg), w.id === cur); }).join('');
+      // 무게가 공개되지 않은 무기(시즌 신규 등)는 무게 계산에서 뺀다
+      return D.weapons.filter(function (w) { return w.cls === cls && w.kg != null; }).map(function (w) { return opt(w.id, kgLabel(w.name, w.kg), w.id === cur); }).join('');
     };
     var primary = opt('', none, !wState.primary) + D.classes.filter(function (c) { return c.id !== 'pistol' && c.id !== 'launcher'; }).map(function (c) {
       return '<optgroup label="' + esc(tx(c.name)) + '">' + weaponOpts(c.id, wState.primary) + '</optgroup>';
