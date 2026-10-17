@@ -19,17 +19,64 @@
       level: 'updated',
       title: T('시즌 2 수치를 반영했습니다.', 'Season 2 numbers are in.', 'シーズン2の数値を反映しました。', '已更新为第 2 赛季数值。', '已更新為第 2 賽季數值。'),
       body: T(
-        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소와 Level 3·4 방어구 감소율 하향을 데미지 탭에 적용했고, 새 무기 4종은 같은 탄 기준 추정 피해로 넣었습니다. 저격소총·지정사수소총·돌격소총·경기관총의 부위 배율 조정은 수치가 공개되지 않아 아직 시즌 1 배율이고, 바뀐 무기의 이전 실측값은 검증표에서 뺐습니다.',
-        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts and the lower Level 3 and 4 armor reduction are applied in the Damage tab, and the four new weapons use damage estimated from the same round. Hit-location changes for snipers, DMRs, assault rifles and LMGs haven’t been published, so they still use Season 1 multipliers, and old measurements for changed weapons were dropped from the check table.',
-        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少とLevel 3・4防具の軽減率引き下げをダメージタブに適用し、新武器4種は同じ弾からの推定ダメージで追加しました。スナイパーライフル・マークスマンライフル・アサルトライフル・軽機関銃の部位倍率の調整は数値が未公開のためシーズン1の倍率のままで、変更された武器の以前の実測値は検証表から外しました。',
-        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减与 Level 3、4 护甲减伤下调，4 把新武器按相同弹药推算伤害。狙击步枪、精确射手步枪、突击步枪与轻机枪的部位倍率调整数值尚未公开，暂沿用第 1 赛季倍率；受影响武器的旧实测值已从核对表移除。',
-        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減與 Level 3、4 護甲減傷下調，4 把新武器依相同彈藥推算傷害。狙擊步槍、精確射手步槍、突擊步槍與輕機槍的部位倍率調整數值尚未公開，暫沿用第 1 賽季倍率；受影響武器的舊實測值已從核對表移除。')
+        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소와 Level 3·4 방어구 감소율 하향을 데미지 탭에 적용했고, 새 무기 4종은 같은 탄 기준 추정 피해로 넣었습니다. 저격소총·지정사수소총·돌격소총·경기관총의 부위 배율 조정은 수치가 공개되지 않아 아직 시즌 1 배율이고, 바뀐 무기의 이전 실측값은 검증표에서 뺐습니다. 이후 나온 백엔드 업데이트(Lonestar 보너스 철회·운전병 악용 수정)는 사이트 수치를 바꾸지 않았습니다.',
+        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts and the lower Level 3 and 4 armor reduction are applied in the Damage tab, and the four new weapons use damage estimated from the same round. Hit-location changes for snipers, DMRs, assault rifles and LMGs haven’t been published, so they still use Season 1 multipliers, and old measurements for changed weapons were dropped from the check table. The backend update that followed (Lonestar bonus pulled, Driver exploit fixed) doesn’t change any site numbers.',
+        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少とLevel 3・4防具の軽減率引き下げをダメージタブに適用し、新武器4種は同じ弾からの推定ダメージで追加しました。スナイパーライフル・マークスマンライフル・アサルトライフル・軽機関銃の部位倍率の調整は数値が未公開のためシーズン1の倍率のままで、変更された武器の以前の実測値は検証表から外しました。その後のバックエンド更新（Lonestarボーナス撤回・ドライバー悪用修正）はサイトの数値を変えていません。',
+        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减与 Level 3、4 护甲减伤下调，4 把新武器按相同弹药推算伤害。狙击步枪、精确射手步枪、突击步枪与轻机枪的部位倍率调整数值尚未公开，暂沿用第 1 赛季倍率；受影响武器的旧实测值已从核对表移除。随后的后端更新（撤回 Lonestar 奖励、修复驾驶员漏洞）未改动本站数值。',
+        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減與 Level 3、4 護甲減傷下調，4 把新武器依相同彈藥推算傷害。狙擊步槍、精確射手步槍、突擊步槍與輕機槍的部位倍率調整數值尚未公開，暫沿用第 1 賽季倍率；受影響武器的舊實測值已從核對表移除。隨後的後端更新（撤回 Lonestar 獎勵、修復駕駛員漏洞）未改動本站數值。')
     },
 
     // 다음 예고가 나오면 여기에 넣는다
     next: null,
 
     list: [
+      {
+        id: 'backend-2026-10-15', date: '2026-10-15', type: 'hotfix', version: null,
+        title: T('Lonestar 보너스 철회와 운전병 악용 수정', 'Lonestar bonus pulled and Driver exploit fixed', 'Lonestarボーナスの撤回とドライバー悪用の修正', '撤回 Lonestar 奖励并修复驾驶员漏洞', '撤回 Lonestar 獎勵並修復駕駛員漏洞'),
+        summary: T(
+          '시즌 2 첫날 나온 서버 쪽(백엔드) 업데이트. Lonestar 승리 보너스를 없애고 운전병 진행도 악용을 막았으며, 각 서버가 다음에 재시작될 때 적용됩니다.',
+          'A server-side (backend) update on Season 2’s first day. It removes the Lonestar win bonus and closes a Driver progression exploit, taking effect as each server next restarts.',
+          'シーズン2初日に出たサーバー側（バックエンド）のアップデート。Lonestarの勝利ボーナスをなくし、ドライバー進行度の悪用を防ぎました。各サーバーの次回再起動時に適用されます。',
+          '第 2 赛季首日推出的服务器端（后端）更新。取消 Lonestar 获胜奖励并堵住驾驶员进度漏洞，各服务器下次重启时生效。',
+          '第 2 賽季首日推出的伺服器端（後端）更新。取消 Lonestar 獲勝獎勵並堵住駕駛員進度漏洞，各伺服器下次重啟時生效。'),
+        downtime: T('없음 · 서버 재시작 때 적용', 'None · applied as servers restart', 'なし・サーバー再起動時に適用', '无 · 服务器重启时生效', '無 · 伺服器重啟時生效'),
+        impact: { some: false, text: NO_CHANGE },
+        items: [
+          { cat: 'balance', text: T(
+            '시즌 2와 함께 넣었던 Lonestar(파란 팀) 승리 현금·XP 보너스를 하루 만에 없앴습니다. 실력 있는 플레이어들이 곧바로 Lonestar로 몰려 Lonestar가 대부분의 경기를 이겼기 때문입니다.',
+            'The Lonestar (Blue team) win cash and XP bonus added with Season 2 is gone after a day. The most competitive players moved to Lonestar right away, and it started winning most games.',
+            'シーズン2と同時に入れたLonestar（青チーム）の勝利時のお金・XPボーナスを1日で廃止しました。腕の立つプレイヤーがすぐLonestarに集まり、Lonestarがほとんどの試合に勝つようになったためです。',
+            '随第 2 赛季加入的 Lonestar（蓝队）获胜现金与 XP 奖励在一天后取消。高水平玩家立刻涌向 Lonestar，使其赢下了大部分对局。',
+            '隨第 2 賽季加入的 Lonestar（藍隊）獲勝現金與 XP 獎勵在一天後取消。高水準玩家立刻湧向 Lonestar，使其贏下了大部分對局。') },
+          { cat: 'fair', text: T(
+            '운전병 진행도를 고치고, 근처에 전진 기지를 두고 빠르게 왕복해 운전병 XP를 올려 전차를 일찍 여는 악용을 막았습니다. 심하게 악용한 플레이어(1,000명 미만으로 추산)는 24시간 정지와 함께 현금·XP가 초기화됩니다.',
+            'Driver progression is fixed, closing an exploit where players ran quick round trips to a nearby forward base to farm Driver XP and unlock tanks early. Heavy abusers (estimated at under 1,000 players) get a 24-hour ban and have their cash and XP wiped.',
+            'ドライバー進行度を修正し、近くに前進基地を置いて素早く往復しドライバーXPを稼いで戦車を早く解放する悪用を防ぎました。悪質に利用したプレイヤー（1,000人未満と推定）は24時間の停止に加え、お金とXPがリセットされます。',
+            '修复驾驶员进度，堵住在附近设置前进基地快速往返刷驾驶员 XP、提早解锁坦克的漏洞。严重滥用的玩家（估计不到 1,000 人）将被封禁 24 小时，现金与 XP 也会清零。',
+            '修正駕駛員進度，堵住在附近設置前進基地快速往返刷駕駛員 XP、提早解鎖坦克的漏洞。嚴重濫用的玩家（估計不到 1,000 人）將被停權 24 小時，現金與 XP 也會歸零。') },
+          { cat: 'ui', text: T(
+            '예고: 파워 웨폰과 차량이 없는 Limited Mode 서버가 지금의 저레벨 서버를 대신할 예정입니다. 출시일은 아직 없습니다.',
+            'Coming: Limited Mode servers with no power weapons or vehicles will replace the current low-level servers. No date yet.',
+            '予告：パワーウェポンと車両のないLimited Modeサーバーが、今の低レベルサーバーに代わる予定です。時期は未定です。',
+            '预告：没有强力武器与载具的 Limited Mode 服务器将取代现有的低等级服务器，尚无上线日期。',
+            '預告：沒有強力武器與載具的 Limited Mode 伺服器將取代現有的低等級伺服器，尚無上線日期。') },
+          { cat: 'balance', text: T(
+            'Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 이번 주말에 다시 초기화하지는 않으며, 시즌 3을 앞당기는 방안을 검토해 다음 주 개발 영상에서 자세히 밝힙니다.',
+            'Bulkhead admitted Season 2’s faster progression was the wrong call. There’s no re-wipe this weekend; it’s weighing an earlier Season 3 and will share details in next week’s dev vlog.',
+            'Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。今週末の再リセットはなく、シーズン3の前倒しを検討しており、来週の開発動画で詳しく説明します。',
+            'Bulkhead 承认第 2 赛季加快进度是错误决定。本周末不会再次重置，正考虑提前推出第 3 赛季，详情将在下周的开发视频中公布。',
+            'Bulkhead 承認第 2 賽季加快進度是錯誤決定。本週末不會再次重置，正考慮提前推出第 3 賽季，詳情將在下週的開發影片中公布。') }
+        ],
+        sources: [
+          { site: 'PC Gamer', url: 'https://www.pcgamer.com/games/fps/we-f-ked-up-1-day-into-wardogs-season-2-the-blue-team-bribery-bonus-is-being-dropped/' },
+          { site: 'PCGamesN', url: 'https://www.pcgamesn.com/wardogs/season-2-mistakes-bulkhead-apology' },
+          { site: 'DualShockers', url: 'https://www.dualshockers.com/wardogs-admits-defeat-over-season-2-changes/' },
+          { site: 'GameFragger', url: 'https://gamefragger.com/pc/first-person-shooter/wardogs-developer-admits-it-messed-up-season-2-and-pulls-the-blue-team-bonus-after-less-than-a-day-a29879' },
+          { site: 'gamerheadlines', url: 'https://gamerheadlines.com/wardogs-season-2-progression-wrong-call-season-3/' },
+          { site: 'timesaver.gg', url: 'https://timesaver.gg/blog/wardogs-blue-team-lonestar-bonus-removed-season-2' }
+        ]
+      },
+
       {
         id: 'season-2', date: '2026-10-15', type: 'season', version: '0.2',
         title: T('시즌 2 · 업데이트 0.2', 'Season 2 · Update 0.2', 'シーズン2・アップデート0.2', '第 2 赛季 · 更新 0.2', '第 2 賽季 · 更新 0.2'),
