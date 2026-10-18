@@ -34,11 +34,11 @@
         id: 'backend-2026-10-15', date: '2026-10-15', type: 'hotfix', version: null,
         title: T('Lonestar 보너스 철회와 운전병 악용 수정', 'Lonestar bonus pulled and Driver exploit fixed', 'Lonestarボーナスの撤回とドライバー悪用の修正', '撤回 Lonestar 奖励并修复驾驶员漏洞', '撤回 Lonestar 獎勵並修復駕駛員漏洞'),
         summary: T(
-          '시즌 2 첫날 나온 서버 쪽(백엔드) 업데이트. Lonestar 승리 보너스를 없애고 운전병 진행도 악용을 막았으며, 각 서버가 다음에 재시작될 때 적용됩니다.',
-          'A server-side (backend) update on Season 2’s first day. It removes the Lonestar win bonus and closes a Driver progression exploit, taking effect as each server next restarts.',
-          'シーズン2初日に出たサーバー側（バックエンド）のアップデート。Lonestarの勝利ボーナスをなくし、ドライバー進行度の悪用を防ぎました。各サーバーの次回再起動時に適用されます。',
-          '第 2 赛季首日推出的服务器端（后端）更新。取消 Lonestar 获胜奖励并堵住驾驶员进度漏洞，各服务器下次重启时生效。',
-          '第 2 賽季首日推出的伺服器端（後端）更新。取消 Lonestar 獲勝獎勵並堵住駕駛員進度漏洞，各伺服器下次重啟時生效。'),
+          '시즌 2 첫날 나온 서버 쪽(백엔드) 업데이트. Lonestar 승리 보너스를 없애고 운전병 진행도 악용을 막았으며, 각 서버가 다음에 재시작될 때 적용됩니다. 10월 17일에는 시즌 3을 앞당기겠다는 공지가 이어졌습니다.',
+          'A server-side (backend) update on Season 2’s first day. It removes the Lonestar win bonus and closes a Driver progression exploit, taking effect as each server next restarts. An October 17 announcement followed, saying Season 3 may come early.',
+          'シーズン2初日に出たサーバー側（バックエンド）のアップデート。Lonestarの勝利ボーナスをなくし、ドライバー進行度の悪用を防ぎました。各サーバーの次回再起動時に適用されます。10月17日にはシーズン3を前倒しするという告知が続きました。',
+          '第 2 赛季首日推出的服务器端（后端）更新。取消 Lonestar 获胜奖励并堵住驾驶员进度漏洞，各服务器下次重启时生效。10 月 17 日又发布公告，表示可能提前推出第 3 赛季。',
+          '第 2 賽季首日推出的伺服器端（後端）更新。取消 Lonestar 獲勝獎勵並堵住駕駛員進度漏洞，各伺服器下次重啟時生效。10 月 17 日又發布公告，表示可能提前推出第 3 賽季。'),
         downtime: T('없음 · 서버 재시작 때 적용', 'None · applied as servers restart', 'なし・サーバー再起動時に適用', '无 · 服务器重启时生效', '無 · 伺服器重啟時生效'),
         impact: { some: false, text: NO_CHANGE },
         items: [
@@ -61,19 +61,22 @@
             '预告：没有强力武器与载具的 Limited Mode 服务器将取代现有的低等级服务器，尚无上线日期。',
             '預告：沒有強力武器與載具的 Limited Mode 伺服器將取代現有的低等級伺服器，尚無上線日期。') },
           { cat: 'balance', text: T(
-            'Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 이번 주말에 다시 초기화하지는 않으며, 시즌 3을 앞당기는 방안을 검토해 다음 주 개발 영상에서 자세히 밝힙니다.',
-            'Bulkhead admitted Season 2’s faster progression was the wrong call. There’s no re-wipe this weekend; it’s weighing an earlier Season 3 and will share details in next week’s dev vlog.',
-            'Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。今週末の再リセットはなく、シーズン3の前倒しを検討しており、来週の開発動画で詳しく説明します。',
-            'Bulkhead 承认第 2 赛季加快进度是错误决定。本周末不会再次重置，正考虑提前推出第 3 赛季，详情将在下周的开发视频中公布。',
-            'Bulkhead 承認第 2 賽季加快進度是錯誤決定。本週末不會再次重置，正考慮提前推出第 3 賽季，詳情將在下週的開發影片中公布。') }
+            '10월 17일 공지: Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 며칠 만에 Level 4 방어구와 주력 전차 같은 최종 장비에 닿는 플레이어가 나왔기 때문입니다. 이미 진행 중인 플레이어에게 불공평하다며 시즌 2를 다시 초기화하지는 않고, 대신 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토합니다. 자세한 계획은 10월 20일 주 개발 영상에서 밝힙니다.',
+            'October 17 announcement: Bulkhead admitted Season 2’s faster progression was the wrong call, since some players reached end-game gear like Level 4 armor and main battle tanks within days. It won’t re-wipe Season 2, calling that unfair on players already climbing, and is instead looking at bringing Season 3 and some of its content significantly forward. The plan comes in a dev vlog the week of October 20.',
+            '10月17日の告知：Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。数日でLevel 4防具や主力戦車といった終盤の装備に届くプレイヤーが出たためです。すでに進めているプレイヤーに不公平だとしてシーズン2の再リセットは行わず、代わりにシーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。詳しい計画は10月20日の週の開発動画で説明します。',
+            '10 月 17 日公告：Bulkhead 承认第 2 赛季加快进度是错误决定，因为有玩家几天内就拿到 Level 4 护甲与主战坦克等终局装备。考虑到对已在推进的玩家不公平，第 2 赛季不会再次重置，改为考虑大幅提前推出第 3 赛季及部分内容。详细计划将在 10 月 20 日当周的开发视频中公布。',
+            '10 月 17 日公告：Bulkhead 承認第 2 賽季加快進度是錯誤決定，因為有玩家幾天內就拿到 Level 4 護甲與主力戰車等終局裝備。考量到對已在推進的玩家不公平，第 2 賽季不會再次重置，改為考慮大幅提前推出第 3 賽季及部分內容。詳細計畫將在 10 月 20 日當週的開發影片中公布。') }
         ],
         sources: [
+          { site: 'X @WARDOGS', url: 'https://x.com/WARDOGS/status/2111412655726489872' },
           { site: 'PC Gamer', url: 'https://www.pcgamer.com/games/fps/we-f-ked-up-1-day-into-wardogs-season-2-the-blue-team-bribery-bonus-is-being-dropped/' },
           { site: 'PCGamesN', url: 'https://www.pcgamesn.com/wardogs/season-2-mistakes-bulkhead-apology' },
           { site: 'DualShockers', url: 'https://www.dualshockers.com/wardogs-admits-defeat-over-season-2-changes/' },
           { site: 'GameFragger', url: 'https://gamefragger.com/pc/first-person-shooter/wardogs-developer-admits-it-messed-up-season-2-and-pulls-the-blue-team-bonus-after-less-than-a-day-a29879' },
           { site: 'gamerheadlines', url: 'https://gamerheadlines.com/wardogs-season-2-progression-wrong-call-season-3/' },
-          { site: 'timesaver.gg', url: 'https://timesaver.gg/blog/wardogs-blue-team-lonestar-bonus-removed-season-2' }
+          { site: 'timesaver.gg', url: 'https://timesaver.gg/blog/wardogs-blue-team-lonestar-bonus-removed-season-2' },
+          { site: 'PCGamesN · Season 3', url: 'https://www.pcgamesn.com/wardogs/season-3-early-start' },
+          { site: 'VICE', url: 'https://www.vice.com/en/article/wardogs-developer-responds-to-season-2-backlash/' }
         ]
       },
 
