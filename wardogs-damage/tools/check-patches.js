@@ -48,7 +48,8 @@ function checkLab(lab, where) {
 }
 
 function checkEntry(p, where, isNext) {
-  if (!isDate(p.date)) err(where, '날짜는 YYYY-MM-DD 형식이어야 합니다');
+  // 예고(next)는 날짜가 아직 없으면 null (날짜 미정으로 표시)
+  if (!(isNext && p.date === null) && !isDate(p.date)) err(where, '날짜는 YYYY-MM-DD 형식이어야 합니다' + (isNext ? ' (미정이면 null)' : ''));
   if (!isNext) {
     if (!/^[a-z0-9-]+$/.test(p.id || '')) err(where, 'id는 소문자·숫자·하이픈만 씁니다');
     if (TYPES.indexOf(p.type) < 0) err(where, 'type은 ' + TYPES.join('/') + ' 중 하나');
@@ -111,4 +112,4 @@ if (errors.length) {
   errors.forEach((e) => console.error(' - ' + e));
   process.exit(1);
 }
-console.log('patches.js OK · 업데이트 ' + P.list.length + '건 · 최신 ' + P.list[0].date + ' ' + P.list[0].id + (P.next ? ' · 다음 ' + P.next.date : ''));
+console.log('patches.js OK · 업데이트 ' + P.list.length + '건 · 최신 ' + P.list[0].date + ' ' + P.list[0].id + (P.next ? ' · 다음 ' + (P.next.date || '날짜 미정') : ''));

@@ -19,11 +19,11 @@
       level: 'updated',
       title: T('시즌 2 수치를 반영했습니다.', 'Season 2 numbers are in.', 'シーズン2の数値を反映しました。', '已更新为第 2 赛季数值。', '已更新為第 2 賽季數值。'),
       body: T(
-        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소와 Level 3·4 방어구 감소율 하향을 데미지 탭에 적용했고, 새 무기 4종은 같은 탄 기준 추정 피해로 넣었습니다. 저격소총·지정사수소총·돌격소총·경기관총의 부위 배율 조정은 수치가 공개되지 않아 아직 시즌 1 배율이고, 바뀐 무기의 이전 실측값은 검증표에서 뺐습니다. 이후 나온 백엔드 업데이트(Lonestar 보너스 철회·운전병 악용 수정)는 사이트 수치를 바꾸지 않았습니다.',
-        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts and the lower Level 3 and 4 armor reduction are applied in the Damage tab, and the four new weapons use damage estimated from the same round. Hit-location changes for snipers, DMRs, assault rifles and LMGs haven’t been published, so they still use Season 1 multipliers, and old measurements for changed weapons were dropped from the check table. The backend update that followed (Lonestar bonus pulled, Driver exploit fixed) doesn’t change any site numbers.',
-        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少とLevel 3・4防具の軽減率引き下げをダメージタブに適用し、新武器4種は同じ弾からの推定ダメージで追加しました。スナイパーライフル・マークスマンライフル・アサルトライフル・軽機関銃の部位倍率の調整は数値が未公開のためシーズン1の倍率のままで、変更された武器の以前の実測値は検証表から外しました。その後のバックエンド更新（Lonestarボーナス撤回・ドライバー悪用修正）はサイトの数値を変えていません。',
-        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减与 Level 3、4 护甲减伤下调，4 把新武器按相同弹药推算伤害。狙击步枪、精确射手步枪、突击步枪与轻机枪的部位倍率调整数值尚未公开，暂沿用第 1 赛季倍率；受影响武器的旧实测值已从核对表移除。随后的后端更新（撤回 Lonestar 奖励、修复驾驶员漏洞）未改动本站数值。',
-        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減與 Level 3、4 護甲減傷下調，4 把新武器依相同彈藥推算傷害。狙擊步槍、精確射手步槍、突擊步槍與輕機槍的部位倍率調整數值尚未公開，暫沿用第 1 賽季倍率；受影響武器的舊實測值已從核對表移除。隨後的後端更新（撤回 Lonestar 獎勵、修復駕駛員漏洞）未改動本站數值。')
+        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소, Level 3·4 방어구 감소율 하향, 무기 종류별 부위 배율 조정(저격소총 머리 ×4.27 등)을 데미지 탭에 적용했습니다. 공식 수치가 없어 부위 배율과 새 무기 4종의 연사 속도·무게는 커뮤니티 데이터베이스(Metaforge·WardogsXP) 값을 썼고, FAL은 .308 탄으로 확인돼 피해를 45로 낮췄습니다. 바뀐 부위의 시즌 1 실측값은 검증표에서 뺐고, 이후 백엔드 업데이트는 사이트 수치를 바꾸지 않았습니다.',
+        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts, the lower Level 3 and 4 armor reduction and the new hit-location multipliers by class (e.g. sniper head ×4.27) are applied in the Damage tab. With no official numbers, the multipliers and the four new weapons’ fire rate and weight come from community databases (Metaforge, WardogsXP), and the FAL is confirmed on .308, so its damage drops to 45. Season 1 measurements for changed zones were dropped from the check table, and the later backend update doesn’t change site numbers.',
+        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少、Level 3・4防具の軽減率引き下げ、武器種別の部位倍率の調整（スナイパーの頭 ×4.27 など）をダメージタブに適用しました。公式の数値がないため、部位倍率と新武器4種の連射速度・重量はコミュニティのデータベース（Metaforge・WardogsXP）の値を使い、FALは.308弾と確認できたのでダメージを45に下げました。変わった部位のシーズン1実測値は検証表から外し、その後のバックエンド更新はサイトの数値を変えていません。',
+        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减、Level 3 与 4 护甲减伤下调，以及各武器类别的部位倍率调整（如狙击步枪头部 ×4.27）。由于没有官方数值，部位倍率与 4 把新武器的射速、重量采用社区数据库（Metaforge、WardogsXP）的数值；FAL 已确认使用 .308 弹，伤害降为 45。受影响部位的第 1 赛季实测值已从核对表移除，之后的后端更新未改动本站数值。',
+        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減、Level 3 與 4 護甲減傷下調，以及各武器類別的部位倍率調整（如狙擊步槍頭部 ×4.27）。由於沒有官方數值，部位倍率與 4 把新武器的射速、重量採用社群資料庫（Metaforge、WardogsXP）的數值；FAL 已確認使用 .308 彈，傷害降為 45。受影響部位的第 1 賽季實測值已從核對表移除，之後的後端更新未改動本站數值。')
     },
 
     // 다음 예고가 나오면 여기에 넣는다
@@ -91,11 +91,11 @@
           '10 月 14 日 Steam 發布了完整更新日誌，10 月 15 日維護結束後開始。隨首次進度重置一同到來的有武器與護甲平衡調整、新武器、載具與建築，以及雨天天氣。'),
         downtime: T('10월 15일 08:00–09:30 UTC (약 90분)', 'Oct 15, 08:00–09:30 UTC (about 90 min)', '10月15日 08:00〜09:30 UTC（約90分）', '10 月 15 日 08:00–09:30 UTC（约 90 分钟）', '10 月 15 日 08:00–09:30 UTC（約 90 分鐘）'),
         impact: { some: true, text: T(
-          '데미지 탭에 시즌 2 수치를 반영했습니다: 고구경 탄 피해 감소, Level 3·4 방어구 감소율 하향, 새 무기 4종(피해는 추정). 저격소총·지정사수소총·돌격소총·경기관총의 부위 배율 조정은 수치가 공개되지 않아 아직 반영하지 못했습니다.',
-          'Season 2 numbers are now in the Damage tab: high-caliber damage cuts, lower Level 3 and 4 armor reduction, and four new weapons (estimated damage). Hit-location changes for snipers, DMRs, assault rifles and LMGs aren’t in yet because their values weren’t published.',
-          'ダメージタブにシーズン2の数値を反映しました：高口径弾のダメージ減少、Level 3・4防具の軽減率引き下げ、新武器4種（ダメージは推定）。スナイパーライフル・マークスマンライフル・アサルトライフル・軽機関銃の部位倍率の調整は数値が公開されていないため、まだ反映していません。',
-          '伤害页已更新为第 2 赛季数值：高口径弹药伤害削减、Level 3 与 4 护甲减伤下调、4 把新武器（伤害为推算）。狙击步枪、精确射手步枪、突击步枪与轻机枪的部位倍率调整因数值未公开，暂未反映。',
-          '傷害頁已更新為第 2 賽季數值：高口徑彈藥傷害削減、Level 3 與 4 護甲減傷下調、4 把新武器（傷害為推算）。狙擊步槍、精確射手步槍、突擊步槍與輕機槍的部位倍率調整因數值未公開，暫未反映。') },
+          '데미지 탭에 시즌 2 수치를 반영했습니다: 고구경 탄 피해 감소, Level 3·4 방어구 감소율 하향, 무기 종류별 부위 배율, 새 무기 4종. 부위 배율과 새 무기의 연사 속도·무게는 커뮤니티 데이터베이스 값입니다.',
+          'Season 2 numbers are in the Damage tab: high-caliber damage cuts, lower Level 3 and 4 armor reduction, class hit-location multipliers and four new weapons. The multipliers and the new weapons’ fire rate and weight come from community databases.',
+          'ダメージタブにシーズン2の数値を反映しました：高口径弾のダメージ減少、Level 3・4防具の軽減率引き下げ、武器種別の部位倍率、新武器4種。部位倍率と新武器の連射速度・重量はコミュニティのデータベースの値です。',
+          '伤害页已更新为第 2 赛季数值：高口径弹药伤害削减、Level 3 与 4 护甲减伤下调、各武器类别部位倍率、4 把新武器。部位倍率与新武器的射速、重量来自社区数据库。',
+          '傷害頁已更新為第 2 賽季數值：高口徑彈藥傷害削減、Level 3 與 4 護甲減傷下調、各武器類別部位倍率、4 把新武器。部位倍率與新武器的射速、重量來自社群資料庫。') },
         items: [
           { cat: 'balance', lab: 'matrix', text: T(
             '고구경 탄 기본 피해 감소: .308 −25%(60→45), 7.62×54R −20%(55→44), 7.62×39 −19%(42→34), .50 −16%(107→90). 저격소총은 부위별 피해 배율을 올려 보완하며, 정찰 소총은 헬멧 없는 머리를 한 발에, Level 1 헬멧을 쓴 머리는 두 발에 처치합니다.',
@@ -104,11 +104,11 @@
             '高口径弹药基础伤害削减：.308 −25%（60→45）、7.62×54R −20%（55→44）、7.62×39 −19%（42→34）、.50 −16%（107→90）。狙击步枪提高部位倍率作为补偿，侦察步枪可一枪击杀无头盔目标的头部，戴 Level 1 头盔则需两枪。',
             '高口徑彈藥基礎傷害削減：.308 −25%（60→45）、7.62×54R −20%（55→44）、7.62×39 −19%（42→34）、.50 −16%（107→90）。狙擊步槍提高部位倍率作為補償，偵察步槍可一槍擊殺無頭盔目標的頭部，戴 Level 1 頭盔則需兩槍。') },
           { cat: 'balance', lab: 'formula', text: T(
-            '부위 배율 조정: 지정사수소총은 머리와 상체 피해가 조금 약해져 돌격소총과 저격소총 사이에 놓이고, 돌격소총과 경기관총은 몸통 피해가 더 고르게 들어갑니다. 경기관총은 몸통 피해를 돌격소총에 가깝게 맞추고 탄창 크기와 지속 사격으로 차별화합니다. 정확한 배율은 공개되지 않았습니다.',
-            'Hit-location tuning: DMR head and upper-body hits are slightly weaker, placing them between assault rifles and snipers, while assault rifles and LMGs get more consistent body damage. LMG body damage moves closer to assault rifles, leaving magazine size and sustained fire as their edge. Exact multipliers weren’t published.',
-            '部位倍率の調整：マークスマンライフルは頭と上半身へのダメージが少し弱まり、アサルトライフルとスナイパーライフルの中間に位置づけられます。アサルトライフルと軽機関銃は胴体へのダメージが安定します。軽機関銃の胴体ダメージはアサルトライフルに近づき、マガジン容量と持続射撃で差をつけます。正確な倍率は公開されていません。',
-            '部位倍率调整：精确射手步枪的头部与上半身伤害略微降低，定位介于突击步枪与狙击步枪之间；突击步枪与轻机枪的躯干伤害更稳定。轻机枪躯干伤害向突击步枪靠拢，以弹匣容量与持续火力作为区别。确切倍率尚未公开。',
-            '部位倍率調整：精確射手步槍的頭部與上半身傷害略微降低，定位介於突擊步槍與狙擊步槍之間；突擊步槍與輕機槍的軀幹傷害更穩定。輕機槍軀幹傷害向突擊步槍靠攏，以彈匣容量與持續火力作為區別。確切倍率尚未公開。') },
+            '부위 배율 조정: 지정사수소총은 머리와 상체 피해가 조금 약해져 돌격소총과 저격소총 사이에 놓이고, 돌격소총과 경기관총은 몸통 피해가 더 고르게 들어갑니다. 경기관총은 몸통 피해를 돌격소총에 가깝게 맞추고 탄창 크기와 지속 사격으로 차별화합니다. 공식 배율은 공개되지 않아 데미지 탭에는 커뮤니티 데이터베이스 값(돌격소총·경기관총 몸통 ×0.97, 지정사수 몸통 ×1.18)을 넣었습니다.',
+            'Hit-location tuning: DMR head and upper-body hits are slightly weaker, placing them between assault rifles and snipers, while assault rifles and LMGs get more consistent body damage. LMG body damage moves closer to assault rifles, leaving magazine size and sustained fire as their edge. Official multipliers weren’t published, so the Damage tab uses community database values (×0.97 to the body for assault rifles and LMGs, ×1.18 for DMRs).',
+            '部位倍率の調整：マークスマンライフルは頭と上半身へのダメージが少し弱まり、アサルトライフルとスナイパーライフルの中間に位置づけられます。アサルトライフルと軽機関銃は胴体へのダメージが安定します。軽機関銃の胴体ダメージはアサルトライフルに近づき、マガジン容量と持続射撃で差をつけます。公式の倍率は公開されていないため、ダメージタブにはコミュニティのデータベースの値（アサルトライフル・軽機関銃の胴体 ×0.97、マークスマンの胴体 ×1.18）を入れました。',
+            '部位倍率调整：精确射手步枪的头部与上半身伤害略微降低，定位介于突击步枪与狙击步枪之间；突击步枪与轻机枪的躯干伤害更稳定。轻机枪躯干伤害向突击步枪靠拢，以弹匣容量与持续火力作为区别。官方倍率尚未公开，伤害页采用社区数据库数值（突击步枪与轻机枪躯干 ×0.97，精确射手步枪躯干 ×1.18）。',
+            '部位倍率調整：精確射手步槍的頭部與上半身傷害略微降低，定位介於突擊步槍與狙擊步槍之間；突擊步槍與輕機槍的軀幹傷害更穩定。輕機槍軀幹傷害向突擊步槍靠攏，以彈匣容量與持續火力作為區別。官方倍率尚未公開，傷害頁採用社群資料庫數值（突擊步槍與輕機槍軀幹 ×0.97，精確射手步槍軀幹 ×1.18）。') },
           { cat: 'balance', lab: 'armor', text: T(
             '방어구 감소율 하향: Level 3 갑옷·헬멧 55%→50%, Level 4 65%→60%. Level 3·4 헬멧은 제압 저항이 높아지고, Level 4 헬멧은 소리와 근접 음성 채팅이 먹먹해지며 시야가 좁아지고 질주할 때 김이 서립니다.',
             'Lower armor reduction: Level 3 armor and helmets 55%→50%, Level 4 65%→60%. Level 3 and 4 helmets get more suppression resistance, while the Level 4 helmet muffles audio and proximity chat, narrows your view and fogs up while sprinting.',

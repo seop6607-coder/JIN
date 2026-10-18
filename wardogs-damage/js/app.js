@@ -72,10 +72,12 @@
 
   /* ───────── 계산 ───────── */
 
-  // 무기 종류별 배율 × 부위 비율
+  // 무기 종류별 배율 × 부위 비율 (zones에 부위별 값이 있으면 그 값)
   function zoneMult(w, zoneId) {
+    var cm = D.classMults[w.cls];
+    if (cm.zones && cm.zones[zoneId] != null) return cm.zones[zoneId];
     var z = ZONES[zoneId];
-    return D.classMults[w.cls][z.group] * z.k;
+    return cm[z.group] * z.k;
   }
 
   function isEstZone(w, zoneId) {
@@ -458,7 +460,7 @@
     var short = { month: 'short', day: 'numeric' };
     // 다음 업데이트(next)는 예고가 없으면 null
     $('#patch-index').innerHTML = (!nx ? '' :
-      '<li class="pindex__next' + (shown(nx) ? '' : ' is-off') + '"><a href="#patch-next"><time datetime="' + nx.date + '">' + esc(t('patch.upcoming')) + ' · ' + esc(fmtDate(nx.date, short)) + '</time>' + esc(tx(nx.title)) + '</a></li>') +
+      '<li class="pindex__next' + (shown(nx) ? '' : ' is-off') + '"><a href="#patch-next">' + (nx.date ? '<time datetime="' + nx.date + '">' + esc(t('patch.upcoming')) + ' · ' + esc(fmtDate(nx.date, short)) + '</time>' : '<time>' + esc(t('patch.upcoming')) + ' · ' + esc(t('patch.tba')) + '</time>') + esc(tx(nx.title)) + '</a></li>') +
       PT.list.map(function (p) {
         return '<li class="' + (shown(p) ? '' : 'is-off') + '"><a href="#patch-' + p.id + '"><time datetime="' + p.date + '">' + esc(fmtDate(p.date, short)) + ' · ' + esc(t('type.' + p.type)) + (p.version ? ' ' + esc(p.version) : '') + '</time>' + esc(tx(p.title)) + '</a></li>';
       }).join('');
@@ -467,7 +469,7 @@
       '<article class="pnext" id="patch-next" aria-labelledby="patch-next-title">' +
       '<p class="eyebrow eyebrow--ink">' + esc(t('patch.next')) + '</p>' +
       '<div class="pnext__head"><h3 class="pnext__title" id="patch-next-title">' + esc(tx(nx.title)) + '</h3>' +
-      '<p class="pnext__when"><time datetime="' + nx.date + '">' + esc(fmtDate(nx.date)) + '</time><span class="pnext__dday">' + esc(dday(nx.date)) + '</span></p></div>' +
+      '<p class="pnext__when">' + (nx.date ? '<time datetime="' + nx.date + '">' + esc(fmtDate(nx.date)) + '</time><span class="pnext__dday">' + esc(dday(nx.date)) + '</span>' : '<span class="pnext__dday">' + esc(t('patch.tba')) + '</span>') + '</p></div>' +
       '<p class="pnext__sum">' + esc(tx(nx.summary)) + '</p>' +
       pgroupsHTML(nx) + impactHTML(nx) + sourcesHTML(nx) + '</article>';
 
@@ -1283,6 +1285,12 @@
 
     $('#zone-ratio').innerHTML = D.zones.filter(function (z) { return z.k !== 1; }).map(function (z) {
       return '<li>' + esc(t('zoneRatio', { zone: '\u0000', group: groupName(z.group), k: z.k })).replace('\u0000', '<b>' + esc(tx(z.name)) + '</b>') + '</li>';
+    }).join('') + CLASS_ROWS.map(function (row) {
+      // 부위 비율 대신 부위별 값을 쓰는 예외
+      var zs = D.classMults[row.ids[0]].zones || {};
+      return Object.keys(zs).map(function (zid) {
+        return '<li>' + esc(t('zoneOverride', { cls: row.key ? t(row.key) : className(row.ids[0]), zone: '\u0000', m: fmt2(zs[zid]) })).replace('\u0000', '<b>' + esc(zoneName(zid)) + '</b>') + '</li>';
+      }).join('');
     }).join('');
   }
 

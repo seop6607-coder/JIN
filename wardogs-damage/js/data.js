@@ -28,7 +28,7 @@
   var AT_84 = T('84mm 대전차탄', '84mm anti-tank round', '84mm対戦車弾', '84mm 反坦克弹', '84mm 反坦克彈');
   var TANK_FRONT_2 = T('전차 전면 2발', '2 hits on a tank\'s front', '戦車正面に2発', '坦克正面 2 发', '坦克正面 2 發');
   var BUCKSHOT = T('12g 7mm 벅샷', '12g 7mm buckshot', '12g 7mmバックショット', '12g 7mm 鹿弹', '12g 7mm 鹿彈');
-  var NEW_S2 = T('시즌 2 신규. 피해는 같은 탄을 쓰는 무기의 값으로 추정했고, 연사 속도와 무게는 아직 공개되지 않았습니다.', 'New in Season 2. Damage is estimated from other weapons using the same round; fire rate and weight aren’t published yet.', 'シーズン2の新武器。ダメージは同じ弾を使う武器の値から推定し、連射速度と重量はまだ公開されていません。', '第 2 赛季新武器。伤害按使用相同弹药的武器推算，射速与重量尚未公开。', '第 2 賽季新武器。傷害依使用相同彈藥的武器推算，射速與重量尚未公開。');
+  var NEW_S2 = T('시즌 2 신규. 피해는 같은 탄 기준이고, 연사 속도·무게·사거리는 커뮤니티 데이터베이스 값입니다.', 'New in Season 2. Damage follows the same round; fire rate, weight and range come from community databases.', 'シーズン2の新武器。ダメージは同じ弾が基準で、連射速度・重量・射程はコミュニティのデータベースの値です。', '第 2 赛季新武器。伤害以相同弹药为准，射速、重量与射程来自社区数据库。', '第 2 賽季新武器。傷害以相同彈藥為準，射速、重量與射程來自社群資料庫。');
   var SHOTGUN_NOTE = T(
     '전탄 명중 기준. 슬러그탄 105 (WARDOG Lv41)',
     'All pellets hitting. Slug: 105 (WARDOG Lv41)',
@@ -69,14 +69,19 @@
       { id: 'limbs', name: T('팔다리', 'Limbs', '四肢', '四肢', '四肢') }
     ],
 
-    /* 무기 종류별 부위 배율. est = 실측이 없어 다른 종류에서 빌려 온 항목 */
+    /*
+     * 무기 종류별 부위 배율 (시즌 2).
+     * est = 직접 확인한 값이 없어 다른 값에서 추정한 항목, zones = 부위 비율(k) 대신 쓰는 부위별 값
+     * 돌격소총·경기관총·지정사수·저격은 커뮤니티 데이터베이스(Metaforge 부위표, WardogsXP 시즌 2 변화표) 값.
+     * 시즌 1: ar 2.35/1.1/1.0/1.0/0.9 · lmg 2.3/1.155/1.05/1.0/0.9 · dmr 2.5/1.43/1.3/1.0/1.0 · sniper 3.2/1.98/1.45/1.3/1.2
+     */
     classMults: {
-      ar: { head: 2.35, chest: 1.1, torso: 1.0, pelvis: 1.0, limbs: 0.9 },
+      ar: { head: 2.35, chest: 0.97, torso: 0.97, pelvis: 1.0, limbs: 0.9 },
       smg: { head: 2.1, chest: 1.155, torso: 1.05, pelvis: 1.05, limbs: 1.3 },
       pistol: { head: 2.1, chest: 1.155, torso: 1.05, pelvis: 1.05, limbs: 1.3 },
-      lmg: { head: 2.3, chest: 1.155, torso: 1.05, pelvis: 1.0, limbs: 0.9 },
-      dmr: { head: 2.5, chest: 1.43, torso: 1.3, pelvis: 1.0, limbs: 1.0 },
-      sniper: { head: 3.2, chest: 1.98, torso: 1.45, pelvis: 1.3, limbs: 1.2 },
+      lmg: { head: 2.35, chest: 0.97, torso: 0.97, pelvis: 1.0, limbs: 0.9 },
+      dmr: { head: 2.45, chest: 1.18, torso: 1.18, pelvis: 1.25, limbs: 1.25, est: ['limbs'], zones: { lowerTorso: 1.18 } },
+      sniper: { head: 4.267, chest: 2.64, torso: 1.933, pelvis: 1.733, limbs: 1.6, est: ['limbs'] },
       shotgun: { head: 1.5, chest: 0.99, torso: 0.9, pelvis: 0.9, limbs: 0.9, est: ['pelvis', 'limbs'] },
       bow: { head: 2.3, chest: 2.09, torso: 1.9, pelvis: 1.0, limbs: 0.8 }
     },
@@ -134,39 +139,39 @@
       { id: 'bow', total: 1, name: T('활', 'Bows', '弓', '弓', '弓') }
     ],
 
-    /* 무기 34종 */
+    /* 무기 38종 */
     weapons: [
       { id: 'a91', kg: 3.17, cls: 'ar', name: 'A-91', caliber: '5.56×45mm', dmg: 28, rpm: 700, fire: 'semiBurst', price: 0, range: null, vel: 715,
         note: T('진영 신병 소총. 부착물 장착 불가', 'Faction recruit rifle. No attachments.', '陣営の新兵用ライフル。アタッチメント装着不可', '阵营新兵步枪。无法安装配件', '陣營新兵步槍。無法安裝配件') },
       { id: 'kh2002', kg: 3.17, cls: 'ar', name: 'KH-2002', caliber: '5.56×45mm', dmg: 28, rpm: 700, fire: 'semiBurst', price: 0, range: 300, vel: 715,
         note: T('Manticore 신병 소총. 부착물 장착 불가', 'Manticore recruit rifle. No attachments.', 'Manticoreの新兵用ライフル。アタッチメント装着不可', 'Manticore 新兵步枪。无法安装配件', 'Manticore 新兵步槍。無法安裝配件') },
-      { id: 'm17s', kg: 3.17, cls: 'ar', name: 'Bushmaster M17S', caliber: '5.56×45mm', dmg: 28, rpm: 700, rpmM: 578, fire: 'semiBurst', price: 0, range: 300, vel: 715, measured: { upperTorso: 30.81, head: 65.81 } },
+      { id: 'm17s', kg: 3.17, cls: 'ar', name: 'Bushmaster M17S', caliber: '5.56×45mm', dmg: 28, rpm: 700, rpmM: 578, fire: 'semiBurst', price: 0, range: 300, vel: 715, measured: { head: 65.81 } },
       { id: 't21', kg: 3.27, cls: 'ar', name: 'T-21', caliber: '5.56×45mm', dmg: 28, rpm: 750, fire: 'auto', price: 600, range: 550, vel: 910 },
       { id: 'galil', kg: 3.95, cls: 'ar', name: 'Galil', caliber: '5.56×45mm', dmg: 28, rpm: 650, fire: 'auto', price: 2200, range: 400, vel: 950 },
       { id: 'ak74', kg: 3.0, cls: 'ar', name: 'AK74', caliber: '5.45×39mm', dmg: 26, rpm: 650, fire: 'auto', price: 800, range: 500, vel: 880, measured: { neck: 45.8 } },
-      { id: 'm4', kg: 2.92, cls: 'ar', name: 'M4', caliber: '5.56×45mm', dmg: 28, rpm: 800, rpmM: 786, fire: 'auto', price: 2800, range: 500, vel: 910, unlock: 'Assault Lv20 · $100,000', measured: { upperTorso: 30.8, head: 65.8 } },
-      { id: 'fal', kg: 4.25, cls: 'ar', name: 'FAL', caliber: '7.62×51mm', dmg: 60, rpm: 650, fire: 'auto', price: 6500, range: 800, vel: 840, unlock: 'Assault Lv35 · $200,000', measured: { upperTorso: 66 } },
-      { id: 'tcxspr', kg: null, cls: 'ar', name: 'TCX-SPR', caliber: '7.62×39mm', dmg: 34, rpm: null, fire: 'auto', price: 3200, range: null, unlock: 'Assault Lv20', note: NEW_S2 },
+      { id: 'm4', kg: 2.92, cls: 'ar', name: 'M4', caliber: '5.56×45mm', dmg: 28, rpm: 800, rpmM: 786, fire: 'auto', price: 2800, range: 500, vel: 910, unlock: 'Assault Lv28 · $150,000', measured: { head: 65.8 } },
+      { id: 'fal', kg: 4.25, cls: 'ar', name: 'FAL', caliber: '.308 Win', dmg: 45, rpm: 650, fire: 'auto', price: 6500, range: 800, vel: 840, unlock: 'Assault Lv35 · $200,000' },
+      { id: 'tcxspr', kg: 3.5, cls: 'ar', name: 'TCX-SPR', caliber: '7.62×39mm', dmg: 34, rpm: 800, fire: 'auto', price: 3200, range: 400, vel: 700, unlock: 'Assault Lv20', note: NEW_S2 },
 
       { id: 'amp9', kg: 1.4, cls: 'smg', name: 'AMP-9', caliber: '9×19mm', dmg: 22, rpm: 900, rpmM: 868, fire: 'auto', price: 900, range: null, measured: { upperTorso: 25.4, head: 46.2 } },
       { id: 'pp19', kg: 2.9, cls: 'smg', name: 'PP-19 Vityaz', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 770, fire: 'auto', price: 1200, range: 200, measured: { upperTorso: 25.43, head: 46.21 } },
       { id: 'mp5', kg: 2.54, cls: 'smg', name: 'MP5', caliber: '9×19mm', dmg: 22, rpm: 800, rpmM: 786, fire: 'auto', price: 1500, range: null, measured: { upperTorso: 25.43, head: 46.21 } },
       { id: 'super45', kg: 3.0, cls: 'smg', name: 'Super-45', caliber: '.45 ACP', dmg: 30, rpm: 1200, rpmM: 1137, fire: 'auto', price: 2600, range: null, unlock: 'Medic Lv35', measured: { upperTorso: 34.7, head: 63 } },
-      { id: 'bizon', kg: null, cls: 'smg', name: 'PP-19 Bizon', caliber: '9×19mm', dmg: 22, rpm: null, fire: 'auto', price: 1000, range: null, unlock: 'Medic Lv1', note: NEW_S2 },
+      { id: 'bizon', kg: 2.1, cls: 'smg', name: 'PP-19 Bizon', caliber: '9×19mm', dmg: 22, rpm: 700, fire: 'auto', price: 1000, range: 200, vel: 380, unlock: 'Medic Lv1', note: NEW_S2 },
 
-      { id: 'm249', kg: 7.5, cls: 'lmg', name: 'M249 SAW', caliber: '5.56×45mm', dmg: 28, rpm: 850, rpmM: 824, fire: 'auto', price: 3200, range: null, measured: { upperTorso: 32.36, head: 64.4 } },
+      { id: 'm249', kg: 7.5, cls: 'lmg', name: 'M249 SAW', caliber: '5.56×45mm', dmg: 28, rpm: 850, rpmM: 824, fire: 'auto', price: 3200, range: null },
       { id: 'pkm', kg: 7.5, cls: 'lmg', name: 'PKM', caliber: '7.62×54mmR', dmg: 44, rpm: null, rpmM: 865, fire: 'auto', price: 4500, range: 1000, unlock: 'Support Lv15' },
-      { id: 'evo3', kg: null, cls: 'lmg', name: 'Evo-3 Ultra', caliber: '.308 Win', dmg: 45, rpm: null, fire: 'auto', price: 7250, range: null, unlock: 'Support Lv30', note: NEW_S2 },
+      { id: 'evo3', kg: 6.3, cls: 'lmg', name: 'Evo-3 Ultra', caliber: '.308 Win', dmg: 45, rpm: 700, fire: 'auto', price: 7250, range: 1000, vel: 790, unlock: 'Support Lv30', note: NEW_S2 },
 
       { id: 'sks', kg: 3.85, cls: 'dmr', name: 'SKS', caliber: '7.62×39mm', dmg: 34, rpm: null, rpmM: 360, fire: 'semi', price: 2400, range: null },
       { id: 'svd', kg: 5.3, cls: 'dmr', name: 'SVD', caliber: '7.62×54mmR', dmg: 44, rpm: null, rpmM: 341, fire: 'semi', price: 4800, range: null },
       { id: 'bmr308', kg: 3.9, cls: 'dmr', name: 'BMR-308', caliber: '.308 Win', dmg: 45, rpm: null, rpmM: 381, fire: 'semi', price: 6000, range: null },
-      { id: 'm14', kg: null, cls: 'dmr', name: 'M14', caliber: '.308 Win', dmg: 45, rpm: null, fire: 'semi', price: 7400, range: null, unlock: 'Recon Lv25', note: NEW_S2 },
+      { id: 'm14', kg: 4.2, cls: 'dmr', name: 'M14', caliber: '.308 Win', dmg: 45, rpm: 700, fire: 'semiAuto', price: 7400, range: 500, vel: 853, unlock: 'Recon Lv25', note: NEW_S2 },
 
-      { id: 'scout', kg: 2.95, cls: 'sniper', name: 'Scout Rifle TD', caliber: '5.56×45mm', dmg: 28, rpm: 46, fire: 'bolt', price: 1100, range: null, measured: { upperTorso: 55.4, head: 89.6 } },
+      { id: 'scout', kg: 2.95, cls: 'sniper', name: 'Scout Rifle TD', caliber: '5.56×45mm', dmg: 28, rpm: 46, fire: 'bolt', price: 1100, range: null },
       { id: 'mosin', kg: 4.1, cls: 'sniper', name: 'Mosin Nagant', caliber: '7.62×54mmR', dmg: 44, rpm: 46, fire: 'bolt', price: 4500, range: 500, vel: 865 },
       { id: 'sv98', kg: 5.8, cls: 'sniper', name: 'SV98', caliber: '7.62×54mmR', dmg: 44, rpm: 46, fire: 'bolt', price: 5200, range: null },
-      { id: 'mk22', kg: 6.3, cls: 'sniper', name: 'MK22', caliber: '.308 Win', dmg: 45, rpm: 46, fire: 'bolt', price: 6400, range: 1000 },
+      { id: 'mk22', kg: 6.3, cls: 'sniper', name: 'MK22', caliber: '.308 Win', dmg: 45, rpm: 46, fire: 'bolt', price: 6400, range: 1000, unlock: 'Recon Lv30' },
       { id: 'amr50', kg: 12.5, cls: 'sniper', name: 'AMR 50', caliber: '.50 Cal', dmg: 90, rpm: 41.5, fire: 'bolt', price: 8800, range: null, unlock: 'Recon Lv35 · $200,000' },
 
       { id: 'mp43', kg: 3.2, cls: 'shotgun', name: 'MP43', caliber: BUCKSHOT, dmg: 25, pellets: 8, rpm: 900, fire: 'break2', price: 400, range: null, vel: 391, ammo: false, note: SHOTGUN_NOTE, measured: { upperTorso: 198, head: 300 } },
