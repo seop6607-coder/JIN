@@ -157,6 +157,12 @@
             '火炎瓶が追加。炎でエリアを封じ、敵歩兵の侵入を防ぎます。',
             '新增燃烧瓶，用火封锁区域，阻止敌方步兵进入。',
             '新增燃燒瓶，用火封鎖區域，阻止敵方步兵進入。') },
+          { cat: 'balance', lab: 'explosives', text: T(
+            'MGL-40 하향: 유탄 속도가 25% 느려지고 폭발 가장자리의 피해 감소가 커졌습니다. 리틀버드 좌석에서 쏘면 탄 퍼짐·흔들림이 커지고 조준과 재장전이 느려지며, 해금 비용은 $200,000에서 $250,000으로 올랐습니다.',
+            'MGL-40 nerf: 25% lower muzzle velocity and steeper damage falloff at the edge of the blast. Firing from a Little Bird bench adds inaccuracy and sway and slows ADS and reloads, and the unlock now costs $250,000 instead of $200,000.',
+            'MGL-40の下方修正：弾速が25%低下し、爆発の外縁でのダメージ減衰が大きくなりました。リトルバードの座席から撃つと拡散と揺れが増え、ADSとリロードが遅くなります。解放費用は$200,000から$250,000に上がりました。',
+            'MGL-40 削弱：榴弹初速降低 25%，爆炸外缘的伤害衰减更明显。从小鸟直升机座位射击时散布与晃动增加、开镜与换弹变慢；解锁费用由 $200,000 提高到 $250,000。',
+            'MGL-40 削弱：榴彈初速降低 25%，爆炸外緣的傷害衰減更明顯。從小鳥直升機座位射擊時散布與晃動增加、開鏡與換彈變慢；解鎖費用由 $200,000 提高到 $250,000。') },
           { cat: 'gameplay', lab: 'vehicles', text: T(
             '새 차량 4종: Wolf-110($2,200), M2 브라우닝을 단 Wolf-110($7,800), T-72B3 전차($16,000), Flakpanzer Gepard 대공 차량($14,000).',
             'Four new vehicles: the Wolf-110 ($2,200), the Wolf-110 with an M2 Browning ($7,800), the T-72B3 tank ($16,000) and the Flakpanzer Gepard anti-air vehicle ($14,000).',
