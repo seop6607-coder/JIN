@@ -61,14 +61,15 @@
             '预告：没有强力武器与载具的 Limited Mode 服务器将取代现有的低等级服务器，尚无上线日期。',
             '預告：沒有強力武器與載具的 Limited Mode 伺服器將取代現有的低等級伺服器，尚無上線日期。') },
           { cat: 'balance', text: T(
-            '10월 17일 공지: Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 며칠 만에 Level 4 방어구와 주력 전차 같은 최종 장비에 닿는 플레이어가 나왔기 때문입니다. 이미 진행 중인 플레이어에게 불공평하다며 시즌 2를 다시 초기화하지는 않고, 대신 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토합니다. 자세한 계획은 10월 20일 주 개발 영상에서 밝힙니다.',
-            'October 17 announcement: Bulkhead admitted Season 2’s faster progression was the wrong call, since some players reached end-game gear like Level 4 armor and main battle tanks within days. It won’t re-wipe Season 2, calling that unfair on players already climbing, and is instead looking at bringing Season 3 and some of its content significantly forward. The plan comes in a dev vlog the week of October 20.',
-            '10月17日の告知：Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。数日でLevel 4防具や主力戦車といった終盤の装備に届くプレイヤーが出たためです。すでに進めているプレイヤーに不公平だとしてシーズン2の再リセットは行わず、代わりにシーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。詳しい計画は10月20日の週の開発動画で説明します。',
-            '10 月 17 日公告：Bulkhead 承认第 2 赛季加快进度是错误决定，因为有玩家几天内就拿到 Level 4 护甲与主战坦克等终局装备。考虑到对已在推进的玩家不公平，第 2 赛季不会再次重置，改为考虑大幅提前推出第 3 赛季及部分内容。详细计划将在 10 月 20 日当周的开发视频中公布。',
-            '10 月 17 日公告：Bulkhead 承認第 2 賽季加快進度是錯誤決定，因為有玩家幾天內就拿到 Level 4 護甲與主力戰車等終局裝備。考量到對已在推進的玩家不公平，第 2 賽季不會再次重置，改為考慮大幅提前推出第 3 賽季及部分內容。詳細計畫將在 10 月 20 日當週的開發影片中公布。') }
+            '10월 17일 공지: Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 며칠 만에 Level 4 방어구와 주력 전차 같은 최종 장비에 닿는 플레이어가 나왔기 때문입니다. 이미 진행 중인 플레이어에게 불공평하다며 시즌 2를 다시 초기화하지는 않고, 대신 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토합니다. 자세한 계획은 개발 영상에서 밝히기로 했고, 10월 23일 공지로 "시즌 2 회고·시즌 3 미리보기" 영상이 10월 26일 주로 미뤄졌습니다.',
+            'October 17 announcement: Bulkhead admitted Season 2’s faster progression was the wrong call, since some players reached end-game gear like Level 4 armor and main battle tanks within days. It won’t re-wipe Season 2, calling that unfair on players already climbing, and is instead looking at bringing Season 3 and some of its content significantly forward. The plan comes in a dev vlog, and an October 23 post moved that “Season 2 Reflection & Season 3 Preview” vlog to the week of October 26.',
+            '10月17日の告知：Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。数日でLevel 4防具や主力戦車といった終盤の装備に届くプレイヤーが出たためです。すでに進めているプレイヤーに不公平だとしてシーズン2の再リセットは行わず、代わりにシーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。詳しい計画は開発動画で説明する予定で、10月23日の告知で「シーズン2の振り返り・シーズン3プレビュー」動画は10月26日の週に延期されました。',
+            '10 月 17 日公告：Bulkhead 承认第 2 赛季加快进度是错误决定，因为有玩家几天内就拿到 Level 4 护甲与主战坦克等终局装备。考虑到对已在推进的玩家不公平，第 2 赛季不会再次重置，改为考虑大幅提前推出第 3 赛季及部分内容。详细计划将在开发视频中公布；10 月 23 日的公告将这支“第 2 赛季回顾与第 3 赛季前瞻”视频延后到 10 月 26 日当周。',
+            '10 月 17 日公告：Bulkhead 承認第 2 賽季加快進度是錯誤決定，因為有玩家幾天內就拿到 Level 4 護甲與主力戰車等終局裝備。考量到對已在推進的玩家不公平，第 2 賽季不會再次重置，改為考慮大幅提前推出第 3 賽季及部分內容。詳細計畫將在開發影片中公布；10 月 23 日的公告將這支「第 2 賽季回顧與第 3 賽季前瞻」影片延後到 10 月 26 日當週。') }
         ],
         sources: [
           { site: 'X @WARDOGS', url: 'https://x.com/WARDOGS/status/2111412655726489872' },
+          { site: 'X @WARDOGS · 10/23', url: 'https://x.com/WARDOGS/status/2113646629907538020' },
           { site: 'PC Gamer', url: 'https://www.pcgamer.com/games/fps/we-f-ked-up-1-day-into-wardogs-season-2-the-blue-team-bribery-bonus-is-being-dropped/' },
           { site: 'PCGamesN', url: 'https://www.pcgamesn.com/wardogs/season-2-mistakes-bulkhead-apology' },
           { site: 'DualShockers', url: 'https://www.dualshockers.com/wardogs-admits-defeat-over-season-2-changes/' },
