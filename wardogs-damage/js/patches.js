@@ -19,17 +19,58 @@
       level: 'updated',
       title: T('시즌 2 수치를 반영했습니다.', 'Season 2 numbers are in.', 'シーズン2の数値を反映しました。', '已更新为第 2 赛季数值。', '已更新為第 2 賽季數值。'),
       body: T(
-        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소, Level 3·4 방어구 감소율 하향, 무기 종류별 부위 배율 조정(저격소총 머리 ×4.27 등)을 데미지 탭에 적용했습니다. 공식 수치가 없어 부위 배율과 새 무기 4종의 연사 속도·무게는 커뮤니티 데이터베이스(Metaforge·WardogsXP) 값을 썼고, FAL은 .308 탄으로 확인돼 피해를 45로 낮췄습니다. 바뀐 부위의 시즌 1 실측값은 검증표에서 뺐고, 이후 백엔드 업데이트는 사이트 수치를 바꾸지 않았습니다.',
-        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts, the lower Level 3 and 4 armor reduction and the new hit-location multipliers by class (e.g. sniper head ×4.27) are applied in the Damage tab. With no official numbers, the multipliers and the four new weapons’ fire rate and weight come from community databases (Metaforge, WardogsXP), and the FAL is confirmed on .308, so its damage drops to 45. Season 1 measurements for changed zones were dropped from the check table, and the later backend update doesn’t change site numbers.',
-        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少、Level 3・4防具の軽減率引き下げ、武器種別の部位倍率の調整（スナイパーの頭 ×4.27 など）をダメージタブに適用しました。公式の数値がないため、部位倍率と新武器4種の連射速度・重量はコミュニティのデータベース（Metaforge・WardogsXP）の値を使い、FALは.308弾と確認できたのでダメージを45に下げました。変わった部位のシーズン1実測値は検証表から外し、その後のバックエンド更新はサイトの数値を変えていません。',
-        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减、Level 3 与 4 护甲减伤下调，以及各武器类别的部位倍率调整（如狙击步枪头部 ×4.27）。由于没有官方数值，部位倍率与 4 把新武器的射速、重量采用社区数据库（Metaforge、WardogsXP）的数值；FAL 已确认使用 .308 弹，伤害降为 45。受影响部位的第 1 赛季实测值已从核对表移除，之后的后端更新未改动本站数值。',
-        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減、Level 3 與 4 護甲減傷下調，以及各武器類別的部位倍率調整（如狙擊步槍頭部 ×4.27）。由於沒有官方數值，部位倍率與 4 把新武器的射速、重量採用社群資料庫（Metaforge、WardogsXP）的數值；FAL 已確認使用 .308 彈，傷害降為 45。受影響部位的第 1 賽季實測值已從核對表移除，之後的後端更新未改動本站數值。')
+        '고구경 탄(.308·7.62×54R·7.62×39·.50) 피해 감소, Level 3·4 방어구 감소율 하향, 무기 종류별 부위 배율 조정(저격소총 머리 ×4.27 등)을 데미지 탭에 적용했습니다. 공식 수치가 없어 부위 배율과 새 무기 4종의 연사 속도·무게는 커뮤니티 데이터베이스(Metaforge·WardogsXP) 값을 썼고, FAL은 .308 탄으로 확인돼 피해를 45로 낮췄습니다. 바뀐 부위의 시즌 1 실측값은 검증표에서 뺐고, 이후 백엔드 업데이트와 핑 제한은 사이트 수치를 바꾸지 않았습니다.',
+        'High-caliber (.308, 7.62×54R, 7.62×39, .50) damage cuts, the lower Level 3 and 4 armor reduction and the new hit-location multipliers by class (e.g. sniper head ×4.27) are applied in the Damage tab. With no official numbers, the multipliers and the four new weapons’ fire rate and weight come from community databases (Metaforge, WardogsXP), and the FAL is confirmed on .308, so its damage drops to 45. Season 1 measurements for changed zones were dropped from the check table, and the later backend update and ping cap don’t change site numbers.',
+        '高口径弾（.308・7.62×54R・7.62×39・.50）のダメージ減少、Level 3・4防具の軽減率引き下げ、武器種別の部位倍率の調整（スナイパーの頭 ×4.27 など）をダメージタブに適用しました。公式の数値がないため、部位倍率と新武器4種の連射速度・重量はコミュニティのデータベース（Metaforge・WardogsXP）の値を使い、FALは.308弾と確認できたのでダメージを45に下げました。変わった部位のシーズン1実測値は検証表から外し、その後のバックエンド更新とping上限はサイトの数値を変えていません。',
+        '已在伤害页套用高口径弹药（.308、7.62×54R、7.62×39、.50）伤害削减、Level 3 与 4 护甲减伤下调，以及各武器类别的部位倍率调整（如狙击步枪头部 ×4.27）。由于没有官方数值，部位倍率与 4 把新武器的射速、重量采用社区数据库（Metaforge、WardogsXP）的数值；FAL 已确认使用 .308 弹，伤害降为 45。受影响部位的第 1 赛季实测值已从核对表移除，之后的后端更新与延迟上限未改动本站数值。',
+        '已在傷害頁套用高口徑彈藥（.308、7.62×54R、7.62×39、.50）傷害削減、Level 3 與 4 護甲減傷下調，以及各武器類別的部位倍率調整（如狙擊步槍頭部 ×4.27）。由於沒有官方數值，部位倍率與 4 把新武器的射速、重量採用社群資料庫（Metaforge、WardogsXP）的數值；FAL 已確認使用 .308 彈，傷害降為 45。受影響部位的第 1 賽季實測值已從核對表移除，之後的後端更新與延遲上限未改動本站數值。')
     },
 
     // 다음 예고가 나오면 여기에 넣는다
     next: null,
 
     list: [
+      {
+        id: 'region-lock-2026-10-21', date: '2026-10-21', type: 'hotfix', version: null,
+        title: T('핑 상한 175ms와 지역 제한 시작', '175 ms ping cap and region locking begin', 'ping上限175msと地域制限の開始', '延迟上限 175 ms 与区域限制启动', '延遲上限 175 ms 與區域限制啟動'),
+        summary: T(
+          '치트가 많은 지역에서 들어오는 플레이어를 막기 위해 공식 서버의 최대 핑을 175ms로 낮추고 지역 제한을 시작했습니다. 서버 쪽 변경이라 내려받을 패치는 없고, 몇 시간에 걸쳐 적용됐습니다. 전날에는 차량 비행 버그 악용자를 영구 정지하겠다는 공지가 나왔습니다.',
+          'To keep out players from regions more prone to cheating, official servers’ maximum ping drops to 175 ms and region locking begins. It’s a server-side change with nothing to download, rolled out over a few hours. The day before, Bulkhead warned it will permanently ban players abusing a vehicle flying bug.',
+          'チートの多い地域からのプレイヤーを防ぐため、公式サーバーの最大pingを175msに下げ、地域制限を始めました。サーバー側の変更なのでダウンロードはなく、数時間かけて適用されました。前日には車両で飛ぶバグの悪用者を永久停止するという告知が出ました。',
+          '为挡住作弊较多地区的玩家，官方服务器最高延迟降至 175 ms，并开始区域限制。这是服务器端改动，无需下载，在数小时内陆续生效。前一天还发布公告，滥用载具飞行漏洞的玩家将被永久封禁。',
+          '為擋住作弊較多地區的玩家，官方伺服器最高延遲降至 175 ms，並開始區域限制。這是伺服器端改動，無需下載，在數小時內陸續生效。前一天還發布公告，濫用載具飛行漏洞的玩家將被永久停權。'),
+        downtime: T('없음 · 몇 시간에 걸쳐 적용', 'None · rolled out over a few hours', 'なし・数時間かけて適用', '无 · 数小时内陆续生效', '無 · 數小時內陸續生效'),
+        impact: { some: false, text: NO_CHANGE },
+        items: [
+          { cat: 'fair', text: T(
+            '공식 서버의 최대 핑을 175ms로 낮췄습니다. Bulkhead는 치트가 많은 지역에서 몰려드는 플레이어로부터 가장 많은 플레이어를 지키려는 조치라고 설명했습니다.',
+            'Official servers’ maximum ping is now 175 ms. Bulkhead says it’s meant to protect the most players from an influx from regions more prone to cheating.',
+            '公式サーバーの最大pingを175msに下げました。Bulkheadは、チートの多い地域から流れ込むプレイヤーから、できるだけ多くのプレイヤーを守るための措置だと説明しています。',
+            '官方服务器的最高延迟降至 175 ms。Bulkhead 表示，此举是为了让大多数玩家免受作弊较多地区涌入玩家的影响。',
+            '官方伺服器的最高延遲降至 175 ms。Bulkhead 表示，此舉是為了讓大多數玩家免受作弊較多地區湧入玩家的影響。') },
+          { cat: 'fair', text: T(
+            '지역 제한은 백엔드에서 진행 중이며 효과가 나타나기까지 시간이 걸립니다. 대상 지역이나 완료 시점은 밝히지 않았습니다. CEO Joe Brammer는 VPN 같은 요인 때문에 실제 위치를 가려내기 어렵다며, 일부 플레이어가 불편을 겪더라도 다수를 지키기 위한 임시 조치라고 말했습니다.',
+            'Region locking is rolling out on the backend and will take time to show an effect; no region list or completion date was given. CEO Joe Brammer said VPNs and other factors make players’ real locations hard to pin down, calling this a temporary measure that harms a share of players to protect the larger group.',
+            '地域制限はバックエンドで進めており、効果が出るまで時間がかかります。対象地域や完了時期は示されていません。CEOのJoe Brammerは、VPNなどで実際の居場所を特定しにくいとし、一部のプレイヤーに不便をかけてでも大多数を守るための一時的な措置だと述べました。',
+            '区域限制正在后端推进，需要一段时间才会见效，尚未公布涉及地区或完成时间。CEO Joe Brammer 表示，VPN 等因素让玩家真实位置难以判断，这是为保护多数玩家而牺牲一部分玩家的临时措施。',
+            '區域限制正在後端推進，需要一段時間才會見效，尚未公布涉及地區或完成時間。CEO Joe Brammer 表示，VPN 等因素讓玩家真實位置難以判斷，這是為保護多數玩家而犧牲一部分玩家的臨時措施。') },
+          { cat: 'fair', text: T(
+            '10월 20일 공지: 지상 차량으로 맵 위를 "날아다니는" 버그를 악용하는 플레이어가 있어 서버 쪽 수정을 준비하고 있으며, 그동안 악용하다 걸리면 영구 정지합니다. 수정이 적용됐는지는 아직 확인되지 않았습니다.',
+            'October 20 notice: some players are abusing a bug that lets ground vehicles “fly” around the map. A server-side fix is in the works, and anyone caught abusing it meanwhile will be permanently banned. The fix hasn’t been confirmed live yet.',
+            '10月20日の告知：地上車両でマップ上を「飛び回る」バグを悪用するプレイヤーがいるため、サーバー側の修正を準備中です。それまで悪用が見つかったプレイヤーは永久停止になります。修正の適用はまだ確認されていません。',
+            '10 月 20 日公告：有玩家利用让地面载具在地图上“飞行”的漏洞。服务器端修复正在制作中，在此期间被发现滥用者将被永久封禁。修复是否已上线尚未确认。',
+            '10 月 20 日公告：有玩家利用讓地面載具在地圖上「飛行」的漏洞。伺服器端修復正在製作中，在此期間被發現濫用者將被永久停權。修復是否已上線尚未確認。') }
+        ],
+        sources: [
+          { site: 'X @WARDOGS', url: 'https://x.com/WARDOGS/status/2112984169735139816' },
+          { site: 'X @WARDOGSUpdates', url: 'https://x.com/WARDOGSUpdates/status/2112543533856927879' },
+          { site: 'GamingBolt', url: 'https://gamingbolt.com/wardogs-starts-region-locking-to-curtail-cheaters-studio-boss-says-its-not-a-permanent-solution' },
+          { site: 'GameWatcher', url: 'https://www.gamewatcher.com/wardogs-begins-region-locking-to-combat-cheaters-as-season-3-could-arrive-early' },
+          { site: 'Last Word on Gaming', url: 'https://lastwordongaming.com/2026/10/22/wardogs-region-locking-players/' },
+          { site: 'GameRiv', url: 'https://gameriv.com/wardogs-developers-introduce-175ms-ping-cap-and-region-locking-to-fight-cheating/' }
+        ]
+      },
+
       {
         id: 'backend-2026-10-15', date: '2026-10-15', type: 'hotfix', version: null,
         title: T('Lonestar 보너스 철회와 운전병 악용 수정', 'Lonestar bonus pulled and Driver exploit fixed', 'Lonestarボーナスの撤回とドライバー悪用の修正', '撤回 Lonestar 奖励并修复驾驶员漏洞', '撤回 Lonestar 獎勵並修復駕駛員漏洞'),
