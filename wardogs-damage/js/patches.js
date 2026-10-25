@@ -27,7 +27,38 @@
     },
 
     // 다음 예고가 나오면 여기에 넣는다
-    next: null,
+    next: {
+      date: null,
+      title: T('시즌 3', 'Season 3', 'シーズン3', '第 3 赛季', '第 3 賽季'),
+      summary: T(
+        'Bulkhead는 시즌 2의 빠른 진행 속도를 바로잡으려고 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토하고 있습니다. 날짜는 아직 없고, "시즌 2 회고·시즌 3 미리보기" 개발 영상이 10월 26일 주에 나올 예정입니다.',
+        'Bulkhead is looking at bringing Season 3 and some of its content significantly forward to fix Season 2’s overly fast progression. There’s no date yet; a “Season 2 Reflection & Season 3 Preview” dev vlog is due the week of October 26.',
+        'Bulkheadはシーズン2の速すぎる進行を立て直すため、シーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。日付はまだなく、「シーズン2の振り返り・シーズン3プレビュー」の開発動画が10月26日の週に公開される予定です。',
+        'Bulkhead 正考虑大幅提前推出第 3 赛季及部分内容，以修正第 2 赛季进度过快的问题。目前尚无日期，“第 2 赛季回顾与第 3 赛季前瞻”开发视频预计于 10 月 26 日当周发布。',
+        'Bulkhead 正考慮大幅提前推出第 3 賽季及部分內容，以修正第 2 賽季進度過快的問題。目前尚無日期，「第 2 賽季回顧與第 3 賽季前瞻」開發影片預計於 10 月 26 日當週發布。'),
+      impact: { some: false, text: T('바뀔 수치는 아직 발표되지 않았습니다.', 'No number changes announced yet.', '変わる数値はまだ発表されていません。', '尚未公布数值改动。', '尚未公布數值改動。') },
+      items: [
+        { cat: 'balance', text: T(
+          '시즌 길이: 10월 24일 공식 팟캐스트 The Hotzone 1화에서 개발진은 시즌 2를 원래 예상한 6~8주 대신 4~5주로 줄이는 방향을 이야기했습니다. 그대로라면 시즌 2는 11월 중순 전후에 끝납니다. 확정된 날짜는 아닙니다.',
+          'Season length: on the first episode of the official podcast The Hotzone (October 24), the developers talked about cutting Season 2 to four or five weeks instead of the expected six to eight. That would end it around mid-November. It’s not a confirmed date.',
+          'シーズンの長さ：10月24日の公式ポッドキャスト「The Hotzone」第1回で、開発陣はシーズン2を当初見込んでいた6〜8週間ではなく4〜5週間に縮める方向を話しました。そのとおりならシーズン2は11月中旬ごろに終わります。確定した日付ではありません。',
+          '赛季长度：在 10 月 24 日官方播客 The Hotzone 第 1 集中，开发团队谈到将第 2 赛季从原先预计的 6 至 8 周缩短为 4 至 5 周。若如此，第 2 赛季将在 11 月中旬前后结束。这并非确定日期。',
+          '賽季長度：在 10 月 24 日官方 Podcast The Hotzone 第 1 集中，開發團隊談到將第 2 賽季從原先預計的 6 至 8 週縮短為 4 至 5 週。若如此，第 2 賽季將在 11 月中旬前後結束。這並非確定日期。') },
+        { cat: 'gameplay', text: T(
+          '적외선 거리측정기(열화상): 시즌 3에서 어떻게 할지는 정하지 않았습니다. 팟캐스트에서 다시 빼자는 의견, 저격수용으로 남기자는 의견, 수풀에 가려지게 고치자는 의견이 함께 나왔고, 개발진은 확정된 이야기가 아니라고 했습니다.',
+          'IR rangefinder (thermals): nothing is decided for Season 3. On the podcast, one developer suggested pulling it again, others wanted to keep it for snipers, and another floated a rework such as foliage blocking it; the team stressed none of it is final.',
+          '赤外線レンジファインダー（サーマル）：シーズン3でどうするかは決まっていません。ポッドキャストでは再び外す案、スナイパー用に残す案、草木で遮られるよう作り直す案が出ており、開発陣は確定ではないとしています。',
+          '红外测距仪（热成像）：第 3 赛季如何处理尚未决定。播客中有人提议再次移除，有人希望为狙击手保留，也有人提出改为可被植被遮挡等重做方案；开发团队强调均未定案。',
+          '紅外線測距儀（熱成像）：第 3 賽季如何處理尚未決定。Podcast 中有人提議再次移除，有人希望為狙擊手保留，也有人提出改為可被植被遮擋等重做方案；開發團隊強調皆未定案。') }
+      ],
+      sources: [
+        { site: 'X @WARDOGS · 10/17', url: 'https://x.com/WARDOGS/status/2111412655726489872' },
+        { site: 'X @WARDOGS · 10/23', url: 'https://x.com/WARDOGS/status/2113646629907538020' },
+        { site: 'gitm.gg · Season 2 length', url: 'https://gitm.gg/guides/wardogs-season-02-end/' },
+        { site: 'gitm.gg · thermals', url: 'https://gitm.gg/guides/wardogs-ir-range-finder-removed/' },
+        { site: 'DCInside', url: 'https://gall.dcinside.com/mgallery/board/view/?id=wardogs&no=45541' }
+      ]
+    },
 
     list: [
       {
