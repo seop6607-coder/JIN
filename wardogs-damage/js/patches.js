@@ -452,6 +452,32 @@
       },
 
       {
+        id: 'security-2026-09-25', date: '2026-09-25', type: 'hotfix', version: null,
+        title: T('보안 업데이트 점검', 'Security update maintenance', 'セキュリティ更新のメンテナンス', '安全更新维护', '安全更新維護'),
+        summary: T(
+          '소수의 보안 업데이트를 배포하려고 11:00 UTC부터 서비스를 내린 점검. 11:42 UTC에 다시 열렸습니다.',
+          'Services went offline from 11:00 UTC to deploy a small number of security updates and came back at 11:42 UTC.',
+          '少数のセキュリティ更新を配信するため11:00 UTCからサービスを停止したメンテナンス。11:42 UTCに再開しました。',
+          '为部署少量安全更新，服务自 11:00 UTC 起下线维护，11:42 UTC 恢复。',
+          '為部署少量安全更新，服務自 11:00 UTC 起下線維護，11:42 UTC 恢復。'),
+        downtime: T('11:00–11:42 UTC (약 40분)', '11:00–11:42 UTC (about 40 min)', '11:00〜11:42 UTC（約40分）', '11:00–11:42 UTC（约 40 分钟）', '11:00–11:42 UTC（約 40 分鐘）'),
+        impact: { some: false, text: T('알려진 수치 변경 없음.', 'No known changes to numbers.', '数値の変更は確認されていません。', '未发现数值改动。', '未發現數值改動。') },
+        items: [
+          { cat: 'stability', text: T(
+            '소수의 보안 업데이트를 배포했습니다. 패치 번호와 세부 내용은 공개되지 않았습니다.',
+            'A small number of security updates were deployed. No patch number or details were published.',
+            '少数のセキュリティ更新を配信しました。パッチ番号や詳しい内容は公開されていません。',
+            '部署了少量安全更新，未公布补丁编号与详细内容。',
+            '部署了少量安全更新，未公布更新檔編號與詳細內容。') }
+        ],
+        sources: [
+          { site: 'X @WARDOGSUpdates', url: 'https://x.com/WARDOGSUpdates/status/2103432101781545416' },
+          { site: 'X @WARDOGSUpdates · 11:42', url: 'https://x.com/WARDOGSUpdates/status/2103450008431313221' },
+          { site: 'X @WARDOGS', url: 'https://x.com/WARDOGS/status/2103432678322156002' }
+        ]
+      },
+
+      {
         id: '0-11', date: '2026-09-14', type: 'patch', version: '0.11',
         title: T('서버 목록 분리', 'Server browser split', 'サーバーブラウザの分割', '服务器列表拆分', '伺服器列表拆分'),
         summary: T(
