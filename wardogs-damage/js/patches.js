@@ -28,22 +28,34 @@
 
     // 다음 예고가 나오면 여기에 넣는다
     next: {
-      date: null,
+      date: '2026-11-12',
       title: T('시즌 3', 'Season 3', 'シーズン3', '第 3 赛季', '第 3 賽季'),
       summary: T(
-        'Bulkhead는 시즌 2의 빠른 진행 속도를 바로잡으려고 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토하고 있습니다. 날짜는 아직 없고, "시즌 2 회고·시즌 3 미리보기" 개발 영상이 10월 26일 주에 나올 예정입니다.',
-        'Bulkhead is looking at bringing Season 3 and some of its content significantly forward to fix Season 2’s overly fast progression. There’s no date yet; a “Season 2 Reflection & Season 3 Preview” dev vlog is due the week of October 26.',
-        'Bulkheadはシーズン2の速すぎる進行を立て直すため、シーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。日付はまだなく、「シーズン2の振り返り・シーズン3プレビュー」の開発動画が10月26日の週に公開される予定です。',
-        'Bulkhead 正考虑大幅提前推出第 3 赛季及部分内容，以修正第 2 赛季进度过快的问题。目前尚无日期，“第 2 赛季回顾与第 3 赛季前瞻”开发视频预计于 10 月 26 日当周发布。',
-        'Bulkhead 正考慮大幅提前推出第 3 賽季及部分內容，以修正第 2 賽季進度過快的問題。目前尚無日期，「第 2 賽季回顧與第 3 賽季前瞻」開發影片預計於 10 月 26 日當週發布。'),
+        '개발자가 Steam 답글에서 시즌 3을 11월 12일(목)로 앞당겼다고 밝혔고, PCGamesN도 이 날짜를 보도했습니다. Steam 공지나 X 게시물로 나온 공식 발표는 아직 없고, "시즌 2 회고·시즌 3 미리보기" 개발 영상이 10월 26일 주에 나올 예정입니다.',
+        'A developer said in a Steam reply that Season 3 has been brought forward to Thursday, November 12, and PCGamesN reports the same date. There’s no Steam announcement or X post yet; a “Season 2 Reflection & Season 3 Preview” dev vlog is due the week of October 26.',
+        '開発者がSteamの返信でシーズン3を11月12日（木）に前倒ししたと明かし、PCGamesNも同じ日付を報じています。Steamのお知らせやXでの正式発表はまだなく、「シーズン2の振り返り・シーズン3プレビュー」の開発動画が10月26日の週に公開される予定です。',
+        '开发者在 Steam 回复中表示第 3 赛季已提前至 11 月 12 日（周四），PCGamesN 也报道了这一日期。Steam 公告或 X 尚未正式发布，“第 2 赛季回顾与第 3 赛季前瞻”开发视频预计于 10 月 26 日当周发布。',
+        '開發者在 Steam 回覆中表示第 3 賽季已提前至 11 月 12 日（週四），PCGamesN 也報導了這個日期。Steam 公告或 X 尚未正式發布，「第 2 賽季回顧與第 3 賽季前瞻」開發影片預計於 10 月 26 日當週發布。'),
       impact: { some: false, text: T('바뀔 수치는 아직 발표되지 않았습니다.', 'No number changes announced yet.', '変わる数値はまだ発表されていません。', '尚未公布数值改动。', '尚未公布數值改動。') },
       items: [
         { cat: 'balance', text: T(
-          '시즌 길이: 10월 24일 공식 팟캐스트 The Hotzone 1화에서 개발진은 시즌 2를 원래 예상한 6~8주 대신 4~5주로 줄이는 방향을 이야기했습니다. 그대로라면 시즌 2는 11월 중순 전후에 끝납니다. 확정된 날짜는 아닙니다.',
-          'Season length: on the first episode of the official podcast The Hotzone (October 24), the developers talked about cutting Season 2 to four or five weeks instead of the expected six to eight. That would end it around mid-November. It’s not a confirmed date.',
-          'シーズンの長さ：10月24日の公式ポッドキャスト「The Hotzone」第1回で、開発陣はシーズン2を当初見込んでいた6〜8週間ではなく4〜5週間に縮める方向を話しました。そのとおりならシーズン2は11月中旬ごろに終わります。確定した日付ではありません。',
-          '赛季长度：在 10 月 24 日官方播客 The Hotzone 第 1 集中，开发团队谈到将第 2 赛季从原先预计的 6 至 8 周缩短为 4 至 5 周。若如此，第 2 赛季将在 11 月中旬前后结束。这并非确定日期。',
-          '賽季長度：在 10 月 24 日官方 Podcast The Hotzone 第 1 集中，開發團隊談到將第 2 賽季從原先預計的 6 至 8 週縮短為 4 至 5 週。若如此，第 2 賽季將在 11 月中旬前後結束。這並非確定日期。') },
+          '시즌 길이: 11월 12일이면 시즌 2는 4주 만에 끝납니다. 10월 24일 공식 팟캐스트 The Hotzone 1화에서 개발진은 시즌 2를 6~8주 대신 4~5주로 줄이고, 이후 시즌은 약 3개월에 중간 업데이트를 한 번 넣는 방향을 이야기했습니다.',
+          'Season length: a November 12 start ends Season 2 after four weeks. On the first episode of the official podcast The Hotzone (October 24), the developers talked about cutting Season 2 to four or five weeks instead of six to eight, with later seasons running about three months and a smaller update midway.',
+          'シーズンの長さ：11月12日開始ならシーズン2は4週間で終わります。10月24日の公式ポッドキャスト「The Hotzone」第1回で、開発陣はシーズン2を6〜8週間ではなく4〜5週間に縮め、以降のシーズンは約3か月で途中に小さな更新を1回入れる方向を話しました。',
+          '赛季长度：若 11 月 12 日开始，第 2 赛季将在 4 周后结束。在 10 月 24 日官方播客 The Hotzone 第 1 集中，开发团队谈到将第 2 赛季从 6 至 8 周缩短为 4 至 5 周，之后的赛季约为 3 个月，并在中途推出一次较小的更新。',
+          '賽季長度：若 11 月 12 日開始，第 2 賽季將在 4 週後結束。在 10 月 24 日官方 Podcast The Hotzone 第 1 集中，開發團隊談到將第 2 賽季從 6 至 8 週縮短為 4 至 5 週，之後的賽季約為 3 個月，並在中途推出一次較小的更新。') },
+        { cat: 'balance', text: T(
+          '경제 초기화: 시즌 3과 함께 경제가 다시 초기화된다고 보도됐습니다.',
+          'Economy reset: Season 3 is reported to bring a fresh economy reset.',
+          '経済のリセット：シーズン3とともに経済が再びリセットされると報じられています。',
+          '经济重置：据报道，第 3 赛季将再次重置经济。',
+          '經濟重置：據報導，第 3 賽季將再次重置經濟。') },
+        { cat: 'ui', text: T(
+          'Limited Mode: 파워 웨폰과 차량이 없는 Limited Mode 서버가 시즌 3과 함께 나올 것으로 보도됐고, 팟캐스트에서는 적외선 장비도 Limited Mode에는 넣지 않는다고 했습니다.',
+          'Limited Mode: servers with no power weapons or vehicles are reported to arrive with Season 3, and the podcast said infrared gear won’t be in Limited Mode either.',
+          'Limited Mode：パワーウェポンと車両のないLimited Modeサーバーがシーズン3とともに登場すると報じられ、ポッドキャストでは赤外線装備もLimited Modeには入れないと話しました。',
+          'Limited Mode：据报道，没有强力武器与载具的 Limited Mode 服务器将随第 3 赛季推出；播客中也表示 Limited Mode 不会加入红外装备。',
+          'Limited Mode：據報導，沒有強力武器與載具的 Limited Mode 伺服器將隨第 3 賽季推出；Podcast 中也表示 Limited Mode 不會加入紅外線裝備。') },
         { cat: 'gameplay', text: T(
           '적외선 거리측정기(열화상): 시즌 3에서 어떻게 할지는 정하지 않았습니다. 팟캐스트에서 다시 빼자는 의견, 저격수용으로 남기자는 의견, 수풀에 가려지게 고치자는 의견이 함께 나왔고, 개발진은 확정된 이야기가 아니라고 했습니다.',
           'IR rangefinder (thermals): nothing is decided for Season 3. On the podcast, one developer suggested pulling it again, others wanted to keep it for snipers, and another floated a rework such as foliage blocking it; the team stressed none of it is final.',
@@ -54,6 +66,8 @@
       sources: [
         { site: 'X @WARDOGS · 10/17', url: 'https://x.com/WARDOGS/status/2111412655726489872' },
         { site: 'X @WARDOGS · 10/23', url: 'https://x.com/WARDOGS/status/2113646629907538020' },
+        { site: 'PCGamesN', url: 'https://www.pcgamesn.com/wardogs/season-2-developer-thoughts' },
+        { site: 'WARDOGS Hub', url: 'https://wardogshub.gg/news/wardogs-season-3-12-november-hot-zone-podcast/' },
         { site: 'gitm.gg · Season 2 length', url: 'https://gitm.gg/guides/wardogs-season-02-end/' },
         { site: 'gitm.gg · thermals', url: 'https://gitm.gg/guides/wardogs-ir-range-finder-removed/' },
         { site: 'DCInside', url: 'https://gall.dcinside.com/mgallery/board/view/?id=wardogs&no=45541' }
