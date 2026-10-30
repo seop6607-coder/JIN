@@ -31,11 +31,11 @@
       date: '2026-11-12',
       title: T('시즌 3', 'Season 3', 'シーズン3', '第 3 赛季', '第 3 賽季'),
       summary: T(
-        '개발자가 Steam 답글에서 시즌 3을 11월 12일(목)로 앞당겼다고 밝혔고, PCGamesN도 이 날짜를 보도했습니다. Steam 공지나 X 게시물로 나온 공식 발표는 아직 없고, "시즌 2 회고·시즌 3 미리보기" 개발 영상이 10월 26일 주에 나올 예정입니다.',
-        'A developer said in a Steam reply that Season 3 has been brought forward to Thursday, November 12, and PCGamesN reports the same date. There’s no Steam announcement or X post yet; a “Season 2 Reflection & Season 3 Preview” dev vlog is due the week of October 26.',
-        '開発者がSteamの返信でシーズン3を11月12日（木）に前倒ししたと明かし、PCGamesNも同じ日付を報じています。Steamのお知らせやXでの正式発表はまだなく、「シーズン2の振り返り・シーズン3プレビュー」の開発動画が10月26日の週に公開される予定です。',
-        '开发者在 Steam 回复中表示第 3 赛季已提前至 11 月 12 日（周四），PCGamesN 也报道了这一日期。Steam 公告或 X 尚未正式发布，“第 2 赛季回顾与第 3 赛季前瞻”开发视频预计于 10 月 26 日当周发布。',
-        '開發者在 Steam 回覆中表示第 3 賽季已提前至 11 月 12 日（週四），PCGamesN 也報導了這個日期。Steam 公告或 X 尚未正式發布，「第 2 賽季回顧與第 3 賽季前瞻」開發影片預計於 10 月 26 日當週發布。'),
+        '개발자가 Steam 답글에서 시즌 3을 11월 12일(목)로 앞당겼다고 밝혔고, PCGamesN도 이 날짜를 보도했습니다. Steam 공지나 X 게시물로 나온 공식 발표는 아직 없습니다. 10월 26일 주로 예고됐던 "시즌 2 회고·시즌 3 미리보기" 개발 영상은 정보를 확실히 정한 뒤 내겠다며 다시 미뤄졌고, 새 날짜는 없습니다.',
+        'A developer said in a Steam reply that Season 3 has been brought forward to Thursday, November 12, and PCGamesN reports the same date. There’s no Steam announcement or X post yet. The “Season 2 Reflection & Season 3 Preview” dev vlog planned for the week of October 26 was pushed back again so the team can get the information right, with no new date.',
+        '開発者がSteamの返信でシーズン3を11月12日（木）に前倒ししたと明かし、PCGamesNも同じ日付を報じています。Steamのお知らせやXでの正式発表はまだありません。10月26日の週に予定されていた「シーズン2の振り返り・シーズン3プレビュー」の開発動画は、情報を固めてから出すとして再び延期され、新しい日付は未定です。',
+        '开发者在 Steam 回复中表示第 3 赛季已提前至 11 月 12 日（周四），PCGamesN 也报道了这一日期。Steam 公告或 X 尚未正式发布。原定 10 月 26 日当周发布的“第 2 赛季回顾与第 3 赛季前瞻”开发视频再次延期，团队表示要先把信息确定下来，新日期未定。',
+        '開發者在 Steam 回覆中表示第 3 賽季已提前至 11 月 12 日（週四），PCGamesN 也報導了這個日期。Steam 公告或 X 尚未正式發布。原定 10 月 26 日當週發布的「第 2 賽季回顧與第 3 賽季前瞻」開發影片再次延期，團隊表示要先把資訊確定下來，新日期未定。'),
       impact: { some: false, text: T('바뀔 수치는 아직 발표되지 않았습니다.', 'No number changes announced yet.', '変わる数値はまだ発表されていません。', '尚未公布数值改动。', '尚未公布數值改動。') },
       items: [
         { cat: 'balance', text: T(
@@ -50,6 +50,12 @@
           '経済のリセット：シーズン3とともに経済が再びリセットされると報じられています。',
           '经济重置：据报道，第 3 赛季将再次重置经济。',
           '經濟重置：據報導，第 3 賽季將再次重置經濟。') },
+        { cat: 'balance', text: T(
+          '골드 스킨: 시즌 2가 짧아진 만큼 골드 스킨을 얻을 수 있는 기간을 늘릴 계획이라고 보도됐습니다.',
+          'Gold skins: with Season 2 cut short, Bulkhead reportedly plans to extend how long gold skins stay available.',
+          'ゴールドスキン：シーズン2が短くなった分、ゴールドスキンを入手できる期間を延ばす予定だと報じられています。',
+          '金色皮肤：由于第 2 赛季缩短，据报道 Bulkhead 计划延长金色皮肤的获取时间。',
+          '金色外觀：由於第 2 賽季縮短，據報導 Bulkhead 計畫延長金色外觀的取得時間。') },
         { cat: 'ui', text: T(
           'Limited Mode: 파워 웨폰과 차량이 없는 Limited Mode 서버가 시즌 3과 함께 나올 것으로 보도됐고, 팟캐스트에서는 적외선 장비도 Limited Mode에는 넣지 않는다고 했습니다.',
           'Limited Mode: servers with no power weapons or vehicles are reported to arrive with Season 3, and the podcast said infrared gear won’t be in Limited Mode either.',
@@ -67,6 +73,7 @@
         { site: 'X @WARDOGS · 10/17', url: 'https://x.com/WARDOGS/status/2111412655726489872' },
         { site: 'X @WARDOGS · 10/23', url: 'https://x.com/WARDOGS/status/2113646629907538020' },
         { site: 'PCGamesN', url: 'https://www.pcgamesn.com/wardogs/season-2-developer-thoughts' },
+        { site: 'PCGamesN · 10/30', url: 'https://www.pcgamesn.com/wardogs/season-3-preview-vlog-delayed' },
         { site: 'WARDOGS Hub', url: 'https://wardogshub.gg/news/wardogs-season-3-12-november-hot-zone-podcast/' },
         { site: 'gitm.gg · Season 2 length', url: 'https://gitm.gg/guides/wardogs-season-02-end/' },
         { site: 'gitm.gg · thermals', url: 'https://gitm.gg/guides/wardogs-ir-range-finder-removed/' },
@@ -147,17 +154,18 @@
             '预告：没有强力武器与载具的 Limited Mode 服务器将取代现有的低等级服务器，尚无上线日期。',
             '預告：沒有強力武器與載具的 Limited Mode 伺服器將取代現有的低等級伺服器，尚無上線日期。') },
           { cat: 'balance', text: T(
-            '10월 17일 공지: Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 며칠 만에 Level 4 방어구와 주력 전차 같은 최종 장비에 닿는 플레이어가 나왔기 때문입니다. 이미 진행 중인 플레이어에게 불공평하다며 시즌 2를 다시 초기화하지는 않고, 대신 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토합니다. 자세한 계획은 개발 영상에서 밝히기로 했고, 10월 23일 공지로 "시즌 2 회고·시즌 3 미리보기" 영상이 10월 26일 주로 미뤄졌습니다.',
-            'October 17 announcement: Bulkhead admitted Season 2’s faster progression was the wrong call, since some players reached end-game gear like Level 4 armor and main battle tanks within days. It won’t re-wipe Season 2, calling that unfair on players already climbing, and is instead looking at bringing Season 3 and some of its content significantly forward. The plan comes in a dev vlog, and an October 23 post moved that “Season 2 Reflection & Season 3 Preview” vlog to the week of October 26.',
-            '10月17日の告知：Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。数日でLevel 4防具や主力戦車といった終盤の装備に届くプレイヤーが出たためです。すでに進めているプレイヤーに不公平だとしてシーズン2の再リセットは行わず、代わりにシーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。詳しい計画は開発動画で説明する予定で、10月23日の告知で「シーズン2の振り返り・シーズン3プレビュー」動画は10月26日の週に延期されました。',
-            '10 月 17 日公告：Bulkhead 承认第 2 赛季加快进度是错误决定，因为有玩家几天内就拿到 Level 4 护甲与主战坦克等终局装备。考虑到对已在推进的玩家不公平，第 2 赛季不会再次重置，改为考虑大幅提前推出第 3 赛季及部分内容。详细计划将在开发视频中公布；10 月 23 日的公告将这支“第 2 赛季回顾与第 3 赛季前瞻”视频延后到 10 月 26 日当周。',
-            '10 月 17 日公告：Bulkhead 承認第 2 賽季加快進度是錯誤決定，因為有玩家幾天內就拿到 Level 4 護甲與主力戰車等終局裝備。考量到對已在推進的玩家不公平，第 2 賽季不會再次重置，改為考慮大幅提前推出第 3 賽季及部分內容。詳細計畫將在開發影片中公布；10 月 23 日的公告將這支「第 2 賽季回顧與第 3 賽季前瞻」影片延後到 10 月 26 日當週。') }
+            '10월 17일 공지: Bulkhead는 시즌 2의 빠른 진행 속도가 잘못된 판단이었다고 인정했습니다. 며칠 만에 Level 4 방어구와 주력 전차 같은 최종 장비에 닿는 플레이어가 나왔기 때문입니다. 이미 진행 중인 플레이어에게 불공평하다며 시즌 2를 다시 초기화하지는 않고, 대신 시즌 3과 일부 콘텐츠를 크게 앞당기는 방안을 검토합니다. 자세한 계획은 개발 영상에서 밝히기로 했고, 10월 23일 공지로 "시즌 2 회고·시즌 3 미리보기" 영상이 10월 26일 주로 미뤄졌습니다. 10월 30일에는 커뮤니티 매니저가 이번 주에도 영상이 없다며 다시 미뤘습니다.',
+            'October 17 announcement: Bulkhead admitted Season 2’s faster progression was the wrong call, since some players reached end-game gear like Level 4 armor and main battle tanks within days. It won’t re-wipe Season 2, calling that unfair on players already climbing, and is instead looking at bringing Season 3 and some of its content significantly forward. The plan comes in a dev vlog, and an October 23 post moved that “Season 2 Reflection & Season 3 Preview” vlog to the week of October 26. On October 30 the community manager said there would be no video that week either.',
+            '10月17日の告知：Bulkheadはシーズン2の速い進行ペースが誤った判断だったと認めました。数日でLevel 4防具や主力戦車といった終盤の装備に届くプレイヤーが出たためです。すでに進めているプレイヤーに不公平だとしてシーズン2の再リセットは行わず、代わりにシーズン3と一部のコンテンツを大きく前倒しする方向で検討しています。詳しい計画は開発動画で説明する予定で、10月23日の告知で「シーズン2の振り返り・シーズン3プレビュー」動画は10月26日の週に延期されました。10月30日にはコミュニティマネージャーが今週も動画は出ないとして再び延期しました。',
+            '10 月 17 日公告：Bulkhead 承认第 2 赛季加快进度是错误决定，因为有玩家几天内就拿到 Level 4 护甲与主战坦克等终局装备。考虑到对已在推进的玩家不公平，第 2 赛季不会再次重置，改为考虑大幅提前推出第 3 赛季及部分内容。详细计划将在开发视频中公布；10 月 23 日的公告将这支“第 2 赛季回顾与第 3 赛季前瞻”视频延后到 10 月 26 日当周。10 月 30 日社区经理表示本周也不会发布视频，再次延期。',
+            '10 月 17 日公告：Bulkhead 承認第 2 賽季加快進度是錯誤決定，因為有玩家幾天內就拿到 Level 4 護甲與主力戰車等終局裝備。考量到對已在推進的玩家不公平，第 2 賽季不會再次重置，改為考慮大幅提前推出第 3 賽季及部分內容。詳細計畫將在開發影片中公布；10 月 23 日的公告將這支「第 2 賽季回顧與第 3 賽季前瞻」影片延後到 10 月 26 日當週。10 月 30 日社群經理表示本週也不會發布影片，再次延期。') }
         ],
         sources: [
           { site: 'X @WARDOGS', url: 'https://x.com/WARDOGS/status/2111412655726489872' },
           { site: 'X @WARDOGS · 10/23', url: 'https://x.com/WARDOGS/status/2113646629907538020' },
           { site: 'PC Gamer', url: 'https://www.pcgamer.com/games/fps/we-f-ked-up-1-day-into-wardogs-season-2-the-blue-team-bribery-bonus-is-being-dropped/' },
           { site: 'PCGamesN', url: 'https://www.pcgamesn.com/wardogs/season-2-mistakes-bulkhead-apology' },
+          { site: 'PCGamesN · 10/30', url: 'https://www.pcgamesn.com/wardogs/season-3-preview-vlog-delayed' },
           { site: 'DualShockers', url: 'https://www.dualshockers.com/wardogs-admits-defeat-over-season-2-changes/' },
           { site: 'GameFragger', url: 'https://gamefragger.com/pc/first-person-shooter/wardogs-developer-admits-it-messed-up-season-2-and-pulls-the-blue-team-bonus-after-less-than-a-day-a29879' },
           { site: 'gamerheadlines', url: 'https://gamerheadlines.com/wardogs-season-2-progression-wrong-call-season-3/' },
